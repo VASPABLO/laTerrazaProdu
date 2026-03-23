@@ -34,7 +34,7 @@
         background-color: rgba(0, 0, 0, 0.384); 
         z-index: 999; 
         display: flex;
-        justify-content:end;
+        justify-content: flex-end;
         padding: 2rem;
         padding-top: 10rem;
 

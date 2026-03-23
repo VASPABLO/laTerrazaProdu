@@ -1,3 +1,3 @@
-const moneda = '$';
+const moneda = '¢';
 
 export default moneda;

@@ -1,0 +1,20 @@
+.pcaja__productos {
+    margin-top: 1rem;
+}
+
+.pcaja__productos h4 {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.pcaja__producto-fila {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #eee;
+    gap: 1rem;
+}
+
+.pcaja__producto-fila span:first-child {
+    flex: 1;
+}

@@ -26,6 +26,7 @@ export default function PedidosData() {
     const [filtroDesde, setFiltroDesde] = useState('');
     const [filtroHasta, setFiltroHasta] = useState('');
     const [ordenInvertido, setOrdenInvertido] = useState(false);
+    const [numeroTelefono, setNumeroTelefono] = useState('');
     useEffect(() => {
         cargarPedidos();
         cargarMesas()
@@ -48,8 +49,7 @@ export default function PedidosData() {
         })
             .then(response => response.json())
             .then(data => {
-                setPedidos(data.pedidos.reverse() || []);
-                console.log(data.pedidos)
+                setPedidos((data.pedidos || []).reverse());
             })
             .catch(error => console.error('Error al cargar pedidos:', error));
     };
@@ -364,6 +364,41 @@ export default function PedidosData() {
         cargarMesas();
         cargarPedidos();
     };
+    const handleEnviarWhatsApp = (pedido) => {
+        // Construir el mensaje con el formato deseado
+        let mensaje = `Estimado cliente ${pedido?.nombre}\nle dejamos el detalle de su pedido:\n\n`;
+
+        // Agregar ID del pedido
+        mensaje += `ID Pedido: ${pedido?.idPedido}\n`;
+
+        // Asegurarse de que `pedido.productos` sea un arreglo
+        const productos = typeof pedido?.productos === 'string' ? JSON.parse(pedido?.productos) : pedido?.productos;
+
+        if (Array.isArray(productos)) {
+            mensaje += `----------------------->\n`;
+
+            productos.forEach((producto) => {
+                mensaje += `*${producto?.titulo}*\n${moneda} ${producto?.precio} - x ${producto?.cantidad}\n${producto?.item}\n\n`;
+            });
+            mensaje += `----------------------->\n`;
+
+            mensaje += `*Total: ${moneda} ${pedido?.total}*`;
+        } else {
+            mensaje += `No se encontraron productos.\n`;
+        }
+
+
+        // Codificar el mensaje y construir la URL de WhatsApp
+        const url = `https://wa.me/${numeroTelefono}?text=${encodeURIComponent(mensaje)}`;
+
+        // Abrir la URL en una nueva pestaña
+        window.open(url, '_blank');
+    };
+
+
+
+
+
 
 
     return (
@@ -578,6 +613,21 @@ export default function PedidosData() {
                                         </div>
                                     ))}
                                 </div>
+                            </div>
+                            <div className='InputsBtns'>
+                                <input
+                                    type="number"
+                                    placeholder="Teléfono"
+                                    value={numeroTelefono}
+                                    onChange={(e) => setNumeroTelefono(e.target.value)}
+                                    className='inputNumber'
+                                />
+                                <button
+                                    className='btnPost'
+                                    onClick={() => handleEnviarWhatsApp(pedido)}
+                                >
+                                    Enviar por <i className='fa fa-whatsapp'></i>
+                                </button>
                             </div>
                             <button className='btnPost' onClick={() => handleUpdateText(pedido.idPedido)} >Guardar </button>
                         </div>

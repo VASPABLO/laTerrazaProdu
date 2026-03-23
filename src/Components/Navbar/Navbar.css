@@ -15,8 +15,9 @@ nav{
     height: 4rem;
     transition: all 0.2s linear;
     padding: 30px 10% 30px;
-    background-color: var(--blanco);
-    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.071);
+    background: linear-gradient(180deg, #0f0f0f 0%, #151515 100%);
+    border-bottom: 2px solid #ff6b35;
+    box-shadow: 0px 8px 32px rgba(255, 107, 53, 0.12);
 }
 
 .deFLexNavs{
@@ -45,7 +46,7 @@ nav{
 .nav_toggle span{
     width: 25px;
     height: 3px;
-    background: var(--color1);
+    background: #f0f0f0;
     margin-bottom: 5px;
     border-radius: 20px;
     transform-origin: 3px 0px;
@@ -97,7 +98,7 @@ nav{
 .loadingBannerFondo{
     width: 100%;
     height: 15rem;
-     background: linear-gradient(90deg, #e8e6e6, #fff, #fff);
+     background: linear-gradient(90deg, #242424, #2a2a2a, #242424);
      background-size: 400% 400%;
      animation: gradientMove 1s linear infinite;
 }
@@ -120,13 +121,13 @@ nav{
 }
  
 .enlaces::-webkit-scrollbar-thumb {
-    background-color: var(--color1); 
+    background-color: #ff6b35; 
     border-radius: 10px;
     margin-top: 3rem;
   }
 
 .enlaces a{
-    color: var(--text-color2)!important;
+    color: #f0f0f0!important;
     text-decoration: none;
     display: flex;
     margin-top: 1rem;
@@ -134,11 +135,12 @@ nav{
     padding: 10px;
     border-radius: 7px;
     align-items: center;
+    transition: all 0.2s ease;
    
 }
 .enlaces a:hover{
-    background-color: var(--color1);
-    color: var(--blanco)!important;
+    background-color: rgba(255, 107, 53, 0.15);
+    color: #ff6b35!important;
 }
 
 
@@ -147,13 +149,13 @@ nav{
     padding: 0px 20px;
     width: 8rem;
     text-decoration: none;
-    color: var(--text-color2)!important;
+    color: #f0f0f0!important;
  }
 
 
 .modalNav {
     top: 0;
-    background-color: var(--blanco);
+    background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
     width: 30%;
   
     height: 100vh;
@@ -161,7 +163,8 @@ nav{
     flex-direction: column;
     overflow: hidden;
     border-radius: 0px 10px 10px 0px;
-    border: none;
+    border: 1px solid rgba(255, 107, 53, 0.15);
+    border-left: none;
 }
 
 
@@ -171,7 +174,7 @@ nav{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.333); 
+    background-color: rgba(0, 0, 0, 0.7); 
     z-index: 999; 
 }
 
@@ -209,8 +212,9 @@ nav{
    
         padding: 0px 3%;
         border-radius: 0 0 0 30px;
-        background-color: var(--color1)!important;
-        box-shadow: none;
+        background: linear-gradient(180deg, #0f0f0f 0%, #151515 100%)!important;
+        border-bottom: 2px solid #ff6b35;
+        box-shadow: 0px 8px 32px rgba(255, 107, 53, 0.12);
     }
  
   
@@ -225,7 +229,7 @@ nav{
 }
 
 .nav_toggle span{
-    background: var(--blanco);
+    background: #f0f0f0;
   
 }
 .fondo{

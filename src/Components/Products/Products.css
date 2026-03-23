@@ -1,192 +1,371 @@
-.ProductsContain{
-    padding: 50px 10%;
+.ProductsContain {
     width: 100%;
     min-height: 60vh;
-   
-}
-.Products{
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    width: 100%;
-    padding-top: 2rem;
-}
-.categoriaProductos{
-    display: flex;
-    gap: 2rem;
-    width: 100%;
-}
-.cardProdcut{
-    display: flex;
-    overflow: hidden;
-    width: 23rem;
-    height: 8rem;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.073);
-    background-color: var(--blanco);
-   
-}
-.cardProdcutSelected{
-    display: flex;
-    width: 23rem;
-    height: 8rem;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.073);
-    background-color: var(--blanco);
-    padding: 10px;
-    overflow: hidden;
-   
-}
-.cardProdcutmasVendido{
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    width: 13rem;
-    height: 15rem;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.073);
-    background-color: var(--blanco);
-    position: relative;
-}
-.masVendido{
-    position: absolute;
-    background-color: var(--color1);
-    padding: 6px;
-    color: var(--blanco);
-    border-radius: 2px;
-   
-}
-.iconCard{
-    position: absolute;
-    top: 78%;
-    left: 90%;
-    background-color: var(--color1);
-    color: var(--blanco);
-    padding: 3px;
-    border-radius: 3px;
-    font-size: 12px;
-    
-}
-.cardProdcutmasVendido  img{
-    width: 100%;
-    height: 8rem;
-    object-fit: cover;
-   
-    
-}
-.cardProdcut  img{
-    width: 8rem;
-    height: 8rem;
-    object-fit: cover;
-}
-.cardProdcutSelected  img{
-    width: 7rem;
-    height: 7rem;
-    object-fit: cover;
-    border-radius: 15px;
-}
-.cardText{
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: space-between;
-}
-.cardText h4{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 20ch;
-    font-weight: 500;
-    font-size: 19px;
-    color: var(--text-color2);
-}
-.cardText h5{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 40ch;
-    font-weight: 500;
-    font-size: 15px;
-    color: var(--color1);
-}
-.cardText span{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 27ch;
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--text-color2);
-}
-.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-    padding: 0px 10%;
-    background-color: var(--blanco);
-  }
-  .categoriasInputs{
-    display: flex;
-    align-items: center;
-    overflow-x: scroll;
-    padding-top: 1rem;
-    gap: 2rem;
-    padding-bottom: 10px;
-  }
-  .categoriasInputs::-webkit-scrollbar{
- 
-    background-color: transparent;
-    width: 5px;
-    height: 5px;
-}
- 
-.categoriasInputs::-webkit-scrollbar-thumb {
-    background-color: var(--color1);
-    width: 5px;
-    height: 5px;
-    border-radius: 10px;
-}
-  .categoriasInputs input{
-    border: none;
-    cursor: pointer;
-    z-index: 10;
-    padding: 10px 20px 5px;
-    font-size: 18px;
-    color: var(--text-color2);
-    border-radius: 20px;
-   
-    
+    padding: 2rem 8% 3rem;
+    box-sizing: border-box;
 }
 
-  #swiper_container_products{
-  
+.Products {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     width: 100%;
-  
-  }
-  #SwiperSlide-scroll-products{
-    width: 23rem;
-    margin: 1rem 1rem 2rem 1rem;
-  
-  }
-  #SwiperSlide-scroll-products-masvendidos{
-    width: 13rem;
-    margin: 1rem 1rem 2rem 1rem;
-  }
-  .categoriSection{
+    padding-top: 1rem;
+}
+
+/* =========================
+   CATEGORÍAS
+========================= */
+.categoriasInputs {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    z-index: 30;
+    position: sticky;
+    top: 0;
+    padding: 0.75rem 8%;
+    margin-left: -8%;
+    margin-right: -8%;
+    background: rgba(26, 26, 26, 0.97);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(61, 40, 23, 0.6);
+}
+
+.categoriasInputs::-webkit-scrollbar {
+    display: none;
+}
+
+.categoryChip {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #2a2a2a;
+    color: #b0b0b0;
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    flex-shrink: 0;
+}
+
+.categoryChip:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+    transform: translateY(-1px);
+}
+
+.categoryChip.active {
+    background: #ff6b35;
+    border-color: #ff6b35;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+}
+
+/* =========================
+   SECCIONES
+========================= */
+.categoriSection {
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: 1rem;
-   
-  
 }
-.espacio{
+
+.deFlexTitlesection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.deFlexTitlesection h3 {
+    margin: 0;
+    font-weight: 800;
+    font-size: 1.9rem;
+    color: #f0f0f0;
+}
+
+.sectionSubtitle {
+    margin: 0.3rem 0 0;
+    font-size: 0.9rem;
+    color: #888;
+    font-weight: 400;
+}
+
+.deFlexTitlesection button,
+.seeMoreBtn {
+    background: transparent;
+    border: none;
+    color: #ff6b35;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.deFlexTitlesection button:hover,
+.deFlexTitlesection button:hover {
+    color: #ff8a45;
+    transform: translateX(3px);
+    text-shadow: 0 0 8px rgba(255, 107, 53, 0.3);
+}
+
+.seeMoreBtn:hover {
+    color: #ff8a45;
+    transform: translateX(4px) translateY(-1px);
+    text-shadow: 0 0 8px rgba(255, 107, 53, 0.3);
+}
+
+/* =========================
+   SWIPER
+========================= */
+.productsSwiper {
+    width: 100%;
+    overflow: visible;
+}
+
+.productsSwiper .swiper-slide {
+    height: auto;
+}
+
+.productsSwiper .swiper-button-prev,
+.productsSwiper .swiper-button-next {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(30, 30, 30, 0.92);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.productsSwiper .swiper-button-prev::after,
+.productsSwiper .swiper-button-next::after {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.productsSwiper .swiper-pagination {
+    position: relative;
+    margin-top: 1rem;
+}
+
+.productsSwiper .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.productsSwiper .swiper-pagination-bullet-active {
+    width: 24px;
+    border-radius: 999px;
+    background: #ff6b35;
+}
+
+/* =========================
+   TARJETAS
+========================= */
+.productCard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    background: #242424;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.productCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.6), 0 0 32px rgba(255, 107, 53, 0.25);
+    border-color: rgba(255, 107, 53, 0.7);
+}
+
+.productCardImageWrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #1a1a1a;
+    overflow: hidden;
+}
+
+.productCardImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.35s ease;
+}
+
+.productCard:hover .productCardImage {
+    transform: scale(1.08);
+}
+
+.productBadge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(200, 155, 50, 0.88);
+    color: #fff;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    backdrop-filter: blur(4px);
+}
+
+.productCardBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1rem;
+    flex: 1;
+}
+
+.productCardTitle {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.35;
+    color: #f0f0f0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.productCardDescription {
+    margin: 0;
+    color: #909090;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.productCardTitleRow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.6rem;
+}
+
+.productPrice {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #ff6b35;
+    white-space: nowrap;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.productCard:hover .productPrice {
+    color: #ff8a45;
+    text-shadow: 0 0 12px rgba(255, 107, 53, 0.5);
+}
+
+.productOldPrice {
+    margin: 0;
+    font-size: 0.84rem;
+    color: #686868;
+    text-decoration: line-through;
+    font-weight: 500;
+}
+
+.productCardFeatured {
+    min-height: 100%;
+}
+
+.productCardCompact {
+    min-height: 100%;
+}
+
+/* =========================
+   GRID CATEGORÍA SELECCIONADA
+========================= */
+.categoriSectionSelected {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    width: 100%;
+    padding-top: 1rem;
+}
+
+/* =========================
+   ESTADOS
+========================= */
+.productsStatus {
+    width: 100%;
+    min-height: 220px;
+    border-radius: 20px;
+    border: 1px solid #edf1f7;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.productsError {
+    background: #fff7f7;
+    border-color: #ffdada;
+    color: #8f1d1d;
+}
+
+.productsEmpty {
+    color: #526074;
+}
+
+.retryBtn {
+    border: none;
+    background: var(--color1);
+    color: var(--blanco);
+    padding: 0.8rem 1.1rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.retryBtn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+/* =========================
+   UTILIDADES LEGACY
+   (se mantienen por si usas modales u otras vistas)
+========================= */
+.categoriaProductos {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+}
+
+.espacio {
     height: 100vh;
 }
-.backModal{
+
+.backModal {
     background-color: var(--blanco);
     color: var(--text-color2);
     padding: 10px 12px;
@@ -198,46 +377,47 @@
     margin: 10px;
 }
 
-.modalText{
+.modalText {
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     background-color: var(--blanco);
-   
     z-index: 2;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 40vh;
-    
 }
-.modalText::-webkit-scrollbar{
+
+.modalText::-webkit-scrollbar {
     width: 5px;
     height: 5px;
     cursor: pointer;
     background-color: transparent;
-    
-   
 }
- 
+
 .modalText::-webkit-scrollbar-thumb {
     background-color: var(--color1);
     border-radius: 10px;
 }
-.modalText p,h2{
+
+.modalText p,
+.modalText h2 {
     color: var(--text-color2);
     white-space: pre-line;
 }
-.modalText h5{
+
+.modalText h5 {
     color: var(--color1);
     font-size: 20px;
 }
-.modal-content-detail{
+
+.modal-content-detail {
     display: flex;
     flex-direction: column;
     position: relative;
-   
 }
-.modal-detail{
+
+.modal-detail {
     top: 0;
     background-color: var(--blanco);
     width: 30%;
@@ -248,60 +428,62 @@
     border: none;
     overflow: hidden;
 }
+
 .overlay-detail {
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.333); 
-    z-index: 999; 
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.333);
+    z-index: 999;
 }
 
-#SwiperSlide-scroll-img{
+#SwiperSlide-scroll-img {
     display: flex;
     width: 100%;
 }
-#swiper_container_Imgs{
+
+#swiper_container_Imgs {
     width: 100%;
     height: 40vh;
 }
-#swiper_container_Imgs img{
-    width: 100%;
-    object-fit: cover;
 
+#swiper_container_Imgs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
-.deFlexCart{
+
+.deFlexCart {
     display: flex;
     gap: 1rem;
     align-items: center;
     margin-left: 2rem;
     margin-top: 1rem;
 }
-.deFlexGoTocart{
+
+.deFlexGoTocart {
     display: flex;
     gap: 1rem;
     align-items: center;
     width: 100%;
     bottom: 0;
-    width: 100%;
     left: 0;
     right: 0;
     z-index: 2;
 }
-.deFlexCart button{
+
+.deFlexCart button {
     color: var(--blanco);
     background-color: var(--color1);
     border: none;
     cursor: pointer;
     border-radius: 5px;
     padding: 4px 8px;
-    
 }
-.btnAdd{
+
+.btnAdd {
     padding: 12px 20px;
     color: var(--blanco);
     background-color: var(--color1);
@@ -311,224 +493,154 @@
     border: none;
     font-size: 17px;
     cursor: pointer;
-    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.196);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.196);
     border-radius: 10rem;
     gap: 10px;
     width: 10rem;
 }
-.categoriSectionSelected{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    width: 100%;
-    padding-top: 2rem;
-}
-.cardTextSelected{
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    justify-content: space-between;
-}
-.cardTextSelected h4{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 20ch;
-    font-weight: 500;
-    font-size: 19px;
-    color: var(--text-color2);
-}
-.cardTextSelected h5{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 40ch;
-    font-weight: 500;
-    font-size: 15px;
-    color: var(--color1);
-}
-.cardTextSelected span{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 25ch;
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--text-color2);
-}
+
 .itemsDetail {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
 }
-.itemsDetail label{
+
+.itemsDetail label {
     display: flex;
     gap: 2px;
     align-items: center;
     background-color: var(--gris);
-    border-radius: 2px;
+    border-radius: 6px;
     padding: 10px;
-   
 }
-.deFLexPrice{
+
+.deFLexPrice {
     display: flex;
-    gap: 20px;
-    
+    gap: 12px;
+    flex-wrap: wrap;
 }
+
 .precioTachado {
     text-decoration: line-through;
-    color: var(--text-color2)!important;
-  
-  }
+    color: var(--text-color2) !important;
+    opacity: 0.75;
+}
 
-.deFlexTitlesection{
-    display: flex;
-    justify-content: space-between;
-    padding: 0 2%;
-    align-items: center;
-    
-}
-.deFlexTitlesection h3{
-    font-weight: 500;
-   color: var(--text-color2);
-}
-.deFlexTitlesection button{
-    background-color: transparent;
-    border: none;
-    color: var(--color1);
-}
-@media (max-width: 900px){
-    .iconCard{
-        top: 72%;
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1200px) {
+    .ProductsContain {
+        padding-left: 4%;
+        padding-right: 4%;
     }
+
+    .categoriasInputs {
+        padding: 0.75rem 4%;
+        margin-left: -4%;
+        margin-right: -4%;
+    }
+
+    .categoriSectionSelected {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .ProductsContain {
+        padding: 1rem;
+    }
+
+    .Products {
+        gap: 1.25rem;
+        padding-top: 0.5rem;
+    }
+
+    .categoriasInputs {
+        gap: 0.6rem;
+        padding: 0.65rem 1rem;
+        margin-left: -1rem;
+        margin-right: -1rem;
+    }
+
+    .categoryChip {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.88rem;
+        background-color: var(--gris2);
+        background-color: #2a2a2a;
+    }
+
+    .deFlexTitlesection h3 {
+        font-size: 1.15rem;
+    }
+
+    .productsSwiper .swiper-button-prev,
+    .productsSwiper .swiper-button-next {
+        display: none;
+    }
+
+    .categoriSectionSelected {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .overlay-detail {
         justify-content: flex-end;
-        align-items:flex-end;
-       
+        align-items: flex-end;
     }
-    .modal-detail{
+
+    .modal-detail {
         width: 100%;
         height: 100%;
         border-radius: 0;
-}
-    
-    .deFlexTitlesection{
-    
-    padding: 0 4%;
-  
-}
-.deFlexTitlesection h3{
-    font-size: 17px;
-}
-    .fixed {
-        padding: 0px 2%;
-        background-color: var(--blanco)!important;
-      }
-     
-      .categoriasInputs input{
-        padding: 10px 20px 8px ;
-        font-size: 14px;
-        background-color: var(--gris2);
-      }
-      
-      .categoriasInputs{
-        background-color: transparent;
-        padding: 0px 3%;
-        padding-top: 10px;
-        padding-bottom: 0;
-        gap: 10px;
-      }
-    #swiper_container_products{
-        width: 100%;
-        padding: 0px 3% ;
-      }
-    #SwiperSlide-scroll-products{
-        width: 19rem;
-        margin: 0rem 1rem 1rem 0rem;
-      }
+    }
 
-      #SwiperSlide-scroll-products-masvendidos{
-        width: 10rem;
-        margin: 0rem 1rem 1rem 0rem;
-      }
-      #swiper_container_Imgs{
+    #swiper_container_Imgs {
         height: 20rem;
     }
-
-      .cardProdcutmasVendido{
-        width: 10rem;
-        height: 12rem;
-    }
-    .cardProdcutSelected  img{
-        width: 5rem;
-        height: 5rem;
-    }
-    .categoriSectionSelected{
-        gap: 1rem;
-        padding: 2%;
-        flex-wrap:initial;
-        flex-direction: column;
-        width: 100%;
-       
-    }
-    .cardProdcutSelected{
-        width: 100%;
-        height: 7.5rem;
-        background-color: transparent;
-        box-shadow: none;
-        border-radius: 0;
-        border-bottom: 1px solid var(--gris2);
-        align-items: center;
 }
-    .cardProdcutmasVendido img{
-        height: 6rem;
-        height: 6rem;
-    }
-    .ProductsContain{
-        padding: 10px 0%;
-    }
-    .cardProdcut{
-        flex-direction: row;
-        width: 19rem;
-        height: 6rem;
+
+@media (max-width: 560px) {
+    .ProductsContain {
+        padding: 0.85rem;
     }
 
-    .cardProdcut img{
-        width: 6rem;
-        height: 6rem;
-        object-fit: cover;
-        
+    .categoriSectionSelected {
+        grid-template-columns: 1fr;
     }
-    .cardText h4{
-        max-width: 15ch;
-        font-size: 16px;
+
+    .productCard {
+        border-radius: 18px;
     }
-    .cardText h5{
-      
-        max-width: 25ch;
-        
+
+    .productCardBody {
+        padding: 0.9rem;
     }
-    .cardText span{
-      
-        max-width: 20ch;
+
+    .productCardTitle {
+        font-size: 1rem;
     }
-    
-    .Products{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-       padding: 0;
-       padding-top: 10px;
+
+    .productCardDescription {
+        font-size: 0.88rem;
     }
-    .categoriasInputs::-webkit-scrollbar{
+
+    .productPrice {
+        font-size: 1rem;
+    }
+
+    .btnAdd {
+        width: 100%;
+    }
+}
+
+h2{
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.1rem, 6vw, 4.8rem);
+    line-height: 1.03;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    text-align: center;
  
-        background-color: transparent;
-     
-    }
-     
-    .categoriasInputs::-webkit-scrollbar-thumb {
-        background-color: transparent;
-    }
-    
 }

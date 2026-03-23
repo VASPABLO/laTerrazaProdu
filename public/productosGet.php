@@ -14,6 +14,7 @@ $servidor = $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'];
 $usuario = $_ENV['DB_USER'];
 $contrasena = $_ENV['DB_PASS'];
 $dbname = $_ENV['DB_NAME'];
+$rutaweb = $_ENV['RUTA_WEB'];
 
 try {
     // Establecer conexión a la base de datos
@@ -32,6 +33,17 @@ try {
         if ($sentencia->execute()) {
             // Obtener resultados
             $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($resultado as &$producto) {
+                foreach (['imagen1', 'imagen2', 'imagen3', 'imagen4'] as $campoImagen) {
+                    if (!empty($producto[$campoImagen])) {
+                        $imagen = str_replace('/./', '/', $producto[$campoImagen]);
+                        $imagen = preg_replace('#^https?://localhost:8081/imagenes_productos/#', rtrim($rutaweb, '/') . '/imagenes_productos/', $imagen);
+                        $producto[$campoImagen] = $imagen;
+                    }
+                }
+            }
+            unset($producto);
 
             // Imprimir datos en formato JSON
             echo json_encode(["productos" => $resultado]);

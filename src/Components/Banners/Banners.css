@@ -1,55 +1,245 @@
-#swiper_container{
-   width: 100%;
-   height: 70vh;
-   border-radius: 20px;
+.BannerContain {
+    width: 100%;
+    padding: 0 8%;
+    padding-top: 2.5rem;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
-#SwiperSlide-scroll {
+.bannerSwiper {
+    width: 100%;
+    min-height: 180px;
+    max-height: 70vh;
+    aspect-ratio: 433 / 141;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #0b3a78, #114a96);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.bannerSwiper .swiper-wrapper {
+    height: 100%;
+}
+
+.bannerSwiper .swiper-slide {
+    width: 100% !important;
+    height: 100%;
+}
+
+.bannerSlide {
     display: flex;
     justify-content: center;
- 
-}
-#SwiperSlide-scroll img{
+    align-items: center;
     width: 100%;
-    object-fit: cover;
-  
+    height: 100%;
+    overflow: hidden;
+    background: #ffffff;
 }
 
-.loadingBanner{
+.bannerImage {
+    display: block;
     width: 100%;
-   height: 70vh;
-   border-radius: 20px;
-    background: linear-gradient(90deg, #e8e6e6, #fff, #fff);
-    background-size: 400% 400%;
-    animation: gradientMove 1s linear infinite;
-    -webkit-animation: gradientMove 1s linear infinite;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+    user-select: none;
+    -webkit-user-drag: none;
 }
-.BannerContain{
-    padding: 0% 10%;
-    padding-top: 5rem;
+
+.bannerSlide:hover .bannerImage {
+    transform: scale(1.02);
 }
-@media (max-width: 1020px){
-    #swiper_container{
-        height: 50vh;
-     }
-     .loadingBanner{
-       height: 50vh;
-     
+
+/* Skeleton loading */
+.loadingBanner {
+    width: 100%;
+    min-height: 180px;
+    max-height: 70vh;
+    aspect-ratio: 433 / 141;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(
+        90deg,
+        #ececec 0%,
+        #f7f7f7 20%,
+        #ffffff 50%,
+        #f7f7f7 80%,
+        #ececec 100%
+    );
+    background-size: 250% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
     }
 }
-@media (max-width: 900px){
-    .BannerContain{
-        padding: 0% 3%;
+
+/* Estado vacío / error */
+.bannerStatus {
+    width: 100%;
+    min-height: 180px;
+    aspect-ratio: 433 / 141;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+    box-sizing: border-box;
+    background: #f8f9fb;
+    border: 1px solid #e8edf5;
+    color: #223;
+}
+
+.bannerError {
+    background: #fff8f8;
+    border: 1px solid #ffd9d9;
+    color: #8a1f1f;
+}
+
+.bannerEmpty {
+    background: #f8f9fb;
+    border: 1px solid #e8edf5;
+    color: #4c5870;
+}
+
+.bannerRetryBtn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0.75rem 1.2rem;
+    border-radius: 12px;
+    background: #0b3a78;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.bannerRetryBtn:hover {
+    background: #114a96;
+    transform: translateY(-1px);
+}
+
+.bannerRetryBtn:active {
+    transform: translateY(0);
+}
+
+/* Flechas */
+.bannerSwiper .swiper-button-prev,
+.bannerSwiper .swiper-button-next {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    color: #0b3a78;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.bannerSwiper .swiper-button-prev:hover,
+.bannerSwiper .swiper-button-next:hover {
+    transform: scale(1.05);
+    background: #ffffff;
+}
+
+.bannerSwiper .swiper-button-prev::after,
+.bannerSwiper .swiper-button-next::after {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+/* Paginación */
+.bannerSwiper .swiper-pagination {
+    bottom: 14px !important;
+}
+
+.bannerSwiper .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.6);
+    transition: all 0.25s ease;
+}
+
+.bannerSwiper .swiper-pagination-bullet-active {
+    width: 24px;
+    border-radius: 999px;
+    background: #ffffff;
+}
+
+/* Tablet */
+@media (max-width: 1020px) {
+    .BannerContain {
+        padding: 0 4%;
+        padding-top: 1.5rem;
+    }
+
+    .bannerSwiper,
+    .loadingBanner,
+    .bannerStatus {
+        max-height: 50vh;
+        border-radius: 20px;
+    }
+}
+
+/* Móvil */
+@media (max-width: 900px) {
+    .BannerContain {
+        padding: 0 1rem;
         padding-top: 1rem;
     }
-    #swiper_container{
-    height: 23vh;
-    border-radius: 20px;
-    
+
+    .bannerSwiper,
+    .loadingBanner,
+    .bannerStatus {
+        min-height: 160px;
+        max-height: none;
+        aspect-ratio: 16 / 9;
+        border-radius: 18px;
+    }
+
+    .bannerSwiper .swiper-button-prev,
+    .bannerSwiper .swiper-button-next {
+        width: 36px;
+        height: 36px;
+    }
+
+    .bannerSwiper .swiper-button-prev::after,
+    .bannerSwiper .swiper-button-next::after {
+        font-size: 14px;
+    }
 }
-     .loadingBanner{
-        height: 20vh;
-        
-    border-radius: 20px;
+
+/* Móvil pequeño */
+@media (max-width: 480px) {
+    .BannerContain {
+        padding: 0 0.75rem;
+        padding-top: 0.75rem;
+    }
+
+    .bannerSwiper,
+    .loadingBanner,
+    .bannerStatus {
+        min-height: 140px;
+        border-radius: 14px;
+    }
+
+    .bannerSwiper .swiper-button-prev,
+    .bannerSwiper .swiper-button-next {
+        display: none;
+    }
+
+    .bannerSwiper .swiper-pagination {
+        bottom: 10px !important;
     }
 }

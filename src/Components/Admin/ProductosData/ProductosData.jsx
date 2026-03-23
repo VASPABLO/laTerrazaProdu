@@ -371,7 +371,7 @@ export default function ProductosData() {
                             <option value="">Categorias</option>
                             {
                                 categorias.map(item => (
-                                    <option value={item?.idCategoria}>{item?.categoria}</option>
+                                    <option key={item?.idCategoria} value={item?.idCategoria}>{item?.categoria}</option>
                                 ))
                             }
                         </select>
@@ -471,13 +471,13 @@ export default function ProductosData() {
                                                 .filter(categoriaFiltrada => categoriaFiltrada.idCategoria === producto.idCategoria)
                                                 .map(categoriaFiltrada => (
 
-                                                    <option value={producto.categoria}> {categoriaFiltrada.categoria}</option>
+                                                    <option key={categoriaFiltrada?.idCategoria} value={producto.categoria}> {categoriaFiltrada.categoria}</option>
                                                 ))
                                         }
 
                                         {
                                             categorias.map(item => (
-                                                <option value={item?.idCategoria}>{item?.categoria}</option>
+                                                <option key={item?.idCategoria} value={item?.idCategoria}>{item?.categoria}</option>
                                             ))
                                         }
                                     </select>

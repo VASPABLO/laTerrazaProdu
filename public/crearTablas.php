@@ -131,6 +131,56 @@ $consultaPedidos = "CREATE TABLE IF NOT EXISTS `pedidos` (
 )";
 crearTablaSiNoExiste($conexion, 'pedidos', $consultaPedidos);
 
+// Crear tabla 'cajas' si no existe
+$consultaCajas = "CREATE TABLE IF NOT EXISTS `cajas` (
+    idCaja INT(11) AUTO_INCREMENT PRIMARY KEY,
+    idUsuario INT(11) NOT NULL,
+    montoInicial DECIMAL(10,2) NOT NULL DEFAULT 0,
+    totalVentas DECIMAL(10,2) NOT NULL DEFAULT 0,
+    totalIngresos DECIMAL(10,2) NOT NULL DEFAULT 0,
+    totalRetiros DECIMAL(10,2) NOT NULL DEFAULT 0,
+    montoEsperado DECIMAL(10,2) NOT NULL DEFAULT 0,
+    montoCierre DECIMAL(10,2) DEFAULT NULL,
+    diferencia DECIMAL(10,2) DEFAULT NULL,
+    estado VARCHAR(20) NOT NULL DEFAULT 'abierta',
+    fechaApertura TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fechaCierre DATETIME DEFAULT NULL
+)";
+crearTablaSiNoExiste($conexion, 'cajas', $consultaCajas);
+
+// Crear tabla 'caja_movimientos' si no existe
+$consultaCajaMovimientos = "CREATE TABLE IF NOT EXISTS `caja_movimientos` (
+    idMovimiento INT(11) AUTO_INCREMENT PRIMARY KEY,
+    idCaja INT(11) NOT NULL,
+    tipo VARCHAR(30) NOT NULL,
+    metodoPago VARCHAR(30) DEFAULT NULL,
+    monto DECIMAL(10,2) NOT NULL,
+    referencia VARCHAR(120) DEFAULT NULL,
+    detalle TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+crearTablaSiNoExiste($conexion, 'caja_movimientos', $consultaCajaMovimientos);
+
+// Crear tabla 'pedidos_caja' si no existe (separada de pedidos del catalogo web)
+$consultaPedidosCaja = "CREATE TABLE IF NOT EXISTS `pedidos_caja` (
+    idPedidoCaja INT(11) AUTO_INCREMENT PRIMARY KEY,
+    idCaja INT(11) NOT NULL,
+    idUsuario INT(11) NOT NULL,
+    estado VARCHAR(30) NOT NULL DEFAULT 'Generado',
+    productos JSON NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL DEFAULT 0,
+    descuento DECIMAL(10,2) NOT NULL DEFAULT 0,
+    total DECIMAL(10,2) NOT NULL,
+    montoPagado DECIMAL(10,2) NOT NULL DEFAULT 0,
+    vuelto DECIMAL(10,2) NOT NULL DEFAULT 0,
+    metodoPago VARCHAR(30) DEFAULT NULL,
+    telefonoCliente VARCHAR(30) DEFAULT NULL,
+    ticketImagen TEXT DEFAULT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)";
+crearTablaSiNoExiste($conexion, 'pedidos_caja', $consultaPedidosCaja);
+
 
 
 // Insertar nuevo usuario admin

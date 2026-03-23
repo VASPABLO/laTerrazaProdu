@@ -35,7 +35,7 @@
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
-    color: var(--text-color2);
+    color: #d7d9df;
     white-space: nowrap;
        
     
@@ -45,13 +45,15 @@
 
 .table th {
   
-    background-color: #f2f2f28b;
+    background-color: #b9b9bd;
+    color: #38363a;
+    font-weight: 700;
 }
 
 
 
 .table tr:hover {
-    background-color: #f2f2f28b;
+    background-color: rgba(255, 255, 255, 0.06);
 }
 
 .noResult {
@@ -225,17 +227,41 @@ button{
     color: var(--text-color2);
 }
 .editar{
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    color: var(--color2);
-    margin-left: 20px;
+    background-color: rgba(255, 166, 77, 0.14);
+    border: 1px solid rgba(255, 166, 77, 0.35);
+    font-size: 16px;
+    color: #ffb74d;
+    margin-left: 8px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 .eliminar{
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    color: var(--color1);
+    background-color: rgba(255, 107, 107, 0.14);
+    border: 1px solid rgba(255, 107, 107, 0.35);
+    font-size: 16px;
+    color: #ff7b7b;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.editar:hover{
+    background-color: rgba(255, 166, 77, 0.24);
+    color: #ffd08a;
+    transform: translateY(-1px);
+}
+.eliminar:hover{
+    background-color: rgba(255, 107, 107, 0.24);
+    color: #ffabab;
+    transform: translateY(-1px);
 }
 .filtrosContain{
     display: flex;
@@ -466,7 +492,7 @@ fieldset input{
     justify-content: center;
     gap: 10px;
     align-items: center;
-    margin-top: 1rem;
+   
 }
 .btnLoading{
     padding: 13px 13px;

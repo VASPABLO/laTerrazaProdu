@@ -28,7 +28,7 @@ try {
         // Verificar si se envió la imagen
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
             // Crear carpeta para imágenes si no existe
-            $carpetaImagenes = './imagenes_banners';
+            $carpetaImagenes = 'imagenes_banners';
             if (!file_exists($carpetaImagenes)) {
                 mkdir($carpetaImagenes, 0777, true);
             }
@@ -40,7 +40,7 @@ try {
             $nombreImagen = $_FILES['imagen']['name'];
             $rutaImagen = $carpetaImagenes . '/' . $nombreImagen;
             move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaImagen);
-            $rutaImagenCompleta = $rutaweb . $rutaImagen;
+            $rutaImagenCompleta = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen, '/');
 
             // Almacenar enlace completo en la base de datos
             $sqlInsert = "INSERT INTO `banner` (imagen) VALUES (:imagen)";

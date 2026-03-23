@@ -1,76 +1,128 @@
-import React, { useEffect, useState, useRef } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import baseURL from '../url';
 import './Banners.css';
-import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper/core';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.css';
-SwiperCore.use([Navigation, Pagination, Autoplay]);
+import { Navigation, Pagination, Autoplay, A11y } from 'swiper';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default function Banners() {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const swiperRef = useRef(null);
 
-    useEffect(() => {
-        cargarBanners();
+    const cargarBanners = useCallback(async () => {
+        try {
+            setLoading(true);
+            setError(false);
+
+            const response = await fetch(`${baseURL}/bannersGet.php`, {
+                method: 'GET',
+            });
+
+            if (!response.ok) {
+                throw new Error('No se pudo obtener la respuesta del servidor');
+            }
+
+            const data = await response.json();
+
+            const bannerImages = Array.isArray(data?.banner)
+                ? data.banner
+                      .map((banner) => banner?.imagen)
+                      .filter((img) => typeof img === 'string' && img.trim() !== '')
+                : [];
+
+            setImages(bannerImages);
+        } catch (err) {
+            console.error('Error al cargar banners:', err);
+            setError(true);
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
     useEffect(() => {
-        if (swiperRef.current) {
-            swiperRef.current?.update();
+        cargarBanners();
+    }, [cargarBanners]);
+
+    useEffect(() => {
+        if (swiperRef.current && images.length > 0) {
+            swiperRef.current.update();
         }
     }, [images]);
 
-    const cargarBanners = () => {
-        fetch(`${baseURL}/bannersGet.php`, {
-            method: 'GET',
-        })
-            .then(response => response.json())
-            .then(data => {
-                const bannerImages = data.banner.map(banner => banner.imagen);
-                setImages(bannerImages);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error al cargar productos:', error)
+    if (loading) {
+        return (
+            <section className="BannerContain" aria-label="Cargando banners">
+                <div className="loadingBanner" />
+            </section>
+        );
+    }
 
-            });
-    };
+    if (error) {
+        return (
+            <section className="BannerContain">
+                <div className="bannerStatus bannerError">
+                    <p>No se pudieron cargar los banners.</p>
+                    <button className="bannerRetryBtn" onClick={cargarBanners}>
+                        Reintentar
+                    </button>
+                </div>
+            </section>
+        );
+    }
+
+    if (!images.length) {
+        return (
+            <section className="BannerContain">
+                <div className="bannerStatus bannerEmpty">
+                    <p>No hay banners disponibles.</p>
+                </div>
+            </section>
+        );
+    }
 
     return (
-        <div className='BannerContain'>
-
-            {loading ? (
-                <div className='loadingBanner'>
-
-                </div>
-
-            ) : (
-                <Swiper
-                    effect={'coverflow'}
-                    grabCursor={true}
-                    loop={true}
-                    slidesPerView={'auto'}
-                    coverflowEffect={{ rotate: 0, stretch: 0, depth: 100, modifier: 2.5 }}
-                    navigation={{ nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }}
-                    autoplay={{ delay: 3000 }}
-                    pagination={{ clickable: true }}
-                    onSwiper={(swiper) => {
-                        console.log(swiper);
-                        swiperRef.current = swiper;
-                    }}
-                    id='swiper_container'
-                >
-                    {images.map((image, index) => (
-                        <SwiperSlide id='SwiperSlide-scroll' key={index}>
-                            <img src={image} alt={`imagen-${index}`} />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            )}
-
-
-        </div>
+        <section className="BannerContain" aria-label="Promociones principales">
+            <Swiper
+                modules={[Navigation, Pagination, Autoplay, A11y]}
+                loop={images.length > 1}
+                slidesPerView={1}
+                spaceBetween={0}
+                grabCursor={true}
+                speed={700}
+                navigation
+                pagination={{ clickable: true }}
+                autoplay={
+                    images.length > 1
+                        ? {
+                              delay: 4500,
+                              disableOnInteraction: false,
+                              pauseOnMouseEnter: true,
+                          }
+                        : false
+                }
+                onSwiper={(swiper) => {
+                    swiperRef.current = swiper;
+                }}
+                className="bannerSwiper"
+            >
+                {images.map((image, index) => (
+                    <SwiperSlide className="bannerSlide" key={`${image}-${index}`}>
+                        <img
+                            className="bannerImage"
+                            src={image}
+                            alt={`Banner promocional ${index + 1}`}
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            decoding="async"
+                        />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        </section>
     );
 }

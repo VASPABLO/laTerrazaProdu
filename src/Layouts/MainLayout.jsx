@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import Spiner from '../Components/Admin/Spiner/Spiner';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Auth from '../Components/Admin/Auth/Auth';
-import baseURL from '../Components/url';
 export default function MainLayout() {
+    /*
+    Bloque de autenticacion/autorizacion deshabilitado para desarrollo local.
     const [usuario, setUsuario] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -26,23 +25,13 @@ export default function MainLayout() {
 
         fetchData();
     }, []);
+    */
 
     return (
         <div>
             <div>
-                {loading ? (
-                    <Spiner />
-                ) : usuario.idUsuario ? (
-                    <>
-                        {usuario.rol === 'admin' ? (
-                            <Outlet />
-                        ) : (
-                            <Auth />
-                        )}
-                    </>
-                ) : (
-                    <Auth />
-                )}
+                {/* Autenticacion/autorizacion deshabilitada temporalmente en local */}
+                <Outlet />
             </div>
 
         </div>

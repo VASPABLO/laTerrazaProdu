@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faFire } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
@@ -52,49 +52,58 @@ export default function Login() {
     };
 
     return (
-        <div className='formContain'>
+        <div className='loginPageContainer'>
             <ToastContainer />
-            <h2>Administrador</h2>
-            <form onSubmit={handleLogin} className='formAuth'>
-                <div className='inputsAuth'>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        placeholder="Email"
-                    />
+            <div className='formContain'>
+                <div className='fireIconContainer'>
+                    <FontAwesomeIcon icon={faFire} className='fireIcon' />
                 </div>
-                <div className='inputsAuth'>
-                    <label htmlFor="password">Contraseña:</label>
-                    <div className='deFlexInputs'>
+                
+                <h2 className='loginTitle'>Portal Admin</h2>
+                <p className='loginSubtitle'>Inicia sesión para gestionar tu pedido</p>
+                
+                <form onSubmit={handleLogin} className='formAuth'>
+                    <div className='inputsAuth'>
+                        <label htmlFor="email">Correo Electrónico</label>
                         <input
-                            type={showPassword ? 'text' : 'password'}
-                            id="password"
-                            name="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
-                            placeholder="Contraseña"
+                            placeholder="admin@ejemplo.com"
                         />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                        </button>
                     </div>
-                </div>
+                    <div className='inputsAuth'>
+                        <label htmlFor="password">Contraseña</label>
+                        <div className='deFlexInputs'>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                name="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                placeholder="••••••••"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className='togglePasswordBtn'
+                            >
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                            </button>
+                        </div>
+                    </div>
 
-                <button type="submit" className='btn'>
-                    Iniciar Sesión
-                </button>
-            </form>
+                    <button type="submit" className='btn'>
+                        Iniciar Sesión
+                    </button>
+                </form>
 
-
+                <a href="#" className='forgotPasswordLink'>¿Olvidaste tu contraseña?</a>
+            </div>
         </div>
     );
 }

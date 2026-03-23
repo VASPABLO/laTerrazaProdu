@@ -23,12 +23,16 @@ $contrasena = $_ENV['DB_PASS'];
 $dbname = $_ENV['DB_NAME'];
 $rutaweb = $_ENV['RUTA_WEB'];
 $mensaje = "";
-$carpetaImagenes = './imagenes_productos'; // Cambia la ruta de la carpeta
+$carpetaImagenes = 'imagenes_productos'; // Carpeta local para imagenes de productos
 
 try {
     $dsn = "mysql:host=$servidor;dbname=$dbname";
     $conexion = new PDO($dsn, $usuario, $contrasena);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if (!file_exists($carpetaImagenes)) {
+        mkdir($carpetaImagenes, 0777, true);
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $idProducto = isset($_REQUEST['idProducto']) ? $_REQUEST['idProducto'] : null;
@@ -45,7 +49,7 @@ try {
             $rutaImagen1 = $carpetaImagenes . '/' . $nombreImagen1;
             
             if (move_uploaded_file($_FILES['imagen1']['tmp_name'], $rutaImagen1)) {
-                $rutaImagen1Completa = $rutaweb . $rutaImagen1;
+                $rutaImagen1Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen1, '/');
             } else {
                 echo json_encode(["error" => "Error al mover el archivo de imagen1"]);
                 exit;
@@ -58,7 +62,7 @@ try {
             $rutaImagen2 = $carpetaImagenes . '/' . $nombreImagen2;
             
             if (move_uploaded_file($_FILES['imagen2']['tmp_name'], $rutaImagen2)) {
-                $rutaImagen2Completa = $rutaweb . $rutaImagen2;
+                $rutaImagen2Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen2, '/');
             } else {
                 echo json_encode(["error" => "Error al mover el archivo de imagen2"]);
                 exit;
@@ -71,7 +75,7 @@ try {
             $rutaImagen3 = $carpetaImagenes . '/' . $nombreImagen3;
             
             if (move_uploaded_file($_FILES['imagen3']['tmp_name'], $rutaImagen3)) {
-                $rutaImagen3Completa = $rutaweb . $rutaImagen3;
+                $rutaImagen3Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen3, '/');
             } else {
                 echo json_encode(["error" => "Error al mover el archivo de imagen3"]);
                 exit;
@@ -84,7 +88,7 @@ try {
             $rutaImagen4 = $carpetaImagenes . '/' . $nombreImagen4;
             
             if (move_uploaded_file($_FILES['imagen4']['tmp_name'], $rutaImagen4)) {
-                $rutaImagen4Completa = $rutaweb . $rutaImagen4;
+                $rutaImagen4Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen4, '/');
             } else {
                 echo json_encode(["error" => "Error al mover el archivo de imagen4"]);
                 exit;

@@ -28,8 +28,7 @@ export default function MiPedido() {
         })
             .then(response => response.json())
             .then(data => {
-                setPedidos(data.pedidos.reverse() || []);
-                console.log(data.pedidos);
+                setPedidos((data.pedidos || []).reverse());
             })
             .catch(error => console.error('Error al cargar pedidos:', error));
     };

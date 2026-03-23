@@ -13,17 +13,23 @@ export default function Main() {
 
             <section className='containerSection'>
                 <HeaderDash />
+                
+                <div className='welcomeSection'>
+                    <h1 className='welcomeTitle'>¡Bienvenido, Admin!</h1>
+                    <p className='welcomeSubtitle'>Aquí tienes el resumen de tu restaurante.</p>
+                </div>
+
                 <div className='containerMain'>
+                    <CardsCantidad />
+                    
                     <div className='deFLexMain'>
-                        <CardsCantidad />
                         <UsuariosMain />
-                    </div>
-                    <div className='deFLexMain'>
                         <ProductosMain />
+                    </div>
+                    
+                    <div className='deFLexMain'>
                         <InfoUserMain />
                     </div>
-
-
                 </div>
             </section>
         </div>

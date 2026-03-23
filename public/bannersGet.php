@@ -16,6 +16,7 @@ $servidor = $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'];
 $usuario = $_ENV['DB_USER'];
 $contrasena = $_ENV['DB_PASS'];
 $dbname = $_ENV['DB_NAME'];
+$rutaweb = $_ENV['RUTA_WEB'];
 $mensaje = "";
 
 try {
@@ -28,6 +29,15 @@ try {
         $sqlSelect = "SELECT idBanner, imagen FROM `banner`";
         $stmt = $conexion->query($sqlSelect);
         $banners = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($banners as &$banner) {
+            if (!empty($banner['imagen'])) {
+                $imagen = str_replace('/./', '/', $banner['imagen']);
+                $imagen = preg_replace('#^https?://localhost:8081/imagenes_banners/#', rtrim($rutaweb, '/') . '/imagenes_banners/', $imagen);
+                $banner['imagen'] = $imagen;
+            }
+        }
+        unset($banner);
 
         // Respuesta JSON con los banners y sus imágenes  
         echo json_encode(["banner" => $banners]);

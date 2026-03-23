@@ -1,90 +1,174 @@
-.cardCantidad{
-    background-color: var(--blanco);
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.114);
-   
-    border-radius: 10px;
-    padding: 1rem;
-    width: 30%;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    height: 15vh;
+.CardsCantidad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+    margin-bottom: 2rem;
 }
-.CardsCantidad{
-    display: flex;
-    flex-wrap: wrap;
-   
-    gap: 2rem;
-}
-.CardsCantidad a{
-   background-color: var(--blanco);
-}
-.CardsCantidad a:hover{
-    background-color: var(--color1);
-    color: var(--blanco);
- }
- .CardsCantidad a:hover h3{
-   
-    color: var(--blanco);
- }
- .CardsCantidad a:hover h2{
-   
-    color: var(--blanco);
- }
- .CardsCantidad a:hover .icons{
-   
-   color: var(--color1);
-   background-color: var(--blanco);
- }
- .deFlex{
+
+.cardCantidad {
+    background: linear-gradient(135deg, #3d3a3a 0%, #45423f 100%);
+    border: 1px solid #4a4744;
+    border-radius: 12px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
- }
- .cardCantidad h2{
-   
-    font-size: 20px;
-    color: var(--color1);
- }
- .cardCantidad h3{
-   
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--text-color2);
- }
- .icons{
-    font-size: 20px;
-    color: var(--blanco);
-    background-color: var(--color1);
-    padding: 14px;
-    border-radius: 7px;
-    
+    align-items: center;
+    gap: 16px;
+    min-height: 180px;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
-@media (max-width: 1024px){
-   .CardsCantidad{
-     flex-direction: row;
-     justify-content: space-around;
-     width: 100%;
-     gap: 1rem;
-  }
-  .cardCantidad{
-   width: 45%;
-  }
-  .icons{
-   font-size: 15px;
+.cardCantidad::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+    transition: left 0.5s ease;
+}
 
-   padding: 10px;
+.cardCantidad:hover {
+    background: linear-gradient(135deg, #45423f 0%, #4a4744 100%);
+    border-color: #ff6b35;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(255, 107, 53, 0.2);
+}
 
-   
+.cardCantidad:hover::before {
+    left: 100%;
 }
-.cardCantidad h2{
-   
-   font-size: 17px;
-   
+
+.cardCantidad:hover h3 {
+    color: #ff6b35;
 }
-.cardCantidad h3{
-   
-   font-size: 15px;
-  
+
+.cardCantidad:hover h2 {
+    color: #ffffff;
 }
+
+.cardCantidad:hover .icons {
+    color: #ffffff;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+    transform: scale(1.15) rotate(-5deg);
+}
+
+.cardCantidad h2 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1;
+}
+
+.cardCantidad h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #b0aca9;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    transition: color 0.3s ease;
+}
+
+.icons {
+    font-size: 32px;
+    color: #ff6b35;
+    background: rgba(255, 107, 53, 0.15);
+    padding: 16px;
+    border-radius: 10px;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .CardsCantidad {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .cardCantidad {
+        min-height: 160px;
+        padding: 20px;
+    }
+
+    .cardCantidad h2 {
+        font-size: 40px;
+    }
+
+    .icons {
+        font-size: 28px;
+        padding: 14px;
+        width: 58px;
+        height: 58px;
+    }
+}
+
+@media (max-width: 768px) {
+    .CardsCantidad {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .cardCantidad {
+        min-height: 140px;
+        padding: 16px;
+    }
+
+    .cardCantidad h2 {
+        font-size: 32px;
+    }
+
+    .cardCantidad h3 {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+    }
+
+    .icons {
+        font-size: 24px;
+        padding: 12px;
+        width: 52px;
+        height: 52px;
+    }
+}
+
+@media (max-width: 600px) {
+    .CardsCantidad {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 1.5rem;
+    }
+
+    .cardCantidad {
+        min-height: 120px;
+        padding: 14px;
+    }
+
+    .cardCantidad h2 {
+        font-size: 28px;
+    }
+
+    .cardCantidad h3 {
+        font-size: 11px;
+    }
+
+    .icons {
+        font-size: 22px;
+        padding: 10px;
+        width: 48px;
+        height: 48px;
+    }
 }

@@ -1,13 +1,13 @@
 .HeaderDashContain{
-    background-color: var(--blanco);
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.114);
+    background-color: transparent;
+    box-shadow: none;
     width: 100%;
-
     border-radius: 10px;
     padding: 5px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 .deFlexHeader{
   display: flex;

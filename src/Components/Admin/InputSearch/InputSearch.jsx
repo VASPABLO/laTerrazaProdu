@@ -15,6 +15,7 @@ export default function InputSearch() {
         { title: 'Codigos', link: '/dashboard/codigos' },
         { title: 'Mesas', link: '/dashboard/mesas' },
         { title: 'Pedidos', link: '/dashboard/pedidos' },
+        { title: 'Cajas', link: '/dashboard/cajas' },
     ];
 
 

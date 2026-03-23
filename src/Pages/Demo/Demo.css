@@ -1,22 +1,407 @@
-.espaciobg2{
-    height: 4rem;
+.demo {
+    background: radial-gradient(1200px 500px at 20% -10%, rgba(255, 107, 53, 0.18), transparent 60%),
+        radial-gradient(900px 500px at 100% 0%, rgba(212, 165, 116, 0.12), transparent 60%),
+        #1a1a1a;
 }
 
-@media (max-width: 900px){
-    .demo{
-        border-radius: 0 30px 0 0px;
-        background-color: var(--gris);
-       
+.homeHero {
+    position: relative;
+    width: 100%;
+    min-height: 78vh;
+    max-height: 860px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.homeHeroImage,
+.homeHeroFallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.homeHeroFallback {
+    background: linear-gradient(135deg, #2d2d2d, #1f1f1f);
+}
+
+.homeHeroOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0.58) 45%, #1a1a1a 100%);
+}
+
+.homeHeroContent {
+    position: relative;
+    z-index: 2;
+    width: min(92%, 980px);
+    text-align: center;
+    padding: 5rem 1rem 3rem;
+}
+
+.homeHeroContent h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.1rem, 6vw, 4.8rem);
+    line-height: 1.03;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+.homeHeroContent h1 span {
+    color: #ff6b35;
+}
+
+.homeHeroContent p {
+    margin: 1.25rem auto 0;
+    color: #d2d2d2;
+    width: min(96%, 700px);
+    font-size: clamp(1rem, 2.4vw, 1.28rem);
+    line-height: 1.55;
+}
+
+.homeHeroCta {
+    margin-top: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff6b35;
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.95rem 1.8rem;
+    font-weight: 700;
+    font-size: 1.02rem;
+    box-shadow: 0 8px 30px rgba(255, 107, 53, 0.36);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.homeHeroCta:hover {
+    background: #ff7a49;
+    transform: translateY(-1px);
+}
+
+.homeSpecialties,
+.homeFeatured,
+.homeInfo {
+    width: min(92%, 1280px);
+    margin: 0 auto;
+}
+
+.homeSpecialties {
+    padding: 3.2rem 0 2rem;
+}
+
+.homeSectionHead {
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+.homeSectionHead h2,
+.homeFeaturedHead h2 {
+    margin: 0;
+    color: #f5f5f5;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    font-weight: 800;
+}
+
+.homeSectionHead p,
+.homeFeaturedHead p {
+    margin: 0.6rem auto 0;
+    color: #b0b0b0;
+    max-width: 760px;
+    line-height: 1.5;
+}
+
+.homeSpecialtiesSkeleton {
+    min-height: 340px;
+    border-radius: 26px;
+    background: linear-gradient(90deg, #2a2a2a 0%, #333 45%, #2a2a2a 100%);
+    background-size: 230% 100%;
+    animation: homeShimmer 1.3s linear infinite;
+}
+
+@keyframes homeShimmer {
+    from {
+        background-position: 220% 0;
     }
-    .section-bg-color{
-        background-color: var(--color1);
-       
+    to {
+        background-position: -220% 0;
     }
-    .espaciobg{
-        height: 4rem;
-        background-color: var(--blanco);
+}
+
+.homeBentoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    grid-auto-rows: 220px;
+}
+
+.homeBentoItem {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.28);
+}
+
+.homeBentoItemLarge {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.homeBentoImage {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.homeBentoItem:hover .homeBentoImage {
+    transform: scale(1.08);
+}
+
+.homeBentoOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.75));
+}
+
+.homeBentoText {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    color: #fff;
+    z-index: 2;
+}
+
+.homeBentoText h3 {
+    margin: 0;
+    font-size: clamp(1.05rem, 2vw, 2rem);
+    font-weight: 800;
+}
+
+.homeBentoText span {
+    display: inline-block;
+    margin-top: 0.35rem;
+    color: #ff9a6f;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.homeFeatured {
+    padding: 3rem 0 2rem;
+}
+
+.homeFeaturedHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.homeSeeAll {
+    color: #ff6b35;
+    font-weight: 700;
+}
+
+.homeSeeAll:hover {
+    color: #ff8a5f;
+}
+
+.homeFeaturedGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.homeFeaturedCard {
+    background: #242424;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.34);
+}
+
+.homeFeaturedCard:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 107, 53, 0.4);
+}
+
+.homeFeaturedImageWrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.homeFeaturedImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.homeFeaturedBadge {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    background: rgba(200, 155, 50, 0.9);
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.homeFeaturedBody {
+    padding: 0.9rem;
+}
+
+.homeFeaturedTitleRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.45rem;
+}
+
+.homeFeaturedTitleRow h4 {
+    margin: 0;
+    color: #f3f3f3;
+    font-size: 1rem;
+    font-weight: 800;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+.homeFeaturedTitleRow span {
+    color: #ff6b35;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.homeFeaturedBody p {
+    margin: 0.5rem 0 0;
+    color: #a8a8a8;
+    line-height: 1.45;
+    font-size: 0.9rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.homeInfo {
+    padding: 2.5rem 0 2.5rem;
+}
+
+.homeInfoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.homeInfoCard {
+    background: #242424;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.homeInfoIconWrap {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.9rem;
+    font-size: 1.35rem;
+}
+
+.iconClock {
+    color: #ff6b35;
+    background: rgba(255, 107, 53, 0.15);
+}
+
+.iconMap {
+    color: #d4a574;
+    background: rgba(212, 165, 116, 0.15);
+}
+
+.iconPhone {
+    color: #b87333;
+    background: rgba(184, 115, 51, 0.15);
+}
+
+.homeInfoCard h3 {
+    margin: 0;
+    color: #f0f0f0;
+    font-size: 1.2rem;
+}
+
+.homeInfoCard p {
+    margin: 0.5rem auto 0;
+    color: #b0b0b0;
+    max-width: 280px;
+}
+
+#menu-principal {
+    scroll-margin-top: 90px;
+}
+
+@media (max-width: 1200px) {
+    .homeFeaturedGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .espaciobg2{
-        height: 10px;
+
+    .homeInfoGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .homeHero {
+        min-height: 68vh;
+    }
+
+    .homeBentoGrid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 210px;
+    }
+
+    .homeBentoItemLarge {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .homeFeaturedHead {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .homeInfoGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .homeSpecialties,
+    .homeFeatured,
+    .homeInfo {
+        width: min(94%, 1280px);
+    }
+
+    .homeFeaturedGrid {
+        grid-template-columns: 1fr;
     }
 }

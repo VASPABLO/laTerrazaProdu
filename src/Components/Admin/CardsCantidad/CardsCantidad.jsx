@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './CardsCantidad.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBook, faImage, faAddressBook, faTachometerAlt, faCode, faTable, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faBook, faImage, faAddressBook, faTachometerAlt, faCode, faTable, faClipboardList, faClock, faClipboard, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { Link as Anchor } from "react-router-dom";
 import baseURL from '../../url';
 import contador from '../../contador'
@@ -12,6 +12,9 @@ export default function CardsCantidad() {
     const [codigos, setCodigos] = useState([]);
     const [pedidos, setPedidos] = useState([]);
     const [mesas, setMesas] = useState([]);
+        const [pedidosPendientes, setPedidosPendientes] = useState(0);
+        const [pedidosPreparando, setPedidosPreparando] = useState(0);
+        const [pedidosCompletados, setPedidosCompletados] = useState(0);
     useEffect(() => {
         cargarProductos();
         cargarBanners();
@@ -76,8 +79,19 @@ export default function CardsCantidad() {
         })
             .then(response => response.json())
             .then(data => {
-                setPedidos(data.pedidos || []);
-                console.log(data.pedidos)
+                const pedidosData = data.pedidos || [];
+                setPedidos(pedidosData);
+                
+                // Calcular estados de pedidos
+                const pendientes = pedidosData.filter(p => p.estado === 'pendiente').length;
+                const preparando = pedidosData.filter(p => p.estado === 'preparando').length;
+                const completados = pedidosData.filter(p => p.estado === 'completado').length;
+                
+                setPedidosPendientes(pendientes);
+                setPedidosPreparando(preparando);
+                setPedidosCompletados(completados);
+                
+                console.log(pedidosData)
             })
             .catch(error => console.error('Error al cargar pedidos:', error));
     };
@@ -120,59 +134,70 @@ export default function CardsCantidad() {
         cargarPedidos();
     };
     return (
-        <div className='CardsCantidad'>
 
+
+
+
+
+
+
+
+
+
+
+        <div className='CardsCantidad'>
+            {/* Total Pedidos */}
+            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
+                <FontAwesomeIcon icon={faClipboard} className='icons' />
+                <div>
+                    <h3>Total Pedidos</h3>
+                    <h2>{pedidos.length}</h2>
+                </div>
+            </Anchor>
+
+            {/* Pendientes */}
+            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
+                <FontAwesomeIcon icon={faClock} className='icons' />
+                <div>
+                    <h3>Pendientes</h3>
+                    <h2>{pedidosPendientes}</h2>
+                </div>
+            </Anchor>
+
+            {/* Preparando */}
+            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
+                <FontAwesomeIcon icon={faBook} className='icons' />
+                <div>
+                    <h3>Preparando</h3>
+                    <h2>{pedidosPreparando}</h2>
+                </div>
+            </Anchor>
+
+            {/* Completados */}
+            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
+                <FontAwesomeIcon icon={faCheck} className='icons' />
+                <div>
+                    <h3>Completados</h3>
+                    <h2>{pedidosCompletados}</h2>
+                </div>
+            </Anchor>
+
+            {/* Productos */}
             <Anchor to={`/dashboard/productos`} className='cardCantidad' >
                 <FontAwesomeIcon icon={faBook} className='icons' />
                 <div>
-
                     <h3>Productos</h3>
                     <h2>{productos.length}</h2>
                 </div>
-
             </Anchor>
-            <Anchor to={`/dashboard/banners`} className='cardCantidad' >
-                <FontAwesomeIcon icon={faImage} className='icons' />
-                <div>
 
-                    <h3>Banners</h3>
-                    <h2>{banners.length}</h2>
-                </div>
-
-            </Anchor>
+            {/* Categorías */}
             <Anchor to={`/dashboard/categorias`} className='cardCantidad' >
                 <FontAwesomeIcon icon={faTachometerAlt} className='icons' />
                 <div>
-
                     <h3>Categorias</h3>
                     <h2>{categorias.length}</h2>
                 </div>
-
-            </Anchor>
-
-            <Anchor to={`/dashboard/codigos`} className='cardCantidad' >
-                <FontAwesomeIcon icon={faCode} className='icons' />
-                <div>
-                    <h3>Codigos</h3>
-                    <h2>{codigos.length}</h2>
-                </div>
-
-            </Anchor>
-            <Anchor to={`/dashboard/mesas`} className='cardCantidad' >
-                <FontAwesomeIcon icon={faTable} className='icons' />
-                <div>
-                    <h3>Mesas</h3>
-                    <h2>{mesas.length}</h2>
-                </div>
-
-            </Anchor>
-            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
-                <FontAwesomeIcon icon={faClipboardList} className='icons' />
-                <div>
-                    <h3>Pedidos</h3>
-                    <h2>{pedidos.length}</h2>
-                </div>
-
             </Anchor>
         </div>
     )

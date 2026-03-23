@@ -1,0 +1,367 @@
+.cajas {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 1rem;
+    width: 100%;
+    background: #f6f8fb;
+    border: 1px solid #dbe2ee;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.cajas__loading {
+    grid-column: 1 / -1;
+    color: #334155;
+    font-weight: 600;
+}
+
+.cajas__apertura {
+    grid-column: 1 / -1;
+    background: #ffffff;
+    border: 1px solid #d8e1ee;
+    border-radius: 10px;
+    padding: 1.25rem;
+    max-width: 460px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.cajas__apertura h2 {
+    margin: 0;
+    color: #1e3a8a;
+}
+
+.cajas__apertura p {
+    margin: 0;
+    color: #64748b;
+}
+
+.cajas__apertura label,
+.cajas__cerrar label {
+    font-size: 0.85rem;
+    color: #475569;
+    font-weight: 700;
+}
+
+.cajas__apertura input,
+.cajas__cerrar input,
+.cajas__totales input {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0.55rem 0.65rem;
+    font-size: 0.95rem;
+}
+
+.btn-principal,
+.btn-secundario,
+.btn-cobrar,
+.btn-cancelar {
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-principal {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn-secundario {
+    background: #334155;
+    color: #ffffff;
+}
+
+.cajas__detalle {
+    background: #ffffff;
+    border: 1px solid #d8e1ee;
+    border-radius: 8px;
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cajas__detalle h3 {
+    margin: 0 0 0.3rem;
+    color: #1e293b;
+    font-size: 1rem;
+}
+
+.cajas__detalle p {
+    margin: 0;
+    font-size: 0.86rem;
+    color: #334155;
+}
+
+.cajas__cerrar {
+    margin-top: 0.5rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cajas__pos {
+    background: #ffffff;
+    border: 1px solid #d8e1ee;
+    border-radius: 8px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.cajas__buscador {
+    display: grid;
+    grid-template-columns: 1fr 190px;
+    gap: 0.5rem;
+}
+
+.cajas__buscador input,
+.cajas__buscador select {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0.55rem 0.65rem;
+}
+
+.cajas__sugerencias {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.45rem;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.cajas__sugerencia {
+    border: 1px solid #dbe2ee;
+    background: #f8fafc;
+    border-radius: 6px;
+    padding: 0.45rem 0.55rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+}
+
+.cajas__sugerencia strong {
+    color: #0f766e;
+}
+
+.cajas__tabla {
+    border: 1px solid #dbe2ee;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.cajas__tabla-header,
+.cajas__fila {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1fr 70px;
+    gap: 0.55rem;
+    align-items: center;
+    padding: 0.45rem 0.55rem;
+    font-size: 0.82rem;
+}
+
+.cajas__tabla-header {
+    background: #e2e8f0;
+    color: #334155;
+    font-weight: 700;
+}
+
+.cajas__fila {
+    border-top: 1px solid #edf2f7;
+}
+
+.cajas__cantidad {
+    display: grid;
+    grid-template-columns: 28px 1fr 28px;
+    gap: 0.2rem;
+    align-items: center;
+}
+
+.cajas__cantidad button {
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 28px;
+}
+
+.cajas__cantidad input {
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    height: 28px;
+    text-align: center;
+}
+
+.btn-eliminar {
+    border: none;
+    background: #fee2e2;
+    color: #b91c1c;
+    border-radius: 5px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.cajas__vacio {
+    margin: 0;
+    padding: 0.65rem;
+    color: #64748b;
+    font-size: 0.86rem;
+}
+
+.cajas__totales {
+    margin-left: auto;
+    width: min(340px, 100%);
+    border: 1px solid #dbe2ee;
+    border-radius: 7px;
+    padding: 0.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.cajas__totales div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.88rem;
+    gap: 0.5rem;
+}
+
+.cajas__totales .total {
+    border-top: 1px solid #dbe2ee;
+    padding-top: 0.4rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.cajas__totales .vuelto {
+    border-top: 1px solid #dbe2ee;
+    padding-top: 0.4rem;
+    font-weight: 800;
+    color: #16a34a;
+}
+
+.cajas__ticket-wrap {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cajas__ticket {
+    width: min(340px, 100%);
+    background: #ffffff;
+    border: 1px dashed #94a3b8;
+    border-radius: 8px;
+    padding: 0.7rem;
+}
+
+.cajas__ticket h4 {
+    margin: 0 0 0.4rem;
+    color: #0f172a;
+}
+
+.cajas__ticket p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #475569;
+}
+
+.cajas__ticket hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 0.45rem 0;
+}
+
+.cajas__ticket-linea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    margin-bottom: 0.25rem;
+}
+
+.cajas__ticket-total {
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.cajas__whatsapp {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 0.5rem;
+}
+
+.cajas__whatsapp input {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0.55rem 0.65rem;
+    font-size: 0.9rem;
+}
+
+.btn-ticket {
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    background: #22c55e;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cajas__acciones {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0.5rem;
+}
+
+.btn-cancelar {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.btn-cobrar {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.cajas__mensaje {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: #1d4ed8;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 1024px) {
+    .cajas {
+        grid-template-columns: 1fr;
+    }
+
+    .cajas__buscador {
+        grid-template-columns: 1fr;
+    }
+
+    .cajas__tabla-header,
+    .cajas__fila {
+        grid-template-columns: 2fr 1.4fr 1fr 1fr 56px;
+        font-size: 0.76rem;
+    }
+
+    .cajas__acciones {
+        grid-template-columns: 1fr;
+    }
+
+    .cajas__whatsapp {
+        grid-template-columns: 1fr;
+    }
+}

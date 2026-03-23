@@ -1,71 +1,243 @@
-.inputsAuth{
+.loginPageContainer {
     display: flex;
-   
-    flex-direction: column;
-    
-   
-}
-.formContain{
-    display: flex;
-    flex-direction: column;
-    width: 50vh;
-}
-.formAuth{
-    display: flex;
-  
-}
-.formContain h2{
-    text-align: center;
-    margin-top: 1rem;
-    color: var(--text-color2);
-    margin-bottom: 2rem;
-}
-.inputsAuth input{
-    border: none;
-    padding: 10px;
-   
-    border-bottom: 1px solid var(--text-color2);
-}
-.inputsAuth label{
-    color: var(--text-color2);;
-    display: none;
-}
-.formAuth{
-    display: flex;
-    width: 1005;
-    flex-direction: column;
-    gap: 1rem;
-}
-.deFlexInputs{
-    display: flex;
-    border: none;
-    padding: 10px 0px;
-    gap: 10px;
-    border-bottom: 1px solid var(--text-color2);
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #1a1a1a;
+    padding: 20px;
 }
 
-.deFlexInputs input{
+.formContain {
+    background-color: #2a2927;
+    border-radius: 16px;
+    padding: 40px;
     width: 100%;
-    border: none;
+    max-width: 500px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slideFromCenter 0.6s ease-in-out forwards;
 }
-.deFlexInputs button{
+
+.fireIconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 107, 53, 0.15);
+    border-radius: 16px;
+    margin-bottom: 30px;
+}
+
+.fireIcon {
+    font-size: 40px;
+    color: #ff6b35;
+}
+
+.loginTitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.loginSubtitle {
+    font-size: 14px;
+    color: #9e9b9b;
+    text-align: center;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.formAuth {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 10px;
+}
+
+.inputsAuth {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.inputsAuth label {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inputsAuth input {
+    background-color: #3d3a3a;
+    border: 1px solid #4a4744;
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: #ffffff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.inputsAuth input:focus {
+    outline: none;
+    border-color: #ff6b35;
+    background-color: #444140;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.inputsAuth input::placeholder {
+    color: #7a7775;
+}
+
+.deFlexInputs {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background-color: #3d3a3a;
+    border: 1px solid #4a4744;
+    border-radius: 8px;
+    padding: 0 16px;
+    transition: all 0.3s ease;
+}
+
+.deFlexInputs:focus-within {
+    border-color: #ff6b35;
+    background-color: #444140;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.deFlexInputs input {
+    flex: 1;
     border: none;
     background-color: transparent;
-    color:  var(--text-color2);
-    cursor: pointer;
+    padding: 14px 0;
+    color: #ffffff;
+    font-size: 14px;
 }
-.btn {
-    padding: 13px;
+
+.deFlexInputs input:focus {
+    outline: none;
+    box-shadow: none;
     border: none;
-    border-radius: 30rem;
-    background-color: var(--color1);
-    color: var(--blanco);
-    margin-top: 10px;
+}
+
+.deFlexInputs input::placeholder {
+    color: #7a7775;
+}
+
+.togglePasswordBtn {
+    border: none;
+    background-color: transparent;
+    color: #7a7775;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
     font-size: 16px;
 }
 
-@media (max-width: 500px){
-    .formContain{
-        width: 100%;
+.togglePasswordBtn:hover {
+    color: #ff6b35;
+}
+
+.btn {
+    padding: 14px 24px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.forgotPasswordLink {
+    font-size: 13px;
+    color: #ff6b35;
+    text-align: center;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin-top: 10px;
+}
+
+.forgotPasswordLink:hover {
+    color: #ff8555;
+    text-decoration: underline;
+}
+
+@keyframes slideFromCenter {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+    .formContain {
+        padding: 30px 20px;
+        border-radius: 12px;
+    }
+
+    .fireIconContainer {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 20px;
+    }
+
+    .fireIcon {
+        font-size: 35px;
+    }
+
+    .loginTitle {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .loginSubtitle {
+        font-size: 13px;
+        margin-bottom: 24px;
+    }
+
+    .formAuth {
+        gap: 18px;
+    }
+
+    .inputsAuth input,
+    .deFlexInputs {
+        padding: 12px 14px;
+        font-size: 13px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 15px;
     }
 }

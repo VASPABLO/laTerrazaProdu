@@ -1,41 +1,90 @@
 .cardMesa{
-    border-radius: 10px;
+    border-radius: 12px;
     width: 240px;
-    height: 130px;
+    min-height: 130px;
     display: flex;
     gap: 1rem;
     align-items: center;   
     flex-direction: column;
-    padding: 10px;
-    background-color: var(--color1);
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.114);
+    justify-content: center;
+    padding: 14px 12px;
+    background: linear-gradient(135deg, #353332 0%, #3f3c39 100%);
+    border: 1px solid #4a4744;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.22);
+    transition: all 0.25s ease;
+}
+.cardMesa:hover{
+    transform: translateY(-3px);
+    border-color: #ff6b35;
+    box-shadow: 0px 12px 28px rgba(255, 107, 53, 0.15);
 }
 .cardMesa h3{
-    color: var(--blanco);
-    font-weight: 500;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.3px;
 }
 .cardMesa h4{
-    color: var(--blanco);
-    font-weight: 500;
+    color: #f4f4f5;
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid transparent;
 }
 .deFLexBtnMesa{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 }
 .deFLexBtnMesa button{
-   color: var(--blanco);
+   color: #f3f3f4;
+   width: 32px;
+   height: 32px;
+   border-radius: 8px;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   border: 1px solid transparent;
+   transition: all 0.2s ease;
 
 }
+.deFLexBtnMesa .eliminar{
+    background-color: rgba(255, 107, 107, 0.14);
+    border-color: rgba(255, 107, 107, 0.32);
+    color: #ff8a8a;
+}
+.deFLexBtnMesa .editar{
+    background-color: rgba(255, 166, 77, 0.14);
+    border-color: rgba(255, 166, 77, 0.32);
+    color: #ffbe69;
+}
+.deFLexBtnMesa .eliminar:hover{
+    background-color: rgba(255, 107, 107, 0.24);
+    color: #ffc5c5;
+}
+.deFLexBtnMesa .editar:hover{
+    background-color: rgba(255, 166, 77, 0.24);
+    color: #ffe0a8;
+}
 .bg-red {
-    background-color: #F80050;
-    color: var(--blanco);
+    border-left: 4px solid #ff6b6b;
+}
+.bg-red h4{
+    background-color: rgba(255, 107, 107, 0.16);
+    border-color: rgba(255, 107, 107, 0.36);
+    color: #ff9e9e;
 }
 .bg-green {
-    background-color: rgb(27, 213, 27);
-    color: var(--blanco);
-    border: 1px solid var(--blanco);
-    font-weight: 500;
+    border-left: 4px solid #42d17a;
+}
+.bg-green h4{
+    background-color: rgba(66, 209, 122, 0.16);
+    border-color: rgba(66, 209, 122, 0.36);
+    color: #87eab0;
 }
 
 .mesasGrap{
@@ -71,12 +120,34 @@
     align-items: center;
   }
 
+  .InputsBtns{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .inputNumber{
+    display: flex;
+    align-items: center;
+    background-color: var(--gris2);
+    border: none;
+    padding: 13px 13px!important;
+    border-radius: 10px;
+    
+}
   @media (max-width: 1024px){
     .cardMesa{
         border-radius: 10px;
         width: 150px;
-        height: 100px;
+        min-height: 100px;
+        padding: 10px;
        
+    }
+    .cardMesa h3{
+        font-size: 0.95rem;
+    }
+    .cardMesa h4{
+        font-size: 0.68rem;
+        padding: 3px 8px;
     }
     .mesasGrap{
         display: flex;

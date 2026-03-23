@@ -62,10 +62,11 @@ export default function Navbar() {
 
                 </Anchor>
 
+
                 <div className='deFLexNavs'>
                     <Favoritos />
                     <InputSerach />
-
+                    <Anchor to="/login" className="navAdminLink">Admin</Anchor>
                     <div className={`nav_toggle  ${isOpen && "open"}`} onClick={() => setIsOpen(!isOpen)}>
                         <span></span>
                         <span></span>

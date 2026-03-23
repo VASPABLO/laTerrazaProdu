@@ -9,9 +9,12 @@ import Main from "./Main/Main";
 import Contacto from "./Contacto/Contacto";
 import Categorias from "./Categorias/Categorias";
 import Codigos from "./Codigos/Codigos";
+import Cajas from "./Cajas/Cajas";
 import Mesas from "./Mesas/Mesas";
 import Pedidos from "./Pedidos/Pedidos";
 import PageDetail from '../Pages/PageDetail/PageDetail';
+import MiPedidoPage from './MiPedido/MiPedidoPage';
+import PedidosCaja from './PedidosCaja/PedidosCaja';
 export const router = createBrowserRouter([
 
     {
@@ -27,7 +30,10 @@ export const router = createBrowserRouter([
                 path: `/producto/:idProducto/:producto`,
                 element: <PageDetail />,
             },
-
+            {
+                path: `/mi-pedido`,
+                element: <MiPedidoPage />,
+            },
         ]
     },
 
@@ -70,6 +76,15 @@ export const router = createBrowserRouter([
             {
                 path: `/dashboard/pedidos`,
                 element: <Pedidos />,
+            },
+
+             {
+                path: `/dashboard/cajas`,
+                element: <Cajas />,
+            },
+            {
+                path: `/dashboard/pedidos-caja`,
+                element: <PedidosCaja />,
             },
         ],
     },

@@ -217,16 +217,25 @@ export default function Detail() {
 
             <ToastContainer />
             <div className="deFlexDetail">
-                <button className="back" onClick={goBack}> <FontAwesomeIcon icon={faArrowLeft} /> </button>
+                <button className="back" onClick={goBack} title="Volver">
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                    <span className="back-label">Volver</span>
+                </button>
 
                 <div className="deFLexIcon">
-                    <button onClick={() => agregarAFavoritos(producto.idProducto)} className='favoritos-btn'>
-                        <FontAwesomeIcon icon={faHeart} style={{ color: favoritos.includes(producto.idProducto) ? 'red' : 'gray' }} />
+                    <button
+                        onClick={() => agregarAFavoritos(producto.idProducto)}
+                        className={`action-btn favoritos-btn ${favoritos.includes(producto.idProducto) ? 'favorito-activo' : ''}`}
+                        title={favoritos.includes(producto.idProducto) ? 'Quitar de favoritos' : 'Guardar en favoritos'}
+                    >
+                        <FontAwesomeIcon icon={faHeart} />
+                        <span className="btn-tooltip">{favoritos.includes(producto.idProducto) ? 'Guardado' : 'Favorito'}</span>
                     </button>
-                    <button className="share" onClick={handleCompartirClick}> <FontAwesomeIcon icon={faExternalLinkAlt} /> </button>
+                    <button className="action-btn share-btn" onClick={handleCompartirClick} title="Compartir">
+                        <FontAwesomeIcon icon={faExternalLinkAlt} />
+                        <span className="btn-tooltip">Compartir</span>
+                    </button>
                 </div>
-
-
             </div>
             <div className="detail-contain">
                 <SwiperSlide id={"swiperDetail"} >
@@ -338,12 +347,9 @@ export default function Detail() {
                                 ))
                         }
                         {producto.stock >= 1 ? (
-                            <h4 style={{ color: 'green', backgroundColor: '#ccffcc', padding: '0px 10px', borderRadius: '6px' }}>Stock {producto.stock}</h4>
-                        ) : producto.stock <= 0 ? (
-                            <h4 style={{ color: 'red', backgroundColor: '#ffc1c1', padding: '0px 10px', borderRadius: '6px' }}>Agotado</h4>
+                            <h4 style={{ color: '#4ade80', backgroundColor: 'rgba(74,222,128,0.12)', padding: '2px 12px', borderRadius: '999px', fontSize: '0.82rem', fontWeight: 700 }}>Stock {producto.stock}</h4>
                         ) : (
-
-                            <h4>{producto.stock}</h4>
+                            <h4 style={{ color: '#f87171', backgroundColor: 'rgba(248,113,113,0.12)', padding: '2px 12px', borderRadius: '999px', fontSize: '0.82rem', fontWeight: 700 }}>Agotado</h4>
                         )}
                     </div>
 
@@ -365,13 +371,27 @@ export default function Detail() {
                     <div className='itemsDetail'>
                         {producto && items.length > 0 && items.map((item, index) => (
                             item && (
-                                <label key={index}>
+                                <label key={index} style={{
+                                    background: selectedItemIndex === index ? 'rgba(255,107,53,0.15)' : '#2a2a2a',
+                                    border: selectedItemIndex === index ? '1px solid #ff6b35' : '1px solid rgba(255,255,255,0.1)',
+                                    color: selectedItemIndex === index ? '#ff6b35' : '#b0b0b0',
+                                    borderRadius: '999px',
+                                    padding: '6px 16px',
+                                    cursor: 'pointer',
+                                    fontSize: '0.88rem',
+                                    fontWeight: 600,
+                                    display: 'flex',
+                                    gap: '6px',
+                                    alignItems: 'center',
+                                    transition: 'all 0.2s ease',
+                                }}>
                                     <input
                                         type="radio"
                                         name="talle"
                                         value={item}
                                         checked={selectedItemIndex === index}
                                         onChange={() => handleSelectionChange(index)}
+                                        style={{ accentColor: '#ff6b35' }}
                                     />
                                     {item}
                                 </label>
@@ -381,9 +401,9 @@ export default function Detail() {
 
 
                     <div className='deFlexCart'>
-                        <button onClick={decrementCantidad}>-</button>
-                        <span>{cantidad}</span>
-                        <button onClick={incrementCantidad}>+</button>
+                        <button onClick={decrementCantidad} style={{ background: '#2a2a2a', border: '1px solid rgba(255,255,255,0.1)', color: '#f0f0f0', width: 36, height: 36, borderRadius: '50%', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
+                        <span style={{ color: '#f0f0f0', fontWeight: 700, fontSize: '1.1rem', minWidth: 32, textAlign: 'center' }}>{cantidad}</span>
+                        <button onClick={incrementCantidad} style={{ background: '#2a2a2a', border: '1px solid rgba(255,255,255,0.1)', color: '#f0f0f0', width: 36, height: 36, borderRadius: '50%', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
                     </div>
                     <div className='deFlexGoTocart'>
                         <button onClick={() => addToCart(items[selectedItemIndex])} className='btnAdd'>Agregar  <FontAwesomeIcon icon={faShoppingCart} />  </button>
