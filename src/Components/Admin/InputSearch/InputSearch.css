@@ -1,58 +1,125 @@
-.inputSearchDashboard{
-    display: flex;
- 
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-}
-.inputSearchDashboard .modalInput{
-    height: auto
-}
-.search{
-    padding: 3px 4px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 40vh;
-    border: 1px solid #d1cccc;
-}
-.search input{
-    padding: 3px ;
-    width: 100%;
-    border: none;
+.inputSearchDashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  width: 100%;
+  max-width: 420px;
 }
 
-.modalInput{
-    z-index: 2;
-    position: absolute;
-    top: 50px;
-    background-color: var(--blanco);
-    padding: 10px;
-    border-radius: 10px;
-    width: 40vh;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.114);
+.search {
+  height: 52px;
+  padding: 0 16px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: rgba(21, 30, 45, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  transition: all 0.2s ease;
 }
+
+.search:focus-within {
+  border-color: rgba(249, 115, 22, 0.35);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.search-icon {
+  font-size: 20px;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.search .input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #f8fafc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.search .input::placeholder {
+  color: #64748b;
+}
+
+/* Modal de resultados */
+.modalInput {
+  z-index: 20;
+  position: absolute;
+  top: 58px;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #111827, #0f172a);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
 .link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    color: var(--text-color2);
-}
-.link:hover{
-    background-color: var(--color1);
-    color: var(--blanco);
+  width: 100%;
 }
 
-@media (max-width: 1024px){
-    .search{
-        
-        width: 45vh;
-       
-    }
-    .modalInput{
-        width: 100%;
-    }
+.link a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.link a:hover {
+  background: rgba(249, 115, 22, 0.12);
+  color: #fff;
+}
+
+.link-icon {
+  font-size: 18px;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.link a:hover .link-icon {
+  color: #fb923c;
+}
+
+.emptyResult {
+  padding: 14px;
+  margin: 0;
+  color: #94a3b8;
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .inputSearchDashboard {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .search {
+    height: 48px;
+    border-radius: 14px;
+  }
+
+  .modalInput {
+    top: 54px;
+    border-radius: 14px;
+  }
+
+  .link a {
+    padding: 11px 12px;
+  }
 }

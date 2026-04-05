@@ -7,6 +7,7 @@ import ButonInstallAppNav from '../ButonInstallAppNav/ButonInstallAppNav'
 import { Link as Anchor } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { HiOutlineHome } from 'react-icons/hi2';
 export default function HeaderDash() {
 
 
@@ -17,8 +18,9 @@ export default function HeaderDash() {
             <div className='deFlexHeader'>
                 <ButonScreen />
                 <ButonInstallAppNav />
-                <Anchor to={'/'} className='link'>
-                    <FontAwesomeIcon icon={faHome} /> Inicio
+               <Anchor to="/" className="headerLink">
+                <HiOutlineHome />
+                <span>Inicio</span>
                 </Anchor>
                 <InfoUser />
             </div>

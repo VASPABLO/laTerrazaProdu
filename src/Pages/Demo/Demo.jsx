@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useMediaQuery } from '@react-hook/media-query';
 import baseURL from '../../Components/url';
 import moneda from '../../Components/moneda';
 import Products from '../../Components/Products/Products';
@@ -7,6 +8,7 @@ import './Demo.css';
 import Footer from '../../Components/Footer/Footer';
 import BtnWhatsapp from '../../Components/BtnWhatsapp/BtnWhatsapp';
 import Cart from '../../Components/Cart/Cart';
+import MobileBottomNav from '../../Components/MobileBottomNav/MobileBottomNav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 
@@ -16,6 +18,9 @@ export default function Demo() {
     const [categorias, setCategorias] = useState([]);
     const [contacto, setContacto] = useState({});
     const [loading, setLoading] = useState(true);
+    const [isMobileCartOpen, setIsMobileCartOpen] = useState(false);
+    const isMobileNav = useMediaQuery('(max-width: 767px)');
+    const location = useLocation();
 
     const slugify = (text = '') =>
         text
@@ -70,6 +75,22 @@ export default function Demo() {
         cargarHome();
     }, [cargarHome]);
 
+    useEffect(() => {
+        if (location.hash !== '#menu-principal') {
+            return undefined;
+        }
+
+        const timeoutId = window.setTimeout(() => {
+            const catalogSection = document.getElementById('menu-principal');
+
+            if (catalogSection) {
+                catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 120);
+
+        return () => window.clearTimeout(timeoutId);
+    }, [location.hash, loading]);
+
     const productosDestacados = useMemo(() => {
         const destacados = productos.filter((p) => p?.masVendido === 'si');
         return (destacados.length ? destacados : productos).slice(0, 4);
@@ -117,7 +138,7 @@ export default function Demo() {
     );
 
     return (
-        <section className="demo">
+        <section className="demo" style={isMobileNav ? { paddingBottom: '88px' } : undefined}>
             <section className="homeHero">
                 {banners.length > 0 ? (
                     <div className="homeHeroSlider">
@@ -239,7 +260,7 @@ export default function Demo() {
                                     <h4>{item?.titulo}</h4>
                                     <span>{moneda} {item?.precio}</span>
                                 </div>
-                                <p>{item?.descripcion}</p>
+                                {/* <p>{item?.descripcion}</p> */}
                             </div>
                         </Link>
                     ))}
@@ -253,7 +274,7 @@ export default function Demo() {
                             <FontAwesomeIcon icon={faClock} />
                         </div>
                         <h3>Horarios</h3>
-                        <p>{contacto?.horario || 'Lun - Dom: 12:00 - 22:00'}</p>
+                        <p>{contacto?.horario || 'Mar - Dom: 11:00 am - 10:00 pm'}</p>
                     </article>
 
                     <article className="homeInfoCard">
@@ -280,7 +301,12 @@ export default function Demo() {
 
             <Footer />
             <BtnWhatsapp />
-            <Cart />
+            <Cart
+                isOpen={isMobileNav ? isMobileCartOpen : undefined}
+                onRequestClose={() => setIsMobileCartOpen(false)}
+                hideTrigger={isMobileNav}
+            />
+            <MobileBottomNav onCartClick={() => setIsMobileCartOpen(true)} />
         </section>
     );
 }

@@ -36,7 +36,9 @@ export default function Navbar() {
     };
 
     useEffect(() => {
-        fetch(`${baseURL}/userLogued.php`)
+        fetch(`${baseURL}/userLogued.php`, {
+            credentials: 'include',
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -44,12 +46,11 @@ export default function Navbar() {
                 return response.json();
             })
             .then(data => {
-                setUsuario(data);
+                setUsuario(data?.authenticated ? data : {});
                 setLoading(false);
-                console.log(data);
             })
-            .catch(error => {
-                console.error('Error al obtener datos:', error);
+            .catch(() => {
+                setUsuario({});
                 setLoading(false);
             });
     }, []);
@@ -63,6 +64,7 @@ export default function Navbar() {
                 </Anchor>
 
 
+                {/*
                 <div className='deFLexNavs'>
                     <Favoritos />
                     <InputSerach />
@@ -73,6 +75,7 @@ export default function Navbar() {
                         <span></span>
                     </div>
                 </div>
+                */}
 
                 <Modal
                     isOpen={isOpen}

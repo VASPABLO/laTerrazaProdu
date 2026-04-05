@@ -16,6 +16,31 @@ $contrasena = $_ENV['DB_PASS'];
 $dbname = $_ENV['DB_NAME'];
 $rutaweb = $_ENV['RUTA_WEB'];
 
+function normalizarUrlImagenProducto($imagen, $rutaweb) {
+    $imagen = trim((string)$imagen);
+    if ($imagen === '') {
+        return '';
+    }
+
+    $imagen = str_replace('\\', '/', $imagen);
+    $imagen = str_replace('/./', '/', $imagen);
+
+    if (preg_match('#^https?://#i', $imagen)) {
+        return preg_replace(
+            '#^https?://localhost:8081/imagenes_productos/#i',
+            rtrim($rutaweb, '/') . '/imagenes_productos/',
+            $imagen
+        );
+    }
+
+    $imagen = ltrim($imagen, '/');
+    if (stripos($imagen, 'imagenes_productos/') !== 0) {
+        $imagen = 'imagenes_productos/' . basename($imagen);
+    }
+
+    return rtrim($rutaweb, '/') . '/' . $imagen;
+}
+
 try {
     // Establecer conexión a la base de datos
     $dsn = "mysql:host=$servidor;dbname=$dbname";
@@ -37,9 +62,7 @@ try {
             foreach ($resultado as &$producto) {
                 foreach (['imagen1', 'imagen2', 'imagen3', 'imagen4'] as $campoImagen) {
                     if (!empty($producto[$campoImagen])) {
-                        $imagen = str_replace('/./', '/', $producto[$campoImagen]);
-                        $imagen = preg_replace('#^https?://localhost:8081/imagenes_productos/#', rtrim($rutaweb, '/') . '/imagenes_productos/', $imagen);
-                        $producto[$campoImagen] = $imagen;
+                        $producto[$campoImagen] = normalizarUrlImagenProducto($producto[$campoImagen], $rutaweb);
                     }
                 }
             }

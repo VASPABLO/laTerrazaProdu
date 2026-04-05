@@ -13,6 +13,7 @@ $port = $_ENV['DB_PORT'] ?? '';
 $dbName = $_ENV['DB_NAME'] ?? '';
 $user = $_ENV['DB_USER'] ?? '';
 $pass = $_ENV['DB_PASS'] ?? '';
+$showErrorDetail = (PHP_SAPI === 'cli') || (($_ENV['APP_DEBUG'] ?? '') === 'true');
 
 if ($host === '' || $port === '' || $dbName === '' || $user === '') {
     echo json_encode([
@@ -54,8 +55,7 @@ try {
         'message' => 'No fue posible conectar a la base de datos'
     ];
 
-    // Solo en local se expone el detalle tecnico para diagnostico.
-    if ($isLocal) {
+    if ($showErrorDetail) {
         $payload['error'] = $e->getMessage();
     }
 

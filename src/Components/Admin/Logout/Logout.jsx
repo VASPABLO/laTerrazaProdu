@@ -14,6 +14,7 @@ export default function Logout() {
         try {
             const response = await fetch(`${baseURL}/logout.php`, {
                 method: 'GET',
+                credentials: 'include',
             });
 
             if (response.ok) {
@@ -22,8 +23,8 @@ export default function Logout() {
                     console.log(data.mensaje);
                     toast.success(data.mensaje);
                     setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
+                        navigate('/login');
+                    }, 1200);
                 } else if (data.error) {
                     console.log(data.error);
                     toast.error(data.error);

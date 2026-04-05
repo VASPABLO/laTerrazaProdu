@@ -1,40 +1,79 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './NavbarDashboard.css'
-import { Link as Anchor, useNavigate, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUser, faBook, faImage, faAddressBook, faTachometerAlt, faCode, faTable, faClipboardList, faCashRegister } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../../images/logo.png'
 import Logout from '../Logout/Logout';
+import { Link, useLocation } from 'react-router-dom'
 
-export default function Navbar() {
-    const location = useLocation();
+// ICONOS MODERNOS
+import {
+  HiOutlineHome,
+  HiOutlineClipboardDocumentList,
+  HiOutlineCurrencyDollar,
+  HiOutlineCube,
+  HiOutlineUsers,
+  HiOutlineChartBar,
+  HiOutlineCog6Tooth
+} from 'react-icons/hi2'
 
+export default function NavbarDashboard() {
+  const location = useLocation()
 
-    return (
+  return (
+    <div className="navbarDashboard">
 
-        <div className="navbarDashboard" >
-            <Anchor className='logo'>
-                <img src={logo} alt="logo" />
+      {/* LOGO */}
+      <div className="logo">
+        <img src={require('../../../images/logo1.png')} alt="Logo" className="logoImg" style={{ width: 40, height: 40, borderRadius: 10, objectFit: 'cover' }} />
+        <span>La Terraza</span>
+      </div>
 
-            </Anchor>
-            <div className='links'>
-                <Anchor to={`/dashboard`} className={location.pathname === '/dashboard' ? 'activeLink' : ''}><FontAwesomeIcon icon={faHome} /> Inicio</Anchor>
-                <Anchor to={`/dashboard/mesas`} className={location.pathname === '/dashboard/mesas' ? 'activeLink' : ''}><FontAwesomeIcon icon={faTable} /> Mesas</Anchor>
-                <Anchor to={`/dashboard/pedidos`} className={location.pathname === '/dashboard/pedidos' ? 'activeLink' : ''}><FontAwesomeIcon icon={faClipboardList} /> Pedidos</Anchor>
-                <Anchor to={`/dashboard/cajas`} className={location.pathname === '/dashboard/cajas' ? 'activeLink' : ''}><FontAwesomeIcon icon={faClipboardList} /> Cajas</Anchor>
-                <Anchor to={`/dashboard/pedidos-caja`} className={location.pathname === '/dashboard/pedidos-caja' ? 'activeLink' : ''}><FontAwesomeIcon icon={faCashRegister} /> Pedidos Caja</Anchor>
-                <Anchor to={`/dashboard/productos`} className={location.pathname === '/dashboard/productos' ? 'activeLink' : ''} ><FontAwesomeIcon icon={faBook} /> Productos</Anchor>
-                <Anchor to={`/dashboard/categorias`} className={location.pathname === '/dashboard/categorias' ? 'activeLink' : ''}><FontAwesomeIcon icon={faTachometerAlt} /> Categorias</Anchor>
-                <Anchor to={`/dashboard/banners`} className={location.pathname === '/dashboard/banners' ? 'activeLink' : ''}><FontAwesomeIcon icon={faImage} /> Banners</Anchor>
-                <Anchor to={`/dashboard/contacto`} className={location.pathname === '/dashboard/contacto' ? 'activeLink' : ''}><FontAwesomeIcon icon={faAddressBook} /> Contacto</Anchor>
-                <Anchor to={`/dashboard/usuarios`} className={location.pathname === '/dashboard/usuarios' ? 'activeLink' : ''}><FontAwesomeIcon icon={faUser} /> Usuarios</Anchor>
-                {/* Enlace a Codigos deshabilitado temporalmente */}
-                {/* <Anchor to={`/dashboard/codigos`} className={location.pathname === '/dashboard/codigos' ? 'activeLink' : ''}><FontAwesomeIcon icon={faCode} /> Codigos</Anchor> */}
-            </div>
+      <div className="links">
 
-            <Logout />
+        <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'activeLink' : ''}>
+          <HiOutlineHome /> Inicio
+        </Link>
 
-        </div>
+        <Link to="/dashboard/mesas" className={location.pathname === '/dashboard/mesas' ? 'activeLink' : ''}>
+          <HiOutlineCube /> Mesas
+        </Link>
 
-    );
+        <Link to="/dashboard/pedidos" className={location.pathname === '/dashboard/pedidos' ? 'activeLink' : ''}>
+          <HiOutlineClipboardDocumentList /> Pedidos en el App
+        </Link>
+
+        <Link to="/dashboard/cajas" className={location.pathname === '/dashboard/cajas' ? 'activeLink' : ''}>
+          <HiOutlineCurrencyDollar /> Caja
+        </Link>
+
+        <Link to="/dashboard/pedidos-caja" className={location.pathname === '/dashboard/pedidos-caja' ? 'activeLink' : ''}>
+          <HiOutlineClipboardDocumentList /> Pedidos en Caja
+        </Link>
+
+        <Link to="/dashboard/productos" className={location.pathname === '/dashboard/productos' ? 'activeLink' : ''}>
+          <HiOutlineCube /> Productos
+        </Link>
+
+        <Link to="/dashboard/categorias" className={location.pathname === '/dashboard/categorias' ? 'activeLink' : ''}>
+          <HiOutlineChartBar /> Categorías
+        </Link>
+
+        <Link to="/dashboard/banners" className={location.pathname === '/dashboard/banners' ? 'activeLink' : ''}>
+          <HiOutlineChartBar /> Banners
+        </Link>
+
+        <Link to="/dashboard/contacto" className={location.pathname === '/dashboard/contacto' ? 'activeLink' : ''}>
+          <HiOutlineChartBar /> Contacto
+        </Link>
+
+        <Link to="/dashboard/usuarios" className={location.pathname === '/dashboard/usuarios' ? 'activeLink' : ''}>
+          <HiOutlineUsers /> Usuarios
+        </Link>
+
+      </div>
+
+      {/* Botón de salir al final del navbar, color naranja */}
+      <div style={{ padding: '1rem', textAlign: 'center' }}>
+        <Logout />
+      </div>
+    </div>
+  )
 }

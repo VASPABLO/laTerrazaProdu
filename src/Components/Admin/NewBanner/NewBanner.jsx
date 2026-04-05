@@ -26,6 +26,10 @@ export default function NewBanner() {
 
     const crear = async () => {
         const form = document.getElementById("crearForm");
+        if (!form) {
+            toast.error('No se encontró el formulario.');
+            return;
+        }
         const formData = new FormData(form);
         const resetForm = () => {
             form.reset();
@@ -47,16 +51,31 @@ export default function NewBanner() {
                 body: formData
             });
 
-            const data = await response.json();
-
-            if (data.mensaje) {
+            // Validación defensiva de la respuesta
+            let data = null;
+            try {
+                data = await response.json();
+            } catch (e) {
+                toast.error('Respuesta inválida del servidor.');
                 setMensaje('');
-                resetForm();
-                toast.success(data.mensaje);
-                window.location.reload();
-            } else if (data.error) {
+                return;
+            }
+            if (data && typeof data === 'object') {
+                if (data.mensaje) {
+                    setMensaje('');
+                    resetForm();
+                    toast.success(data.mensaje);
+                    window.location.reload();
+                } else if (data.error) {
+                    setMensaje('');
+                    toast.error(data.error);
+                } else {
+                    setMensaje('');
+                    toast.error('Respuesta inesperada del servidor.');
+                }
+            } else {
                 setMensaje('');
-                toast.error(data.error);
+                toast.error('Respuesta vacía o corrupta del servidor.');
             }
         } catch (error) {
             console.error('Error:', error);

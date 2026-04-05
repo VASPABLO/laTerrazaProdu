@@ -15,12 +15,15 @@ import Pedidos from "./Pedidos/Pedidos";
 import PageDetail from '../Pages/PageDetail/PageDetail';
 import MiPedidoPage from './MiPedido/MiPedidoPage';
 import PedidosCaja from './PedidosCaja/PedidosCaja';
+import Login from '../Components/Admin/Login/Login';
 export const router = createBrowserRouter([
-
+    {
+        path: "/login",
+        element: <Login />,
+    },
     {
         path: "/",
         element: <IndexLayout />,
-
     },
     {
         path: "/",
@@ -36,7 +39,6 @@ export const router = createBrowserRouter([
             },
         ]
     },
-
     {
         path: "/",
         element: <MainLayout />,
@@ -77,8 +79,7 @@ export const router = createBrowserRouter([
                 path: `/dashboard/pedidos`,
                 element: <Pedidos />,
             },
-
-             {
+            {
                 path: `/dashboard/cajas`,
                 element: <Cajas />,
             },
@@ -88,6 +89,4 @@ export const router = createBrowserRouter([
             },
         ],
     },
-
-
 ]);

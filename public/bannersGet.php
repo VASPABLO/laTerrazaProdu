@@ -19,6 +19,31 @@ $dbname = $_ENV['DB_NAME'];
 $rutaweb = $_ENV['RUTA_WEB'];
 $mensaje = "";
 
+function normalizarUrlImagenBanner($imagen, $rutaweb) {
+    $imagen = trim((string)$imagen);
+    if ($imagen === '') {
+        return '';
+    }
+
+    $imagen = str_replace('\\', '/', $imagen);
+    $imagen = str_replace('/./', '/', $imagen);
+
+    if (preg_match('#^https?://#i', $imagen)) {
+        return preg_replace(
+            '#^https?://localhost:8081/imagenes_banners/#i',
+            rtrim($rutaweb, '/') . '/imagenes_banners/',
+            $imagen
+        );
+    }
+
+    $imagen = ltrim($imagen, '/');
+    if (stripos($imagen, 'imagenes_banners/') !== 0) {
+        $imagen = 'imagenes_banners/' . basename($imagen);
+    }
+
+    return rtrim($rutaweb, '/') . '/' . $imagen;
+}
+
 try {
     $dsn = "mysql:host=$servidor;dbname=$dbname";
     $conexion = new PDO($dsn, $usuario, $contrasena);
@@ -32,9 +57,7 @@ try {
 
         foreach ($banners as &$banner) {
             if (!empty($banner['imagen'])) {
-                $imagen = str_replace('/./', '/', $banner['imagen']);
-                $imagen = preg_replace('#^https?://localhost:8081/imagenes_banners/#', rtrim($rutaweb, '/') . '/imagenes_banners/', $imagen);
-                $banner['imagen'] = $imagen;
+                $banner['imagen'] = normalizarUrlImagenBanner($banner['imagen'], $rutaweb);
             }
         }
         unset($banner);

@@ -1,20 +1,32 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExpand } from '@fortawesome/free-solid-svg-icons';
-import './ButonScreen.css'
-export default function ButonScreen() {
-    const [isFullScreen, setFullScreen] = useState(false);
+import { HiOutlineArrowsPointingOut, HiOutlineArrowsPointingIn } from 'react-icons/hi2';
+import './ButonScreen.css';
 
-    const toggleFullScreen = () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().then(() => setFullScreen(true));
-        } else {
-            document.exitFullscreen().then(() => setFullScreen(false));
-        }
-    };
-    return (
-        <button className='FullScreenButton' onClick={toggleFullScreen}>
-            <FontAwesomeIcon icon={faExpand} />
-        </button>
-    )
+export default function ButonScreen() {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (error) {
+      console.error('Error al cambiar pantalla completa:', error);
+    }
+  };
+
+  return (
+    <button
+      className="fullscreenButton"
+      onClick={toggleFullscreen}
+      title={isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
+      type="button"
+    >
+      {isFullscreen ? <HiOutlineArrowsPointingIn /> : <HiOutlineArrowsPointingOut />}
+    </button>
+  );
 }

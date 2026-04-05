@@ -6,11 +6,13 @@ import baseURL from '../url';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
+Modal.setAppElement('#root');
+
 export default function BtnWhatsapp() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [contactos, setContactos] = useState([]);
     const [selectedContact, setSelectedContact] = useState(null);
-    const [noteText, setNoteText] = useState('¡Hola! Estoy interesado en..');
+    const [noteText, setNoteText] = useState('');
 
     useEffect(() => {
         cargarContacto();
@@ -37,15 +39,17 @@ export default function BtnWhatsapp() {
 
     const handleWhatsappMessage = () => {
         if (selectedContact || contactos?.length <= 1) {
-            const phoneNumber = contactos?.length <= 1 ? contactos[0]?.telefono : selectedContact?.telefono;
+            const phoneNumber =
+                contactos?.length <= 1
+                    ? contactos[0]?.telefono
+                    : selectedContact?.telefono;
 
             let noteMessage = '';
             if (noteText.trim() !== '') {
-                noteMessage += `\n ${noteText}`;
+                noteMessage += `\n${noteText}`;
             }
 
             const message = `${noteMessage}`;
-
             const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
 
             window.open(whatsappUrl, '_blank');
@@ -57,7 +61,7 @@ export default function BtnWhatsapp() {
 
     return (
         <div className='containWpp'>
-            <button className='btnWhatsapp' onClick={openModal}>
+            <button className='btnWhatsapp' onClick={openModal} aria-label='Abrir WhatsApp'>
                 <img src={whatsappIcon} alt="whatsappIcon" />
             </button>
 
@@ -68,53 +72,50 @@ export default function BtnWhatsapp() {
                 overlayClassName="overlay-wpp"
             >
                 <div className='containModalWpp'>
-
-
                     <div className='headerWpp'>
-
                         {contactos.length > 1 ? (
-                            <span>
-                                Selecciona un teléfono
-                            </span>
+                            <span>Selecciona un teléfono</span>
                         ) : (
-                            <span>
-                                Envíanos un mensaje
-                            </span>
+                            <span>Envíanos un mensaje</span>
                         )}
-                        <button onClick={closeModal} className='closeBtn'>
-                            X
+
+                        <button onClick={closeModal} className='closeBtn' aria-label='Cerrar'>
+                            ×
                         </button>
                     </div>
+
                     <div className='mensaje'>
-                        <p>Hola, ¿en qué podemos ayudarte? 👋</p>
+                        <p>Hola, somos La Terraza. ¿En qué podemos ayudarte? 👋</p>
                     </div>
 
                     <div className='btnsWpp'>
                         {contactos.length > 1 && (
-                            <div className='btnsWpp'>
+                            <div className='btnsWppList'>
                                 {contactos.map(item => (
                                     <button
                                         key={item.idContacto}
-                                        className='btnWpp'
-                                        style={{ backgroundColor: selectedContact && selectedContact.idContacto === item.idContacto ? 'green' : '' }}
+                                        className={`btnWppContact ${selectedContact && selectedContact.idContacto === item.idContacto ? 'activeWpp' : ''
+                                            }`}
                                         onClick={() => setSelectedContact(item)}
                                     >
-                                        {item.telefono}
+                                        <span>{item.telefono}</span>
                                         <img src={whatsappIcon} alt="whatsappIcon" />
                                     </button>
                                 ))}
                             </div>
                         )}
-
-
                     </div>
+
                     <div className='sendWpp'>
                         <textarea
-                            placeholder="Envíanos un mensaje"
+                            placeholder="Escribe tu mensaje..."
                             value={noteText}
                             onChange={(e) => setNoteText(e.target.value)}
                         />
-                        <button onClick={handleWhatsappMessage}>
+                        <button
+                            onClick={handleWhatsappMessage}
+                            aria-label='Enviar mensaje'
+                        >
                             <FontAwesomeIcon icon={faPaperPlane} />
                         </button>
                     </div>

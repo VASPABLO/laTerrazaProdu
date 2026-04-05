@@ -28,16 +28,31 @@ export default function NewCategoria() {
                 body: formData,
             });
 
-            const data = await response.json();
-
-            if (data.mensaje) {
+            // Validación defensiva de la respuesta
+            let data = null;
+            try {
+                data = await response.json();
+            } catch (e) {
+                toast.error('Respuesta inválida del servidor.');
                 setMensaje('');
-                toast.success(data.mensaje);
-                toggleModal();
-                window.location.reload();
-            } else if (data.error) {
+                return;
+            }
+            if (data && typeof data === 'object') {
+                if (data.mensaje) {
+                    setMensaje('');
+                    toast.success(data.mensaje);
+                    toggleModal();
+                    window.location.reload();
+                } else if (data.error) {
+                    setMensaje('');
+                    toast.error(data.error);
+                } else {
+                    setMensaje('');
+                    toast.error('Respuesta inesperada del servidor.');
+                }
+            } else {
                 setMensaje('');
-                toast.error(data.error);
+                toast.error('Respuesta vacía o corrupta del servidor.');
             }
         } catch (error) {
             console.error('Error:', error);

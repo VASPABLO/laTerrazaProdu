@@ -112,14 +112,23 @@ export default function Products() {
                 </div>
 
                 <div className="productCardBody">
-                    <div className="productCardTitleRow">
-                        <h4 className="productCardTitle">{item?.titulo}</h4>
-                        <span className="productPrice">{moneda} {item?.precio}</span>
+                    <div className="productCardTop">
+                        <div className="productCardTitleBlock">
+                            <h4 className="productCardTitle">{item?.titulo}</h4>
+                            <p className="productCardDescription">{item?.descripcion}</p>
+                        </div>
+
+                        <div className="productCardPriceBlock">
+                            <span className="productPrice">{moneda} {item?.precio}</span>
+                            {formatearPrecioAnteriorVisible(item?.precioAnterior) && (
+                                <span className="productOldPrice">{moneda} {item?.precioAnterior}</span>
+                            )}
+                        </div>
                     </div>
-                    {formatearPrecioAnteriorVisible(item?.precioAnterior) && (
-                        <span className="productOldPrice">{moneda} {item?.precioAnterior}</span>
-                    )}
-                    <p className="productCardDescription">{item?.descripcion}</p>
+
+                    <div className="productCardFooter">
+                        <span className="productCardAction">Ver detalles</span>
+                    </div>
                 </div>
             </Link>
         );
@@ -129,153 +138,148 @@ export default function Products() {
         <section className="ProductsContain" aria-label="Listado de productos">
             <ToastContainer position="top-right" autoClose={2500} />
 
-            {!loading && !error && productos.length > 0 && (
-                <div className="categoriasInputs" ref={categoriasInputRef}>
-                    <button
-                        type="button"
-                        className={`categoryChip ${categoriaSeleccionada === 'Todo' ? 'active' : ''}`}
-                        onClick={() => setCategoriaSeleccionada('Todo')}
-                    >
-                        Todo
-                    </button>
-
-                    {categoriasConProductos.map(({ categoria, idCategoria }) => (
-                        <button
-                            key={idCategoria}
-                            type="button"
-                            className={`categoryChip ${
-                                String(categoriaSeleccionada) === String(idCategoria) ? 'active' : ''
-                            }`}
-                            onClick={() => setCategoriaSeleccionada(idCategoria)}
-                        >
-                            {categoria}
-                        </button>
-                    ))}
-                </div>
-            )}
-
-            {loading ? (
-                <ProductosLoading />
-            ) : error ? (
-                <div className="productsStatus productsError">
-                    <p>No se pudieron cargar los productos.</p>
-                    <button type="button" className="retryBtn" onClick={cargarDatos}>
-                        Reintentar
-                    </button>
-                </div>
-            ) : (
-              
-                <div className="Products">
+            <div className="productsShell">
+                <div className="productsHero">
+                    <div className="productsHeroBadge">Menú del restaurante</div>
                     <h2>Nuestro menú</h2>
-                    {categoriaSeleccionada === 'Todo' && (
-                        <>
-                            {/*
-                            {productosMasVendidos.length > 0 && (
-                               
-                                <div className="categoriSection">
-                                    <div className="deFlexTitlesection">
-                                        <div>
-                                            <h3>Recomendaciones del Chef</h3>
-                                            <p className="sectionSubtitle">Los platos favoritos de nuestros clientes, listos para ti.</p>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            className="seeMoreBtn"
-                                            onClick={() => window.scrollBy({ top: 500, behavior: 'smooth' })}
-                                        >
-                                            Ver todo el menú →
-                                        </button>
-                                    </div>
-
-                                    <Swiper
-                                        modules={[Navigation, Pagination, Autoplay, A11y]}
-                                        spaceBetween={16}
-                                        slidesPerView={1.15}
-                                        navigation
-                                        pagination={{ clickable: true }}
-                                        autoplay={{
-                                            delay: 3500,
-                                            disableOnInteraction: false,
-                                            pauseOnMouseEnter: true,
-                                        }}
-                                        breakpoints={{
-                                            480: { slidesPerView: 1.3 },
-                                            640: { slidesPerView: 2.1 },
-                                            900: { slidesPerView: 3 },
-                                            1200: { slidesPerView: 4 },
-                                        }}
-                                        className="productsSwiper"
-                                    >
-                                        {productosMasVendidos.map((item) => (
-                                            <SwiperSlide key={item.idProducto}>
-                                                <ProductCard item={item} masVendido />
-                                            </SwiperSlide>
-                                        ))}
-                                    </Swiper>
-                                </div>
-                            )}
-                            */}
-
-                            {categoriasConProductos.map(({ categoria, idCategoria }) => {
-                                const productosCategoria = productos.filter(
-                                    (item) => String(item?.idCategoria) === String(idCategoria)
-                                );
-
-                                if (!productosCategoria.length) return null;
-
-                                return (
-                                    <div key={idCategoria} className="categoriSection">
-                                        <div className="deFlexTitlesection">
-                                            <h3>{categoria}</h3>
-                                            <button
-                                                type="button"
-                                                className="seeMoreBtn"
-                                                onClick={() => setCategoriaSeleccionada(idCategoria)}
-                                            >
-                                                   Ver todo el menú →
-                                            </button>
-                                        </div>
-
-                                        <Swiper
-                                            modules={[Navigation, Pagination, A11y]}
-                                            spaceBetween={16}
-                                            slidesPerView={1.15}
-                                            navigation
-                                            breakpoints={{
-                                                480: { slidesPerView: 1.3 },
-                                                640: { slidesPerView: 2.1 },
-                                                900: { slidesPerView: 3 },
-                                                1200: { slidesPerView: 4 },
-                                            }}
-                                            className="productsSwiper"
-                                        >
-                                            {productosCategoria.map((item) => (
-                                                <SwiperSlide key={item.idProducto}>
-                                                    <ProductCard item={item} />
-                                                </SwiperSlide>
-                                            ))}
-                                        </Swiper>
-                                    </div>
-                                );
-                            })}
-                        </>
-                    )}
-
-                    {categoriaSeleccionada !== 'Todo' && (
-                        <div className="categoriSectionSelected">
-                            {productosFiltrados.length > 0 ? (
-                                productosFiltrados.map((item) => (
-                                    <ProductCard key={item.idProducto} item={item} compact />
-                                ))
-                            ) : (
-                                <div className="productsStatus productsEmpty">
-                                    <p>No hay productos en esta categoría.</p>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                    <p className="productsHeroText">
+                        Descubre nuestros platos, bebidas y especialidades en un espacio visual más claro,
+                        moderno y fácil de recorrer.
+                    </p>
                 </div>
-            )}
+
+                {!loading && !error && productos.length > 0 && (
+                    <div className="categoriasInputs" ref={categoriasInputRef}>
+                        <button
+                            type="button"
+                            className={`categoryChip ${categoriaSeleccionada === 'Todo' ? 'active' : ''}`}
+                            onClick={() => setCategoriaSeleccionada('Todo')}
+                        >
+                            Todo
+                        </button>
+
+                        {categoriasConProductos.map(({ categoria, idCategoria }) => (
+                            <button
+                                key={idCategoria}
+                                type="button"
+                                className={`categoryChip ${
+                                    String(categoriaSeleccionada) === String(idCategoria) ? 'active' : ''
+                                }`}
+                                onClick={() => setCategoriaSeleccionada(idCategoria)}
+                            >
+                                {categoria}
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                {loading ? (
+                    <ProductosLoading />
+                ) : error ? (
+                    <div className="productsStatus productsError">
+                        <div className="statusIcon">⚠</div>
+                        <p>No se pudieron cargar los productos.</p>
+                        <button type="button" className="retryBtn" onClick={cargarDatos}>
+                            Reintentar
+                        </button>
+                    </div>
+                ) : (
+                    <div className="Products">
+                        {categoriaSeleccionada === 'Todo' && (
+                            <>
+                                {categoriasConProductos.map(({ categoria, idCategoria }) => {
+                                    const productosCategoria = productos.filter(
+                                        (item) => String(item?.idCategoria) === String(idCategoria)
+                                    );
+
+                                    if (!productosCategoria.length) return null;
+
+                                    return (
+                                        <div key={idCategoria} className="categoriSection">
+                                            <div className="deFlexTitlesection">
+                                                <div className="sectionHeading">
+                                                    <h3>{categoria}</h3>
+                                                    <p className="sectionSubtitle">
+                                                        Explora las opciones disponibles en esta categoría.
+                                                    </p>
+                                                </div>
+
+                                                <button
+                                                    type="button"
+                                                    className="seeMoreBtn"
+                                                    onClick={() => setCategoriaSeleccionada(idCategoria)}
+                                                >
+                                                    Ver todo →
+                                                </button>
+                                            </div>
+
+                                            <Swiper
+                                                modules={[Navigation, Pagination, A11y]}
+                                                spaceBetween={16}
+                                                slidesPerView={1.15}
+                                                navigation
+                                                breakpoints={{
+                                                    480: { slidesPerView: 1.3 },
+                                                    640: { slidesPerView: 2.1 },
+                                                    900: { slidesPerView: 3 },
+                                                    1200: { slidesPerView: 4 },
+                                                }}
+                                                className="productsSwiper"
+                                            >
+                                                {productosCategoria.map((item) => (
+                                                    <SwiperSlide key={item.idProducto}>
+                                                        <ProductCard item={item} />
+                                                    </SwiperSlide>
+                                                ))}
+                                            </Swiper>
+                                        </div>
+                                    );
+                                })}
+                            </>
+                        )}
+
+                        {categoriaSeleccionada !== 'Todo' && (
+                            <div className="selectedCategoryBlock">
+                                <div className="selectedCategoryHeader">
+                                    <div>
+                                        <h3 className="selectedCategoryTitle">
+                                            {
+                                                categoriasConProductos.find(
+                                                    (cat) => String(cat.idCategoria) === String(categoriaSeleccionada)
+                                                )?.categoria || 'Categoría'
+                                            }
+                                        </h3>
+                                        <p className="sectionSubtitle">
+                                            Visualiza todos los productos disponibles en esta sección.
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        className="seeMoreBtn"
+                                        onClick={() => setCategoriaSeleccionada('Todo')}
+                                    >
+                                        Volver al menú →
+                                    </button>
+                                </div>
+
+                                <div className="categoriSectionSelected">
+                                    {productosFiltrados.length > 0 ? (
+                                        productosFiltrados.map((item) => (
+                                            <ProductCard key={item.idProducto} item={item} compact />
+                                        ))
+                                    ) : (
+                                        <div className="productsStatus productsEmpty">
+                                            <div className="statusIcon">🍽</div>
+                                            <p>No hay productos en esta categoría.</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
         </section>
     );
 }

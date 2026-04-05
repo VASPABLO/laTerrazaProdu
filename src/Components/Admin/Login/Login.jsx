@@ -24,26 +24,39 @@ export default function Login() {
             const response = await fetch(`${baseURL}/login.php`, {
                 method: 'POST',
                 body: formData,
+                credentials: 'include',
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                if (data.mensaje) {
-                    console.log(data.mensaje);
-                    toast.success(data.mensaje);
-                    setTimeout(() => {
-                        window.location.reload();
+            const data = await response.json();
 
-                    }, 2000);
+            if (!response.ok) {
+                throw new Error(data?.error || 'Error en la solicitud al servidor');
+            }
 
-                } else if (data.error) {
-                    setErrorMessage(data.error);
-                    console.log(data.error);
-                    toast.error(data.error);
+            if (data.mensaje) {
+                console.log(data.mensaje);
+                toast.success(data.mensaje);
+
+                // Verifica sesion activa antes de navegar para evitar rebote al login.
+                const authResponse = await fetch(`${baseURL}/userLogued.php`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+                const authData = await authResponse.json();
+
+                if (!authResponse.ok || !authData?.authenticated || authData?.rol !== 'admin') {
+                    throw new Error('No se pudo confirmar la sesion activa.');
                 }
-            } else {
-                throw new Error('Error en la solicitud al servidor');
 
+                setTimeout(() => {
+                    navigate('/dashboard', { replace: true });
+
+                }, 2000);
+
+            } else if (data.error) {
+                setErrorMessage(data.error);
+                console.log(data.error);
+                toast.error(data.error);
             }
         } catch (error) {
             console.error('Error:', error.message);

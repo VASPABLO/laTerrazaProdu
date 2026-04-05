@@ -1,134 +1,135 @@
 <?php
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
+header('Content-Type: application/json; charset=utf-8');
 
-// Forzar HTTPS fuera de entorno local para proteger credenciales en tránsito.
-$isLocalHost = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1', '::1'], true)
-    || in_array($_SERVER['SERVER_NAME'] ?? '', ['localhost', '127.0.0.1', '::1'], true);
-$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    || (($_SERVER['SERVER_PORT'] ?? '') === '443')
-    || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
-
-if (!$isLocalHost && !$isHttps) {
-    http_response_code(400);
-    echo json_encode(["error" => "HTTPS requerido. Usa una conexión segura."]);
-    exit();
-}
-
-if (!$isLocalHost) {
-    header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
-}
-// Cargar variables de entorno desde el archivo .env
-require __DIR__.'/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Obtener los valores de las variables de entorno
-$servidor = $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'];
-$usuario = $_ENV['DB_USER'];
-$contrasena = $_ENV['DB_PASS'];
-$dbname = $_ENV['DB_NAME'];
+$rutaWeb = rtrim($_ENV['RUTA_WEB'] ?? '', '/');
+$parsed = parse_url($rutaWeb);
+$allowedOrigins = [];
+if (!empty($parsed['scheme']) && !empty($parsed['host'])) {
+    $baseOrigin = $parsed['scheme'] . '://' . $parsed['host'];
+    $allowedOrigins[] = $baseOrigin;
 
-$mensajeLogin = "";
+    $host = $parsed['host'];
+    if (strpos($host, 'www.') === 0) {
+        $allowedOrigins[] = $parsed['scheme'] . '://' . substr($host, 4);
+    } else {
+        $allowedOrigins[] = $parsed['scheme'] . '://www.' . $host;
+    }
+}
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin !== '' && in_array($origin, $allowedOrigins, true)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Access-Control-Allow-Credentials: true');
+} elseif (!empty($allowedOrigins)) {
+    header('Access-Control-Allow-Origin: ' . $allowedOrigins[0]);
+}
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'OPTIONS') {
+    http_response_code(204);
+    exit();
+}
+
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (($_SERVER['SERVER_PORT'] ?? '') === '443')
+    || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+
+$isProduction = !empty($allowedOrigins) && strpos($allowedOrigins[0], 'https://') === 0;
+$requestHost = $_SERVER['HTTP_HOST'] ?? '';
+$requestOrigin = $requestHost !== ''
+    ? (($isHttps ? 'https' : 'http') . '://' . $requestHost)
+    : '';
+$isCrossOriginRequest = $origin !== '' && $requestOrigin !== '' && $origin !== $requestOrigin;
+
+if ($isProduction && !$isHttps) {
+    http_response_code(400);
+    echo json_encode(['error' => 'HTTPS requerido. Usa una conexión segura.']);
+    exit();
+}
+
+if ($isHttps) {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Metodo no permitido']);
+    exit();
+}
+
+$emailLogin = trim($_POST['email'] ?? '');
+$contrasenaLogin = (string)($_POST['contrasena'] ?? '');
+
+if ($emailLogin === '' || $contrasenaLogin === '') {
+    http_response_code(400);
+    echo json_encode(['error' => 'Email y contrasena son obligatorios']);
+    exit();
+}
+
+$dbHost = $_ENV['DB_HOST'] ?? '';
+$dbPort = $_ENV['DB_PORT'] ?? '';
+$dbName = $_ENV['DB_NAME'] ?? '';
+$dbUser = $_ENV['DB_USER'] ?? '';
+$dbPass = $_ENV['DB_PASS'] ?? '';
 
 try {
-    $dsn = "mysql:host=$servidor;dbname=$dbname";
-    $conexion = new PDO($dsn, $usuario, $contrasena);
+    $dsn = "mysql:host={$dbHost};port={$dbPort};dbname={$dbName};charset=utf8mb4";
+    $conexion = new PDO($dsn, $dbUser, $dbPass);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    /*
-    Bloque de autenticacion/autorizacion original deshabilitado para desarrollo local.
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $emailLogin = $_POST['email'];
-        $contrasenaLogin = $_POST['contrasena'];
+    $sql = 'SELECT idUsuario, nombre, email, contrasena, rol FROM usuarios WHERE email = :email LIMIT 1';
+    $stmt = $conexion->prepare($sql);
+    $stmt->bindParam(':email', $emailLogin);
+    $stmt->execute();
 
-        // Verificar las credenciales del usuario
-        $sqlCheckCredenciales = "SELECT idUsuario, nombre, email, contrasena, rol FROM `usuarios` WHERE email = :email";
-        $stmtCheckCredenciales = $conexion->prepare($sqlCheckCredenciales);
-        $stmtCheckCredenciales->bindParam(':email', $emailLogin);
-        $stmtCheckCredenciales->execute();
-
-        if ($stmtCheckCredenciales->rowCount() > 0) {
-            $row = $stmtCheckCredenciales->fetch(PDO::FETCH_ASSOC);
-            $contrasenaHash = $row['contrasena'];
-
-            if (password_verify($contrasenaLogin, $contrasenaHash)) {
-                // Iniciar sesión solo si el rol es 'admin'
-                if ($row['rol'] == 'admin') {
-                    session_start();
-                    $_SESSION['usuario_id'] = $row['idUsuario'];
-                    $_SESSION['rol'] = $row['rol'];
-
-                    // Añadir nombre y email al array del usuario
-                    $usuario = [
-                        "idUsuario" => $row['idUsuario'],
-                        "nombre" => $row['nombre'],
-                        "email" => $row['email'],
-                    ];
-
-                    echo json_encode(["mensaje" => "Inicio de sesión exitoso como administrador", "redirect" => "dashboard.php", "usuario" => $usuario]);
-                } else {
-                    echo json_encode(["error" => "No tienes permisos para acceder"]);
-                }
-                exit();
-            } else {
-                echo json_encode(["error" => "Contraseña incorrecta"]);
-            }
-        } else {
-            echo json_encode(["error" => "Usuario no encontrado"]);
-        }
-    } else {
-        echo json_encode(["error" => "Método no permitido"]);
-    }
-    */
-
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        echo json_encode(["error" => "Método no permitido"]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$row) {
+        echo json_encode(['error' => 'Usuario no encontrado']);
         exit();
     }
 
-    $emailLogin = isset($_POST['email']) ? $_POST['email'] : '';
-
-    // Modo local: sin validacion de contraseña y sin validacion de rol.
-    $sqlUsuarioLocal = "SELECT idUsuario, nombre, email, rol FROM `usuarios` WHERE email = :email LIMIT 1";
-    $stmtUsuarioLocal = $conexion->prepare($sqlUsuarioLocal);
-    $stmtUsuarioLocal->bindParam(':email', $emailLogin);
-    $stmtUsuarioLocal->execute();
-
-    if ($stmtUsuarioLocal->rowCount() === 0) {
-        echo json_encode(["error" => "Usuario no encontrado"]);
+    if (!password_verify($contrasenaLogin, $row['contrasena'])) {
+        echo json_encode(['error' => 'Contrasena incorrecta']);
         exit();
     }
 
-    $row = $stmtUsuarioLocal->fetch(PDO::FETCH_ASSOC);
+    if (($row['rol'] ?? '') !== 'admin') {
+        echo json_encode(['error' => 'No tienes permisos para acceder']);
+        exit();
+    }
 
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
         'domain' => '',
-        'secure' => !$isLocalHost,
+        'secure' => $isHttps || $isCrossOriginRequest,
         'httponly' => true,
-        'samesite' => 'Lax'
+        'samesite' => $isCrossOriginRequest ? 'None' : 'Lax'
     ]);
+
     session_start();
     $_SESSION['usuario_id'] = $row['idUsuario'];
     $_SESSION['rol'] = $row['rol'];
 
-    $usuario = [
-        "idUsuario" => $row['idUsuario'],
-        "nombre" => $row['nombre'],
-        "email" => $row['email'],
-        "rol" => $row['rol']
-    ];
-
     echo json_encode([
-        "mensaje" => "Inicio de sesión local (sin autenticación)",
-        "redirect" => "dashboard.php",
-        "usuario" => $usuario
+        'mensaje' => 'Inicio de sesion exitoso como administrador',
+        'redirect' => 'dashboard.php',
+        'usuario' => [
+            'idUsuario' => $row['idUsuario'],
+            'nombre' => $row['nombre'],
+            'email' => $row['email'],
+            'rol' => $row['rol']
+        ]
     ]);
 } catch (PDOException $error) {
-    echo json_encode(["error" => "Error de conexión: " . $error->getMessage()]);
+    http_response_code(500);
+    echo json_encode(['error' => 'Error de conexion']);
 }
 ?>

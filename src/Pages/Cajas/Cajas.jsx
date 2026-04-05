@@ -35,7 +35,9 @@ export default function Cajas() {
         setLoading(true);
         setMensaje('');
         try {
-            const userResponse = await fetch(`${baseURL}/userLogued.php`);
+            const userResponse = await fetch(`${baseURL}/userLogued.php`, {
+                credentials: 'include',
+            });
             const userData = await userResponse.json();
             const idUsuario = Number(userData?.idUsuario) || 1;
             const nombreUsuario = userData?.nombre || 'Usuario';
@@ -55,7 +57,9 @@ export default function Cajas() {
 
     const cargarPedidosCaja = async (idUsuarioActual) => {
         try {
-            const response = await fetch(`${baseURL}/pedidoCajaGet.php?idUsuario=${idUsuarioActual}`);
+            const response = await fetch(`${baseURL}/pedidoCajaGet.php?idUsuario=${idUsuarioActual}`, {
+                credentials: 'include',
+            });
             const data = await response.json();
             setPedidosCaja(data?.pedidosCaja || []);
         } catch (error) {
@@ -65,7 +69,9 @@ export default function Cajas() {
     };
 
     const cargarEstadoCaja = async (idUsuarioActual) => {
-        const estadoResponse = await fetch(`${baseURL}/cajaEstadoGet.php?idUsuario=${idUsuarioActual}`);
+        const estadoResponse = await fetch(`${baseURL}/cajaEstadoGet.php?idUsuario=${idUsuarioActual}`, {
+            credentials: 'include',
+        });
         const estadoData = await estadoResponse.json();
         if (estadoData?.abierta && estadoData?.caja) {
             setCaja(estadoData.caja);

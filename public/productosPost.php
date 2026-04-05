@@ -25,25 +25,26 @@ try {
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
         // Campos obligatorios
-        $titulo = $_POST['titulo'] ?? '';
-        $precio = $_POST['precio'] ?? '';
-        $idCategoria = $_POST['idCategoria'] ?? '';
-        $masVendido = $_POST['masVendido'] ?? 'no';
+        $titulo = isset($_POST['titulo']) && trim($_POST['titulo']) !== '' ? $_POST['titulo'] : null;
+        $precio = isset($_POST['precio']) && trim($_POST['precio']) !== '' ? $_POST['precio'] : null;
+        $idCategoria = isset($_POST['idCategoria']) && trim($_POST['idCategoria']) !== '' ? $_POST['idCategoria'] : null;
+        $masVendido = isset($_POST['masVendido']) && trim($_POST['masVendido']) !== '' ? $_POST['masVendido'] : 'no';
 
         // Campos opcionales
-        $descripcion = $_POST['descripcion'] ?? '';
-        $precioAnterior = $_POST['precioAnterior'] ?? 0;
-        $item1 = $_POST['item1'] ?? '';
-        $item2 = $_POST['item2'] ?? '';
-        $item3 = $_POST['item3'] ?? '';
-        $item4 = $_POST['item4'] ?? '';
-        $item5 = $_POST['item5'] ?? '';
-        $item6 = $_POST['item6'] ?? '';
-        $item7 = $_POST['item7'] ?? '';
-        $item8 = $_POST['item8'] ?? '';
-        $item9 = $_POST['item9'] ?? '';
-        $item10 = $_POST['item10'] ?? '';
+        $descripcion = isset($_POST['descripcion']) && trim($_POST['descripcion']) !== '' ? $_POST['descripcion'] : null;
+        $precioAnterior = isset($_POST['precioAnterior']) && trim($_POST['precioAnterior']) !== '' ? $_POST['precioAnterior'] : null;
+        $item1 = isset($_POST['item1']) && trim($_POST['item1']) !== '' ? $_POST['item1'] : null;
+        $item2 = isset($_POST['item2']) && trim($_POST['item2']) !== '' ? $_POST['item2'] : null;
+        $item3 = isset($_POST['item3']) && trim($_POST['item3']) !== '' ? $_POST['item3'] : null;
+        $item4 = isset($_POST['item4']) && trim($_POST['item4']) !== '' ? $_POST['item4'] : null;
+        $item5 = isset($_POST['item5']) && trim($_POST['item5']) !== '' ? $_POST['item5'] : null;
+        $item6 = isset($_POST['item6']) && trim($_POST['item6']) !== '' ? $_POST['item6'] : null;
+        $item7 = isset($_POST['item7']) && trim($_POST['item7']) !== '' ? $_POST['item7'] : null;
+        $item8 = isset($_POST['item8']) && trim($_POST['item8']) !== '' ? $_POST['item8'] : null;
+        $item9 = isset($_POST['item9']) && trim($_POST['item9']) !== '' ? $_POST['item9'] : null;
+        $item10 = isset($_POST['item10']) && trim($_POST['item10']) !== '' ? $_POST['item10'] : null;
 
         // Validar campos obligatorios
         if (empty($titulo) || empty($precio) || empty($idCategoria)) {

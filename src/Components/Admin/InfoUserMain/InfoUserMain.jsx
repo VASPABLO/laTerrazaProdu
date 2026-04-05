@@ -8,7 +8,9 @@ export default function InfoUserMain() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${baseURL}/userLogued.php`)
+        fetch(`${baseURL}/userLogued.php`, {
+            credentials: 'include',
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -16,12 +18,11 @@ export default function InfoUserMain() {
                 return response.json();
             })
             .then(data => {
-                setUsuario(data);
+                setUsuario(data?.authenticated ? data : {});
                 setLoading(false);
-                console.log(data)
             })
-            .catch(error => {
-                console.error('Error al obtener datos:', error);
+            .catch(() => {
+                setUsuario({});
                 setLoading(false);
             });
     }, []);

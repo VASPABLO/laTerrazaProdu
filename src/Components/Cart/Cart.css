@@ -375,7 +375,7 @@
 .cartIconFixed {
     position: fixed;
     bottom: 50px;
-    left: 92%;
+    right: 24px;
     width: 2.5rem;
     height: 2.5rem;
     border: none;
@@ -385,7 +385,7 @@
     justify-content: center;
     align-items: center;
     font-size: 1.05rem;
-    z-index: 2;
+    z-index: 1200;
     color: #fff;
     background: linear-gradient(145deg, #ff6b35 0%, #d95d2f 100%);
     box-shadow: 0 12px 30px rgba(217, 93, 47, 0.35);
@@ -419,8 +419,8 @@
     }
 
     .cartIconFixed {
-        bottom: 30px;
-        left: 80%;
+        bottom: 24px;
+        right: 16px;
     }
 
     .mesasGrapCart {
@@ -429,5 +429,376 @@
 
     .deColumnCart h4 {
         font-size: 0.95rem;
+    }
+}
+
+/* ── Overlay ─────────────────────────────────────────── */
+.cartDrawerOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ── Drawer panel ─────────────────────────────────────── */
+.cartDrawer {
+    width: min(460px, 100vw);
+    height: 100vh;
+    background: #ffffff;
+    color: #111827;
+    outline: none;
+    border: none;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+}
+
+.cartDrawer__container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #f3f4f6;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.cartDrawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1rem 1.2rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cartDrawer__backButton {
+    border: none;
+    background: transparent;
+    color: #374151;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    padding: 0.25rem;
+}
+
+.cartDrawer__clearButton {
+    border: 1px solid #fca5a5;
+    background: #fff1f2;
+    color: #dc2626;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.35rem 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    white-space: nowrap;
+}
+
+.cartDrawer__clearButton:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.cartDrawer__titleWrap h2 {
+    color: #111827;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.cartDrawer__titleWrap p {
+    color: #6b7280;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+/* ── Step tabs ────────────────────────────────────────── */
+.cartDrawer__steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem 1.2rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cartDrawer__stepButton {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.cartDrawer__stepButton.is-active {
+    border-color: #065f46;
+    background: #065f46;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.cartDrawer__stepButton:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+/* ── Loading / Empty ──────────────────────────────────── */
+.cartDrawer__loading,
+.cartDrawer__empty {
+    margin: auto;
+    text-align: center;
+    color: #6b7280;
+    padding: 2rem;
+}
+
+.cartDrawer__empty h3 {
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.cartDrawer__empty button {
+    margin-top: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    background: #ff6b35;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ── Product list ─────────────────────────────────────── */
+.cartDrawer__list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.75rem 1rem 1rem;
+}
+
+.cartDrawer__productCard {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 0.65rem;
+    padding: 0.75rem;
+    margin-bottom: 0.6rem;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.cartDrawer__productImage img {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.cartDrawer__productInfo h4 {
+    color: #111827;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.cartDrawer__productInfo p {
+    color: #6b7280;
+    font-size: 0.78rem;
+    margin: 0.15rem 0;
+}
+
+.cartDrawer__productInfo strong {
+    color: #ff6b35;
+    font-size: 0.9rem;
+}
+
+.cartDrawer__productActions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.cartDrawer__removeButton {
+    border: none;
+    background: transparent;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.cartDrawer__qtyControl {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.cartDrawer__qtyControl button {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    color: #374151;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cartDrawer__qtyControl span {
+    color: #111827;
+    font-weight: 600;
+    min-width: 1.2ch;
+    text-align: center;
+}
+
+/* ── Summary footer ───────────────────────────────────── */
+.cartDrawer__summary {
+    padding: 1rem 1.2rem;
+    border-top: 1px solid #e5e7eb;
+    background: #ffffff;
+}
+
+.cartDrawer__summaryTotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.9rem;
+    font-size: 1rem;
+    color: #111827;
+}
+
+.cartDrawer__summaryTotal strong {
+    font-size: 1.1rem;
+    color: #111827;
+}
+
+/* ── Buttons ──────────────────────────────────────────── */
+.cartDrawer__checkoutButton,
+.cartDrawer__submitButton {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #fff;
+    background: linear-gradient(90deg, #ff6b35 0%, #d95d2f 100%);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.45rem;
+    transition: filter 0.15s;
+}
+
+.cartDrawer__checkoutButton:hover,
+.cartDrawer__submitButton:hover {
+    filter: brightness(1.06);
+}
+
+.cartDrawer__checkoutButton img {
+    width: 18px;
+}
+
+/* ── Checkout form ────────────────────────────────────── */
+.cartDrawer__checkout {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.8rem 1rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.cartDrawer__section {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem 1rem 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.cartDrawer__section h4 {
+    color: #111827;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.65rem;
+}
+
+.cartDrawer__fieldGrid {
+    display: grid;
+    gap: 0.6rem;
+}
+
+/* Inputs de texto — excluye radio/checkbox */
+.cartDrawer__checkout input:not([type="radio"]):not([type="checkbox"]),
+.cartDrawer__checkout textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0.65rem 0.8rem;
+    background: #f9fafb;
+    color: #111827;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.cartDrawer__checkout input:not([type="radio"]):not([type="checkbox"]):focus,
+.cartDrawer__checkout textarea:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+}
+
+.cartDrawer__checkout textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Radio buttons */
+.cartDrawer__radioGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-bottom: 0.6rem;
+}
+
+.cartDrawer__radioGroup label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #374151;
+    font-size: 0.88rem;
+    cursor: pointer;
+}
+
+.cartDrawer__radioGroup input[type="radio"] {
+    accent-color: #ff6b35;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* Help text */
+.cartDrawer__helpText {
+    margin-top: 0.75rem;
+    color: #6b7280;
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+    .cartDrawer {
+        width: 100vw;
     }
 }

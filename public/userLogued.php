@@ -1,65 +1,88 @@
 <?php
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); // Permitir solicitudes desde cualquier origen (no seguro para producción)
+header('Content-Type: application/json; charset=utf-8');
 
-// Cargar variables de entorno desde el archivo .env
-require __DIR__.'/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Obtener los valores de las variables de entorno
-$servidor = $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'];
-$usuario = $_ENV['DB_USER'];
-$contrasena = $_ENV['DB_PASS'];
-$dbname = $_ENV['DB_NAME'];
+$rutaWeb = rtrim($_ENV['RUTA_WEB'] ?? '', '/');
+$parsed = parse_url($rutaWeb);
+$allowedOrigins = [];
+if (!empty($parsed['scheme']) && !empty($parsed['host'])) {
+    $baseOrigin = $parsed['scheme'] . '://' . $parsed['host'];
+    $allowedOrigins[] = $baseOrigin;
 
+    $host = $parsed['host'];
+    if (strpos($host, 'www.') === 0) {
+        $allowedOrigins[] = $parsed['scheme'] . '://' . substr($host, 4);
+    } else {
+        $allowedOrigins[] = $parsed['scheme'] . '://www.' . $host;
+    }
+}
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin !== '' && in_array($origin, $allowedOrigins, true)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Access-Control-Allow-Credentials: true');
+} elseif (!empty($allowedOrigins)) {
+    header('Access-Control-Allow-Origin: ' . $allowedOrigins[0]);
+}
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'OPTIONS') {
+    http_response_code(204);
+    exit();
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Metodo no permitido']);
+    exit();
+}
+
+$dbHost = $_ENV['DB_HOST'] ?? '';
+$dbPort = $_ENV['DB_PORT'] ?? '';
+$dbName = $_ENV['DB_NAME'] ?? '';
+$dbUser = $_ENV['DB_USER'] ?? '';
+$dbPass = $_ENV['DB_PASS'] ?? '';
 
 try {
-    // Establecer conexión a la base de datos
-    $dsn = "mysql:host=$servidor;dbname=$dbname";
-    $conexion = new PDO($dsn, $usuario, $contrasena);
+    $dsn = "mysql:host={$dbHost};port={$dbPort};dbname={$dbName};charset=utf8mb4";
+    $conexion = new PDO($dsn, $dbUser, $dbPass);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Verificar la sesión del usuario
     session_start();
     if (!isset($_SESSION['usuario_id'])) {
-        echo json_encode(["error" => "Usuario no autenticado"]);
+        echo json_encode([
+            'authenticated' => false,
+            'usuario' => null,
+        ]);
         exit();
     }
 
-    // Obtener el ID del usuario desde la sesión
-    $usuarioId = $_SESSION['usuario_id'];
+    $usuarioId = (int)$_SESSION['usuario_id'];
+    $sql = 'SELECT idUsuario, nombre, email, rol FROM usuarios WHERE idUsuario = :idUsuario LIMIT 1';
+    $stmtUsuario = $conexion->prepare($sql);
+    $stmtUsuario->bindParam(':idUsuario', $usuarioId, PDO::PARAM_INT);
+    $stmtUsuario->execute();
 
-    // Consulta SQL para obtener datos del usuario sin la imagen
-    $sqlSelectUsuario = "SELECT idUsuario, nombre, email, rol FROM `usuarios` WHERE idUsuario = :idUsuario";
-    $stmtUsuario = $conexion->prepare($sqlSelectUsuario);
-    $stmtUsuario->bindParam(':idUsuario', $usuarioId);
-
-    if ($stmtUsuario->execute()) {
-        // Verificar si hay resultados
-        if ($stmtUsuario->rowCount() > 0) {
-            // Obtener resultados
-            $resultadoUsuario = $stmtUsuario->fetch(PDO::FETCH_ASSOC);
-
-            // Imprimir datos del usuario en formato JSON
-            echo json_encode($resultadoUsuario);
-        } else {
-            echo json_encode(["error" => "Usuario no encontrado"]);
-        }
-    } else {
-        // Imprimir mensaje de error si la ejecución de la consulta falla
-        echo json_encode(["error" => "Error al ejecutar la consulta SQL: " . implode(", ", $stmtUsuario->errorInfo())]);
+    $resultadoUsuario = $stmtUsuario->fetch(PDO::FETCH_ASSOC);
+    if (!$resultadoUsuario) {
+        echo json_encode([
+            'authenticated' => false,
+            'usuario' => null,
+        ]);
+        exit();
     }
+
+    echo json_encode(array_merge([
+        'authenticated' => true,
+    ], $resultadoUsuario));
 } catch (PDOException $error) {
-    // Manejar errores específicos de la conexión
-    echo json_encode(["error" => "Error de conexión: " . $error->getMessage()]);
-} catch (Exception $error) {
-    // Manejar otros tipos de errores
-    echo json_encode(["error" => "Error desconocido: " . $error->getMessage()]);
-} finally {
-    // Cerrar la conexión a la base de datos
-    $conexion = null;
+    http_response_code(500);
+    echo json_encode(['error' => 'Error de conexion']);
 }
 ?>

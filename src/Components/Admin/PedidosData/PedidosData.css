@@ -1,73 +1,121 @@
-.cardsProductData{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 2rem;
-    margin-top: 1rem;
+/* Variables y estilos modernos para pedidos */
+:root {
+    --pedidos-bg: #0b0f17;
+    --pedidos-panel: rgba(17, 24, 39, 0.94);
+    --pedidos-panel-2: rgba(20, 28, 43, 0.92);
+    --pedidos-border: rgba(255, 255, 255, 0.08);
+    --pedidos-text: #f8fafc;
+    --pedidos-accent: #ff6b35;
+    --pedidos-accent-2: #ff8a45;
+    --pedidos-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    --pedidos-radius-xl: 28px;
+    --pedidos-radius-lg: 22px;
+    --pedidos-radius-md: 16px;
+    --pedidos-radius-sm: 12px;
 }
 
-.cardProductData{
+.cardsProductData {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.cardProductData {
     min-width: 18rem;
     width: 47%;
     display: flex;
-    gap: 10px;
+    gap: 18px;
     align-items: center;
-    border-radius: 10px;
-    background-color: var(--blanco);
+    border-radius: var(--pedidos-radius-lg);
+    background: linear-gradient(135deg, rgba(24, 32, 48, 0.95), rgba(13, 18, 28, 0.95));
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    border: 1px solid var(--pedidos-border);
+    color: var(--pedidos-text);
+    padding: 1.2rem 1rem;
+    transition: box-shadow 0.2s;
 }
-.cardProductData img{
+.cardProductData:hover {
+    box-shadow: 0 16px 32px rgba(255, 107, 53, 0.18);
+    border-color: var(--pedidos-accent);
+}
+.cardProductData img {
     width: 5rem;
     height: 5rem;
-    border-radius: 10px;
+    border-radius: var(--pedidos-radius-md);
     object-fit: cover;
-    background-image: var(--gris);
-}
-.cardProductDataText{
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-   
-}
-.cardProductDataText h3{
-    color: var(--text-color2);
-    font-weight: 500;
-}
-.cardProductDataText h5{
-    color: var(--text-color2);
-    font-weight: 500;
-    font-size: 11px;
-}
-.cardProductDataText span{
-    color: var(--text-color2);
-    font-weight: 500;
-    font-size: 13px;
-}
-.cardProductDataText strong{
-    font-weight: 500;
-    color: var(--color1);
-    font-size: 15px;
-}
-.cardProductDataText strong span{
-    padding-left: 2rem;
-    color: var(--color1);
-    font-size: 15px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--pedidos-border);
 }
 
+.cardProductDataText {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.cardProductDataText h3 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0;
+}
+.cardProductDataText h5 {
+    color: var(--pedidos-text);
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin: 0;
+}
+.cardProductDataText span {
+    color: var(--pedidos-text);
+    font-weight: 500;
+    font-size: 0.98rem;
+}
+.cardProductDataText strong {
+    font-weight: 700;
+    color: var(--pedidos-accent);
+    font-size: 1.05rem;
+}
+.cardProductDataText strong span {
+    padding-left: 2rem;
+    color: var(--pedidos-accent-2);
+    font-size: 1.05rem;
+}
+
+
+/* Estados visuales modernos */
 .pendiente {
-    background-color: yellow!important;
-  }
-  
-  .cancelado {
-    background-color: red!important;;
-  }
-  
-  .entregado {
-    background-color: blue!important;
-  }
-  
-  .pagado {
-    background-color: green!important;
-  }
+        background: linear-gradient(90deg, #f59e0b 60%, #fbbf24 100%)!important;
+        color: #fff!important;
+        border-radius: 8px;
+        padding: 0.2rem 0.7rem;
+        font-weight: 700;
+        font-size: 0.98rem;
+}
+.cancelado {
+        background: linear-gradient(90deg, #ef4444 60%, #f87171 100%)!important;
+        color: #fff!important;
+        border-radius: 8px;
+        padding: 0.2rem 0.7rem;
+        font-weight: 700;
+        font-size: 0.98rem;
+}
+.entregado {
+        background: linear-gradient(90deg, #2563eb 60%, #60a5fa 100%)!important;
+        color: #fff!important;
+        border-radius: 8px;
+        padding: 0.2rem 0.7rem;
+        font-weight: 700;
+        font-size: 0.98rem;
+}
+.pagado {
+        background: linear-gradient(90deg, #22c55e 60%, #4ade80 100%)!important;
+        color: #fff!important;
+        border-radius: 8px;
+        padding: 0.2rem 0.7rem;
+        font-weight: 700;
+        font-size: 0.98rem;
+}
   
 
 
@@ -76,7 +124,7 @@
 
 
 @media (max-width: 900px) {
-    .cardProductData{
+    .cardProductData {
         width: 100%;
     }
 }

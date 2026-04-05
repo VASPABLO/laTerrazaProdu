@@ -1,29 +1,70 @@
-.HeaderDashContain{
-    background-color: transparent;
-    box-shadow: none;
-    width: 100%;
-    border-radius: 10px;
-    padding: 5px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+.HeaderDashContain {
+  width: 100%;
+  border-radius: 22px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 14px;
+
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.82), rgba(15, 23, 42, 0.82));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(8px);
 }
-.deFlexHeader{
+
+.deFlexHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
- gap: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
-@media (max-width: 1024px){
-  .HeaderDashContain{
+
+@media (max-width: 1024px) {
+  .HeaderDashContain {
     flex-direction: column;
-    padding-top: 1rem;
+    align-items: stretch;
+    padding: 14px;
   }
-  .deFlexHeader{
- 
+
+  .deFlexHeader {
+    width: 100%;
+    justify-content: space-between;
     gap: 10px;
-   padding: 10px;
-   
   }
+}
+
+@media (max-width: 640px) {
+  .deFlexHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.headerLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.headerLink svg {
+  font-size: 18px;
+  color: #f97316;
+}
+
+.headerLink:hover {
+  background: rgba(249, 115, 22, 0.10);
+  border-color: rgba(249, 115, 22, 0.22);
+  color: #ffffff;
 }

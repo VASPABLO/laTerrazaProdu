@@ -1,46 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import './ButonInstallAppNav.css';
-
+import { HiOutlineArrowDownTray } from 'react-icons/hi2';
 
 const ButonInstallAppNav = () => {
-    const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
 
-    useEffect(() => {
-        const handleBeforeInstallPrompt = (e) => {
-            e.preventDefault();
-            setDeferredPrompt(e);
-            console.log('Evento beforeinstallprompt capturado');
-        };
-
-        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-        return () => {
-            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        };
-    }, []);
-
-
-    const handleInstallClick = () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('El usuario aceptó la instalación');
-                } else {
-                    console.log('El usuario rechazó la instalación');
-                }
-                setDeferredPrompt(null);
-            });
-        }
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
     };
 
-    return (
-        <button onClick={handleInstallClick} className='btnInstall' >
-            Instalar
-        </button>
-    );
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const choiceResult = await deferredPrompt.userChoice;
+
+    if (choiceResult.outcome === 'accepted') {
+      console.log('Instalación aceptada');
+    } else {
+      console.log('Instalación rechazada');
+    }
+
+    setDeferredPrompt(null);
+  };
+
+  // 🔥 SOLO SE MUESTRA SI EXISTE EL PROMPT
+  if (!deferredPrompt) return null;
+
+  return (
+    <button onClick={handleInstallClick} className="btnInstall">
+      <HiOutlineArrowDownTray />
+      <span>Instalar</span>
+    </button>
+  );
 };
 
 export default ButonInstallAppNav;
-
-//style={{ display: deferredPrompt ? 'block' : 'none' }}

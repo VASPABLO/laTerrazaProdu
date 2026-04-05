@@ -349,7 +349,7 @@ export default function Detail() {
                         {producto.stock >= 1 ? (
                             <h4 style={{ color: '#4ade80', backgroundColor: 'rgba(74,222,128,0.12)', padding: '2px 12px', borderRadius: '999px', fontSize: '0.82rem', fontWeight: 700 }}>Stock {producto.stock}</h4>
                         ) : (
-                            <h4 style={{ color: '#f87171', backgroundColor: 'rgba(248,113,113,0.12)', padding: '2px 12px', borderRadius: '999px', fontSize: '0.82rem', fontWeight: 700 }}>Agotado</h4>
+                            <h4 style={{ color: '#f87171', backgroundColor: 'rgba(248,113,113,0.12)', padding: '2px 12px', borderRadius: '999px', fontSize: '0.82rem', fontWeight: 700 }}>Disponible</h4>
                         )}
                     </div>
 
@@ -367,7 +367,7 @@ export default function Detail() {
 
 
                     </div>
-                    <p>{producto.descripcion}</p>
+                    {/* <p>{producto.descripcion}</p> */}
                     <div className='itemsDetail'>
                         {producto && items.length > 0 && items.map((item, index) => (
                             item && (

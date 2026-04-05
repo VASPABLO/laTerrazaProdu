@@ -78,9 +78,7 @@ const Footer = () => {
           <div className="footer-col">
             <h4 className="footer-col-title">Horarios</h4>
             <ul className="footer-list footer-hours">
-              <li><span>Lunes - Jueves</span><span>12:00 - 22:00</span></li>
-              <li><span>Viernes - Sábado</span><span>12:00 - 23:30</span></li>
-              <li><span>Domingo</span><span>12:00 - 21:00</span></li>
+              <li><span>Martes - Dominfo</span><span>11:00 am - 10:00 pm</span></li>
             </ul>
           </div>
 
