@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import './Detail.css'
 import Modal from 'react-responsive-modal';
@@ -30,22 +30,48 @@ export default function Detail() {
     const [loading, setLoading] = useState(true);
     const [contactos, setContactos] = useState([]);
     const [favoritos, setFavoritos] = useState([]);
-    const items = [producto?.item1, producto?.item2, producto?.item3, producto?.item4, producto?.item5, producto?.item6, producto?.item7, producto?.item8, producto?.item9, producto?.item10]
+    const items = [producto?.item1, producto?.item2, producto?.item3, producto?.item4, producto?.item5, producto?.item6, producto?.item7, producto?.item8, producto?.item9, producto?.item10];
     const [categorias, setCategorias] = useState([]);
-    // const [selectedItem, setSelectedItem] = useState(items[0] || "");
-    const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+    const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const location = useLocation();
+    const itemsDisponibles = useMemo(() => {
+        return items.filter((item) => `${item ?? ''}`.trim() !== '');
+    }, [
+        producto?.item1,
+        producto?.item2,
+        producto?.item3,
+        producto?.item4,
+        producto?.item5,
+        producto?.item6,
+        producto?.item7,
+        producto?.item8,
+        producto?.item9,
+        producto?.item10,
+    ]);
+    const selectedItem = selectedItemIndex >= 0 ? items[selectedItemIndex] : '';
 
     useEffect(() => {
         cargarProductos();
         cargarContacto();
         cargarFavoritos();
         cargarCategoria()
-        if (items.length > 0) {
-            setSelectedItemIndex(0);
-        }
-
     }, []);
+
+    useEffect(() => {
+        const indexInicial = items.findIndex((item) => `${item ?? ''}`.trim() !== '');
+        setSelectedItemIndex(indexInicial >= 0 ? indexInicial : -1);
+    }, [
+        producto?.item1,
+        producto?.item2,
+        producto?.item3,
+        producto?.item4,
+        producto?.item5,
+        producto?.item6,
+        producto?.item7,
+        producto?.item8,
+        producto?.item9,
+        producto?.item10,
+    ]);
     const handleSelectionChange = (index) => {
         setSelectedItemIndex(index);
     };
@@ -125,9 +151,10 @@ export default function Detail() {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         });
-        const item = items[selectedItemIndex];
+        const item = selectedItem;
+        const detalleItem = item ? `\n     ${item}` : '';
 
-        const message = `Hola 🌟, quisiera más información sobre\n\n✅ *${title}*\n     ${item}\n     ${moneda} ${formattedPrice}`;
+        const message = `Hola 🌟, quisiera más información sobre\n\n✅ *${title}*${detalleItem}\n     ${moneda} ${formattedPrice}`;
 
         const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
 
@@ -145,7 +172,7 @@ export default function Detail() {
 
 
 
-    const addToCart = (selectedItem) => {
+    const addToCart = (selectedItemValue) => {
         if (producto) {
             if (producto.stock < 1) {
                 toast.error('No hay stock', { autoClose: 400 });
@@ -157,11 +184,13 @@ export default function Detail() {
             );
             if (existingItemIndex !== -1) {
                 const existingItem = cart[existingItemIndex];
-                const updatedSabores = [...existingItem.item, selectedItem];
+                const updatedSabores = selectedItemValue
+                    ? [...(existingItem.item || []), selectedItemValue]
+                    : [...(existingItem.item || [])];
                 const updatedCantidad = existingItem.cantidad + cantidad;
                 cart[existingItemIndex] = { ...existingItem, item: updatedSabores, cantidad: updatedCantidad };
             } else {
-                cart.push({ idProducto: producto.idProducto, item: [selectedItem], cantidad });
+                cart.push({ idProducto: producto.idProducto, item: selectedItemValue ? [selectedItemValue] : [], cantidad });
             }
             localStorage.setItem('cart', JSON.stringify(cart));
             cargarProductos();
@@ -368,36 +397,28 @@ export default function Detail() {
 
                     </div>
                     {/* <p>{producto.descripcion}</p> */}
-                    <div className='itemsDetail'>
-                        {producto && items.length > 0 && items.map((item, index) => (
-                            item && (
-                                <label key={index} style={{
-                                    background: selectedItemIndex === index ? 'rgba(255,107,53,0.15)' : '#2a2a2a',
-                                    border: selectedItemIndex === index ? '1px solid #ff6b35' : '1px solid rgba(255,255,255,0.1)',
-                                    color: selectedItemIndex === index ? '#ff6b35' : '#b0b0b0',
-                                    borderRadius: '999px',
-                                    padding: '6px 16px',
-                                    cursor: 'pointer',
-                                    fontSize: '0.88rem',
-                                    fontWeight: 600,
-                                    display: 'flex',
-                                    gap: '6px',
-                                    alignItems: 'center',
-                                    transition: 'all 0.2s ease',
-                                }}>
-                                    <input
-                                        type="radio"
-                                        name="talle"
-                                        value={item}
-                                        checked={selectedItemIndex === index}
-                                        onChange={() => handleSelectionChange(index)}
-                                        style={{ accentColor: '#ff6b35' }}
-                                    />
-                                    {item}
-                                </label>
-                            )
-                        ))}
-                    </div>
+                    {producto && itemsDisponibles.length > 0 && (
+                        <details className='variablesAccordion' open>
+                            <summary>Variables</summary>
+
+                            <div className='itemsDetail'>
+                                {items.map((item, index) => (
+                                    item && (
+                                        <label key={index} className={`itemChip ${selectedItemIndex === index ? 'is-active' : ''}`}>
+                                            <input
+                                                type="radio"
+                                                name="variable"
+                                                value={item}
+                                                checked={selectedItemIndex === index}
+                                                onChange={() => handleSelectionChange(index)}
+                                            />
+                                            {item}
+                                        </label>
+                                    )
+                                ))}
+                            </div>
+                        </details>
+                    )}
 
 
                     <div className='deFlexCart'>
@@ -406,7 +427,7 @@ export default function Detail() {
                         <button onClick={incrementCantidad} style={{ background: '#2a2a2a', border: '1px solid rgba(255,255,255,0.1)', color: '#f0f0f0', width: 36, height: 36, borderRadius: '50%', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
                     </div>
                     <div className='deFlexGoTocart'>
-                        <button onClick={() => addToCart(items[selectedItemIndex])} className='btnAdd'>Agregar  <FontAwesomeIcon icon={faShoppingCart} />  </button>
+                        <button onClick={() => addToCart(selectedItem)} className='btnAdd'>Agregar  <FontAwesomeIcon icon={faShoppingCart} />  </button>
                         <button className="wpp" onClick={handleWhatsappMessage}>
                             WhatsApp
                             <img src={whatsappIcon} alt="whatsappIcon" />

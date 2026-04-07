@@ -210,6 +210,17 @@
     transition: 0.2s ease;
 }
 
+.inputsColumn select {
+    background: #ffffff;
+    color: #111827;
+    border-color: #d1d5db;
+}
+
+.inputsColumn select option {
+    background: #ffffff;
+    color: #111827;
+}
+
 .inputsColumn input:focus,
 .inputsColumn select:focus,
 fieldset input:focus,
@@ -579,6 +590,10 @@ fieldset select:focus {
     gap: 1rem;
 }
 
+.sectionImg fieldset {
+    width: 100%;
+}
+
 .flexGrap,
 .items {
     display: flex;
@@ -587,21 +602,27 @@ fieldset select:focus {
 }
 
 fieldset {
-    padding: 0.45rem 0.8rem 0.8rem;
+    padding: 0.75rem 0.8rem 0.85rem;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
+    gap: 0.45rem;
     width: calc(50% - 0.5rem);
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.03);
+    border: 1px solid #d4d8de;
+    background: #ffffff;
     box-sizing: border-box;
 }
 
 legend {
-    padding: 0 0.35rem;
-    color: #cbd5e1;
-    font-size: 0.85rem;
+    display: inline-block;
+    width: fit-content;
+    padding: 0.2rem 0.55rem;
+    margin: 0 0 0.45rem;
+    color: #111827;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    font-size: 0.8rem;
     font-weight: 700;
 }
 
@@ -609,11 +630,58 @@ fieldset input,
 fieldset textarea,
 .sectiontext select {
     width: 100%;
-    border: none;
-    background: transparent;
-    color: #fff;
+    border: 1px solid #cfd6df;
+    border-radius: 12px;
+    padding: 0.72rem 0.85rem;
+    box-sizing: border-box;
+    background: #ffffff;
+    color: #111827;
     outline: none;
     font-size: 0.95rem;
+    line-height: 1.35;
+}
+
+fieldset input:focus,
+fieldset textarea:focus,
+.sectiontext select:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.16);
+}
+
+fieldset input::placeholder,
+fieldset textarea::placeholder {
+    color: #6b7280;
+}
+
+.sectiontext select option {
+    color: #111827;
+    background: #ffffff;
+}
+
+.sectionImg input[type="file"] {
+    width: 100%;
+    border: 1px solid #cfd6df;
+    border-radius: 12px;
+    padding: 0.45rem;
+    background: #ffffff;
+    color: #111827;
+    box-sizing: border-box;
+}
+
+.sectionImg input[type="file"]::file-selector-button {
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 0.8rem;
+    margin-right: 0.65rem;
+    background: linear-gradient(135deg, #ff6b35, #ff8a45);
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sectionImg input[type="file"]:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.16);
 }
 
 textarea {

@@ -36,6 +36,12 @@
     color: #ff6b35;
 }
 
+.loginLogoSmall {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
 .loginTitle {
     font-size: 32px;
     font-weight: 700;
@@ -214,6 +220,11 @@
 
     .fireIcon {
         font-size: 35px;
+    }
+
+    .loginLogoSmall {
+        width: 50px;
+        height: 50px;
     }
 
     .loginTitle {

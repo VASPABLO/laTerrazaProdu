@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import ProductosLoading from '../ProductosLoading/ProductosLoading';
 import { Link } from 'react-router-dom';
+import { getCartFromStorage, saveCartToStorage } from '../Cart/Cart';
 
 export default function Products() {
     const [categorias, setCategorias] = useState([]);
@@ -92,13 +93,47 @@ export default function Products() {
         return Number(precioAnterior) >= 1;
     };
 
+    const handleComprar = (item) => {
+        if (!item?.idProducto) return;
+
+        if (Number(item?.stock) === 0) {
+            toast.warning('Producto sin stock');
+            return;
+        }
+
+        const currentCart = getCartFromStorage();
+        const existingIndex = currentCart.findIndex(
+            (cartItem) => String(cartItem?.idProducto) === String(item.idProducto)
+        );
+
+        let updatedCart = [];
+        if (existingIndex >= 0) {
+            updatedCart = currentCart.map((cartItem, index) => (
+                index === existingIndex
+                    ? { ...cartItem, cantidad: (Number(cartItem?.cantidad) || 1) + 1 }
+                    : cartItem
+            ));
+        } else {
+            updatedCart = [
+                ...currentCart,
+                {
+                    idProducto: item.idProducto,
+                    cantidad: 1,
+                    item: [],
+                },
+            ];
+        }
+
+        saveCartToStorage(updatedCart);
+        toast.success('Producto agregado al carrito', { autoClose: 1200 });
+    };
+
     const ProductCard = ({ item, masVendido = false, compact = false }) => {
         const imagen = obtenerImagen(item);
 
         return (
-            <Link
+            <article
                 className={`productCard ${masVendido ? 'productCardFeatured' : ''} ${compact ? 'productCardCompact' : ''}`}
-                to={`/producto/${item.idProducto}/${slugify(item.titulo)}`}
             >
                 <div className="productCardImageWrap">
                     <img
@@ -127,10 +162,22 @@ export default function Products() {
                     </div>
 
                     <div className="productCardFooter">
-                        <span className="productCardAction">Ver detalles</span>
+                        <Link
+                            to={`/producto/${item.idProducto}/${slugify(item.titulo)}`}
+                            className="productCardDetailBtn"
+                        >
+                            Detalle
+                        </Link>
+                        <button
+                            type="button"
+                            className="productCardBuyBtn"
+                            onClick={() => handleComprar(item)}
+                        >
+                            Comprar
+                        </button>
                     </div>
                 </div>
-            </Link>
+            </article>
         );
     };
 

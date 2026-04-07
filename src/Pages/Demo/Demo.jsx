@@ -19,6 +19,7 @@ export default function Demo() {
     const [contacto, setContacto] = useState({});
     const [loading, setLoading] = useState(true);
     const [isMobileCartOpen, setIsMobileCartOpen] = useState(false);
+    const [mobileCartIntent, setMobileCartIntent] = useState('summary');
     const isMobileNav = useMediaQuery('(max-width: 767px)');
     const location = useLocation();
 
@@ -260,7 +261,7 @@ export default function Demo() {
                                     <h4>{item?.titulo}</h4>
                                     <span>{moneda} {item?.precio}</span>
                                 </div>
-                                {/* <p>{item?.descripcion}</p> */}
+                                <p>{item?.descripcion}</p>
                             </div>
                         </Link>
                     ))}
@@ -274,7 +275,8 @@ export default function Demo() {
                             <FontAwesomeIcon icon={faClock} />
                         </div>
                         <h3>Horarios</h3>
-                        <p>{contacto?.horario || 'Mar - Dom: 11:00 am - 10:00 pm'}</p>
+                        <p>{contacto?.horario || 'Mar - Dom:'}</p>
+                        <p>{contacto?.horario || '11:00 am - 10:00 pm'}</p>
                     </article>
 
                     <article className="homeInfoCard">
@@ -305,8 +307,18 @@ export default function Demo() {
                 isOpen={isMobileNav ? isMobileCartOpen : undefined}
                 onRequestClose={() => setIsMobileCartOpen(false)}
                 hideTrigger={isMobileNav}
+                mobileIntent={mobileCartIntent}
             />
-            <MobileBottomNav onCartClick={() => setIsMobileCartOpen(true)} />
+            <MobileBottomNav
+                onCartClick={() => {
+                    setMobileCartIntent('summary');
+                    setIsMobileCartOpen(true);
+                }}
+                onMesasClick={() => {
+                    setMobileCartIntent('mesas');
+                    setIsMobileCartOpen(true);
+                }}
+            />
         </section>
     );
 }

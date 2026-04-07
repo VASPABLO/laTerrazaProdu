@@ -78,7 +78,8 @@ const Footer = () => {
           <div className="footer-col">
             <h4 className="footer-col-title">Horarios</h4>
             <ul className="footer-list footer-hours">
-              <li><span>Martes - Dominfo</span><span>11:00 am - 10:00 pm</span></li>
+              <li><span>Martes - Domingo</span></li>
+              <li><span>11:00 am - 10:00 pm</span></li>
             </ul>
           </div>
 
@@ -87,8 +88,6 @@ const Footer = () => {
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} La Terraza Parrilla. Todos los derechos reservados.</p>
           <div className="footer-bottom-links">
-            <span>Privacidad</span>
-            <span>Términos</span>
           </div>
         </div>
       </div>

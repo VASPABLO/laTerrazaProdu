@@ -24,15 +24,15 @@ try {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Recuperar datos del pedido
-        $idMesa = $_POST['idMesa'];
-        $estado = $_POST['estado'];
-        $productos = json_decode($_POST['productos'], true);
-        $total = $_POST['total'];
-        $nombre = $_POST['nombre'];
-        $nota = $_POST['nota'];
-        $codigo = $_POST['codigo'];
+        $idMesa = isset($_POST['idMesa']) && $_POST['idMesa'] !== '' ? (int) $_POST['idMesa'] : 0;
+        $estado = $_POST['estado'] ?? '';
+        $productos = json_decode($_POST['productos'] ?? '[]', true);
+        $total = $_POST['total'] ?? '';
+        $nombre = $_POST['nombre'] ?? '';
+        $nota = $_POST['nota'] ?? '';
+        $codigo = $_POST['codigo'] ?? '';
         // Validar que los campos no estén vacíos
-        if (!empty($idMesa) && !empty($estado) && !empty($productos) && !empty($total) && !empty($nombre)) {
+        if (!empty($estado) && !empty($productos) && !empty($total) && !empty($nombre)) {
             // Insertar el pedido en la base de datos
             $sqlInsertPedido = "INSERT INTO `pedidos` (idMesa, estado, productos, total,nombre,nota,codigo) 
                                 VALUES (:idMesa, :estado, :productos, :total, :nombre, :nota, :codigo)";
@@ -49,11 +49,13 @@ try {
             // Obtener el ID del último pedido insertado
             $lastPedidoId = $conexion->lastInsertId();
 
-            // Actualizar el estado de la mesa a "ocupada"
-            $sqlUpdateMesa = "UPDATE `mesas` SET estado = 'ocupada' WHERE idMesa = :idMesa";
-            $stmtUpdateMesa = $conexion->prepare($sqlUpdateMesa);
-            $stmtUpdateMesa->bindParam(':idMesa', $idMesa);
-            $stmtUpdateMesa->execute();
+            // Actualizar la mesa solo si el cliente eligió una.
+            if ($idMesa > 0) {
+                $sqlUpdateMesa = "UPDATE `mesas` SET estado = 'ocupada' WHERE idMesa = :idMesa";
+                $stmtUpdateMesa = $conexion->prepare($sqlUpdateMesa);
+                $stmtUpdateMesa->bindParam(':idMesa', $idMesa);
+                $stmtUpdateMesa->execute();
+            }
 
             // Respuesta JSON con el mensaje y el ID del nuevo pedido
             echo json_encode([

@@ -26,7 +26,7 @@ try {
 
     // Consulta SQL para obtener los datos de contacto
     if ($metodo == 'GET') {
-        $sqlSelect = "SELECT * FROM contacto";
+        $sqlSelect = "SELECT * FROM contacto ORDER BY idContacto DESC LIMIT 1";
         $sentencia = $conexion->prepare($sqlSelect);
 
         if ($sentencia->execute()) {

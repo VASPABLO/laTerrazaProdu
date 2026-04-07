@@ -20,6 +20,15 @@ export default function NewProduct() {
     const [isImage4Selected, setIsImage4Selected] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [categorias, setCategoras] = useState([]);
+    const [itemsOpcionales, setItemsOpcionales] = useState(Array.from({ length: 10 }, () => ''));
+
+    const handleItemChange = (index, value) => {
+        setItemsOpcionales((prev) => {
+            const next = [...prev];
+            next[index] = value;
+            return next;
+        });
+    };
     const toggleModal = () => {
         setModalOpen(!modalOpen);
     };
@@ -42,9 +51,14 @@ export default function NewProduct() {
             form.reset();
             setImagenPreview1(null);
             setImagenPreview2(null);
+            setImagenPreview3(null);
+            setImagenPreview4(null);
+            setItemsOpcionales(Array.from({ length: 10 }, () => ''));
 
             setIsImage1Selected(false);
             setIsImage2Selected(false);
+            setIsImage3Selected(false);
+            setIsImage4Selected(false);
         };
         setMensaje('');
 
@@ -198,6 +212,20 @@ export default function NewProduct() {
                                         placeholder="Descripción"
                                     />
                                 </fieldset>
+
+                                {itemsOpcionales.map((valorItem, index) => (
+                                    <fieldset key={`item-${index + 1}`}>
+                                        <legend>Opción {index + 1} (opcional)</legend>
+                                        <input
+                                            type="text"
+                                            id={`item${index + 1}`}
+                                            name={`item${index + 1}`}
+                                            value={valorItem}
+                                            onChange={(e) => handleItemChange(index, e.target.value)}
+                                            placeholder="Ej: Cas, Mora, Piña"
+                                        />
+                                    </fieldset>
+                                ))}
 
 
 

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faFire } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 import { useNavigate, } from 'react-router';
 import baseURL from '../../url';
+import logo1 from '../../../images/logo1.png';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -69,7 +71,7 @@ export default function Login() {
             <ToastContainer />
             <div className='formContain'>
                 <div className='fireIconContainer'>
-                    <FontAwesomeIcon icon={faFire} className='fireIcon' />
+                    <img src={logo1} alt='Logo La Terraza' className='loginLogoSmall' />
                 </div>
                 
                 <h2 className='loginTitle'>Portal Admin</h2>
@@ -115,7 +117,9 @@ export default function Login() {
                     </button>
                 </form>
 
-                <a href="#" className='forgotPasswordLink'>¿Olvidaste tu contraseña?</a>
+                <Link to='/forgot-password' className='forgotPasswordLink'>
+                    Olvidaste tu contrasena?
+                </Link>
             </div>
         </div>
     );

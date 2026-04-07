@@ -8,6 +8,7 @@ import baseURL from '../../url';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import './UsuariosData.css';
 import Register from '../Register/Register';
 export default function UsuariosData() {
     const [usuarios, setUsuarios] = useState([]);
@@ -78,6 +79,13 @@ export default function UsuariosData() {
             showCancelButton: true,
             confirmButtonText: 'Guardar',
             cancelButtonText: 'Cancelar',
+            customClass: {
+                popup: 'usuariosSwalPopup',
+                title: 'usuariosSwalTitle',
+                input: 'usuariosSwalInput',
+                confirmButton: 'usuariosSwalConfirm',
+                cancelButton: 'usuariosSwalCancel',
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 const nuevoRol = result.value;
@@ -167,7 +175,7 @@ export default function UsuariosData() {
         setOrdenInvertido(!ordenInvertido);
     };
     return (
-        <div>
+        <div className='usuariosDataAdmin'>
             <div className='deFlexContent'>
                 <div className='deFlex2'>
                     <Register />

@@ -291,6 +291,71 @@ hr{
     gap: 0.5rem;
     flex-wrap: wrap;
 }
+
+.variablesAccordion {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.6rem 0.7rem 0.75rem;
+}
+
+.variablesAccordion summary {
+    color: #f0f0f0;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.variablesAccordion summary::-webkit-details-marker {
+    display: none;
+}
+
+.variablesAccordion summary::before {
+    content: '▸';
+    color: #ff6b35;
+    font-size: 0.88rem;
+    transform: rotate(0deg);
+    transition: transform 0.18s ease;
+}
+
+.variablesAccordion[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.itemsDetail {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.itemChip {
+    background: #2a2a2a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #b0b0b0;
+    border-radius: 999px;
+    padding: 6px 16px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.itemChip.is-active {
+    background: rgba(255, 107, 53, 0.15);
+    border-color: #ff6b35;
+    color: #ff6b35;
+}
+
+.itemChip input {
+    accent-color: #ff6b35;
+}
 @media (max-width: 1024px) {
     .deFLexIcon{
         gap: 1rem;

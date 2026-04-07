@@ -300,6 +300,14 @@
     position: relative;
 }
 
+/* Evita re-animaciones causadas por la regla global de App.css sobre <a> y <p>. */
+.productCard,
+.productCard * {
+    animation: none !important;
+    -webkit-animation: none !important;
+    opacity: 1 !important;
+}
+
 .productCard::after {
     content: "";
     position: absolute;
@@ -441,20 +449,48 @@
     margin-top: auto;
     padding-top: 0.35rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
 }
 
-.productCardAction {
+.productCardDetailBtn,
+.productCardBuyBtn {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    justify-content: center;
     font-size: 0.88rem;
     font-weight: 700;
-    color: #ffb08d;
+    border-radius: 12px;
+    padding: 0.55rem 0.8rem;
+    text-decoration: none;
+    border: 1px solid transparent;
     transition: 0.2s ease;
+    cursor: pointer;
 }
 
-.productCard:hover .productCardAction {
+.productCardDetailBtn {
+    color: #ffb08d;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+    flex: 1;
+}
+
+.productCardBuyBtn {
     color: #fff;
+    background: linear-gradient(135deg, var(--pos-accent), var(--pos-accent-2));
+    box-shadow: 0 10px 20px rgba(255, 107, 53, 0.24);
+    flex: 1;
+}
+
+.productCard:hover .productCardDetailBtn {
+    color: #fff;
+    border-color: rgba(255, 107, 53, 0.35);
+}
+
+.productCardBuyBtn:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
 }
 
 .productCardFeatured,

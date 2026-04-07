@@ -1,0 +1,57 @@
+.usuariosDataAdmin .deFlex2 {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	flex-wrap: nowrap;
+	margin-bottom: 0.65rem;
+}
+
+.usuariosDataAdmin .deFlex2 .btnSave,
+.usuariosDataAdmin .deFlex2 .excel,
+.usuariosDataAdmin .deFlex2 .pdf {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.usuariosDataAdmin .filtrosContain input,
+.usuariosDataAdmin .filtrosContain select {
+	background: #ffffff;
+	color: #111827;
+	border: 1px solid #d1d5db;
+	border-radius: 12px;
+	padding: 0.72rem 0.85rem;
+	box-sizing: border-box;
+}
+
+.usuariosDataAdmin .filtrosContain select option {
+	background: #ffffff;
+	color: #111827;
+}
+
+.usuariosSwalPopup {
+	padding: 1.2rem 1.2rem 1rem !important;
+}
+
+.usuariosSwalTitle {
+	color: #111827 !important;
+}
+
+.usuariosSwalInput {
+	color: #111827 !important;
+	background: #ffffff !important;
+	border: 1px solid #d1d5db !important;
+	border-radius: 10px !important;
+	padding: 0.65rem 0.75rem !important;
+}
+
+.usuariosSwalConfirm,
+.usuariosSwalCancel {
+	padding: 0.55rem 0.9rem !important;
+	border-radius: 10px !important;
+}
+
+@media (max-width: 900px) {
+	.usuariosDataAdmin .deFlex2 {
+		flex-wrap: wrap;
+	}
+}

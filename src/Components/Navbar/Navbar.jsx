@@ -15,6 +15,7 @@ export default function Navbar() {
     const [loading, setLoading] = useState(true);
     const location = useLocation();  // Obtén la ubicación actual
     const [usuario, setUsuario] = useState({});
+    const [contacto, setContacto] = useState({});
 
     useEffect(() => {
         cargarBanners();
@@ -55,6 +56,24 @@ export default function Navbar() {
             });
     }, []);
 
+    useEffect(() => {
+        fetch(`${baseURL}/contactoGet.php`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                const contactoActual = Array.isArray(data?.contacto) && data.contacto.length > 0
+                    ? [...data.contacto].reverse()[0]
+                    : {};
+                setContacto(contactoActual || {});
+            })
+            .catch(() => {
+                setContacto({});
+            });
+    }, []);
+
+    const tickerMessage = `Somos La Terraza | Horario: ${contacto?.horario || 'Martes a Domingo, 11:00 am - 10:00 pm'} | Tel: ${contacto?.telefono || '+506 86810909'}`;
+
     return (
         <header>
             <nav>
@@ -63,6 +82,12 @@ export default function Navbar() {
 
                 </Anchor>
 
+                <div className='navTicker' aria-label='Informacion del restaurante'>
+                    <div className='navTicker__track'>
+                        <span>{tickerMessage}</span>
+                        <span aria-hidden='true'>{tickerMessage}</span>
+                    </div>
+                </div>
 
                 {/*
                 <div className='deFLexNavs'>

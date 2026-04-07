@@ -5,7 +5,7 @@ import './Cart.css';
 import whatsappIcon from '../../images/wpp.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Link as Anchor } from 'react-router-dom';
+import { Link as Anchor, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import moneda from '../moneda';
 
@@ -61,10 +61,13 @@ const calculateBadgeCount = (items) => {
     return (items || []).reduce((total, item) => total + (Number(item?.cantidad) || 0), 0);
 };
 
-export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
+export default function Cart({ isOpen, onRequestClose, hideTrigger = false, mobileIntent = 'summary' }) {
     const [cartItems, setCartItems] = useState([]);
     const [cartBadgeCount, setCartBadgeCount] = useState(() => calculateBadgeCount(getCartFromStorage()));
     const [productsCatalog, setProductsCatalog] = useState([]);
+    const [mesas, setMesas] = useState([]);
+    const [selectedMesaId, setSelectedMesaId] = useState('');
+    const [reserveTable, setReserveTable] = useState(false);
     const [contactInfo, setContactInfo] = useState({});
     const [isCartLoading, setIsCartLoading] = useState(true);
 
@@ -76,10 +79,11 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
     const [deliveryAddress, setDeliveryAddress] = useState('');
     const [orderNote, setOrderNote] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('efectivo');
-    const [deliveryOption, setDeliveryOption] = useState('delivery');
+    const [deliveryOption, setDeliveryOption] = useState('pickup');
     const [submitMessage, setSubmitMessage] = useState('');
     const [footerOffset, setFooterOffset] = useState(0);
     const isControlled = typeof isOpen === 'boolean';
+    const navigate = useNavigate();
 
     const modalOpen = isControlled ? isOpen : internalIsOpen;
 
@@ -125,6 +129,21 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
             });
     }, []);
 
+    const loadMesas = useCallback(() => {
+        fetch(`${baseURL}/mesaGet.php`, {
+            method: 'GET',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                const mesasDisponibles = Array.isArray(data?.mesas) ? data.mesas : [];
+                setMesas(mesasDisponibles);
+            })
+            .catch((error) => {
+                console.error('Error al cargar mesas:', error);
+                setMesas([]);
+            });
+    }, []);
+
     const hydrateCartWithCatalog = useCallback((catalog) => {
         const storedCart = getCartFromStorage();
         setCartBadgeCount(calculateBadgeCount(storedCart));
@@ -155,7 +174,18 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
     useEffect(() => {
         loadProducts();
         loadContact();
-    }, [loadProducts, loadContact]);
+        loadMesas();
+    }, [loadProducts, loadContact, loadMesas]);
+
+    const mesasLibres = useMemo(
+        () => mesas.filter((mesa) => mesa?.estado === 'libre'),
+        [mesas]
+    );
+
+    const selectedMesa = useMemo(
+        () => mesasLibres.find((mesa) => String(mesa?.idMesa) === String(selectedMesaId)) || null,
+        [mesasLibres, selectedMesaId]
+    );
 
     useEffect(() => {
         hydrateCartWithCatalog(productsCatalog);
@@ -167,6 +197,18 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
         setIsCartLoading(true);
         hydrateCartWithCatalog(productsCatalog);
     }, [modalOpen, productsCatalog, hydrateCartWithCatalog]);
+
+    useEffect(() => {
+        if (!modalOpen) return;
+
+        if (mobileIntent === 'mesas') {
+            setCurrentStep('checkout');
+            setReserveTable(true);
+            return;
+        }
+
+        setCurrentStep('summary');
+    }, [modalOpen, mobileIntent]);
 
     useEffect(() => {
         const syncCartFromStorage = () => {
@@ -258,12 +300,14 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
     const subtotal = useMemo(() => calculateCartTotal(cartItems), [cartItems]);
     const finalTotal = useMemo(() => Math.max(0, subtotal), [subtotal]);
 
+    const sanitizeWhatsappNumber = (value) => `${value || ''}`.replace(/\D/g, '');
+
     const sendWhatsappMessage = () => {
-        const phoneNumber = `${contactInfo?.telefono || ''}`.trim();
+        const phoneNumber = sanitizeWhatsappNumber(contactInfo?.telefono);
 
         if (!phoneNumber) {
             Swal.fire('Sin número', 'No hay número de WhatsApp configurado.', 'warning');
-            return;
+            return false;
         }
 
         const cartDetails = cartItems.map((item, index) => {
@@ -302,6 +346,7 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
 
         const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
+        return true;
     };
 
     const resetOrderForm = () => {
@@ -310,7 +355,9 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
         setDeliveryAddress('');
         setOrderNote('');
         setPaymentMethod('efectivo');
-        setDeliveryOption('delivery');
+        setDeliveryOption('pickup');
+        setSelectedMesaId('');
+        setReserveTable(false);
     };
 
     const createOrder = async () => {
@@ -326,6 +373,11 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
 
         if (cartItems.length === 0) {
             Swal.fire('Carrito vacío', 'Agregá productos antes de finalizar el pedido.', 'warning');
+            return;
+        }
+
+        if (reserveTable && !selectedMesaId) {
+            Swal.fire('Mesa requerida', 'Seleccioná una mesa libre o desactivá la reserva.', 'warning');
             return;
         }
 
@@ -350,6 +402,9 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
 
             const formData = new FormData();
             formData.append('productos', JSON.stringify(productsPayload));
+            if (reserveTable && selectedMesaId) {
+                formData.append('idMesa', selectedMesaId);
+            }
             formData.append('total', Number(finalTotal).toFixed(2));
             formData.append('nombre', customerName);
             formData.append('telefono', customerPhone);
@@ -382,11 +437,16 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
 
             if (data?.mensaje) {
                 setSubmitMessage('');
-                Swal.fire('Pedido enviado', data.mensaje, 'success');
-                sendWhatsappMessage();
+                const whatsappOpened = sendWhatsappMessage();
                 clearCart();
                 resetOrderForm();
                 closeDrawer();
+                navigate('/gracias-pedido', {
+                    state: {
+                        orderName: customerName,
+                        whatsappOpened,
+                    },
+                });
             } else if (data?.error) {
                 setSubmitMessage('');
                 Swal.fire('Error', data.error, 'error');
@@ -627,6 +687,69 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
                             </div>
 
                             <div className='cartDrawer__section'>
+                                <h4>Mesa</h4>
+
+                                <button
+                                    type='button'
+                                    className={`cartDrawer__reserveTableButton ${reserveTable ? 'is-active' : ''}`}
+                                    onClick={() => {
+                                        const nextValue = !reserveTable;
+                                        setReserveTable(nextValue);
+                                        if (!nextValue) {
+                                            setSelectedMesaId('');
+                                        }
+                                    }}
+                                >
+                                    <span>{reserveTable ? 'Reserva activa' : 'Reservar mesa (opcional)'}</span>
+                                    <span className={`cartDrawer__reserveArrow ${reserveTable ? 'is-open' : ''}`}>
+                                        &gt;
+                                    </span>
+                                </button>
+
+                                {!reserveTable && (
+                                    <p className='cartDrawer__mesaHint'>
+                                        Si no seleccionás mesa, el pedido se envía normal.
+                                    </p>
+                                )}
+
+                                {reserveTable && selectedMesa && (
+                                    <p className='cartDrawer__mesaHint'>
+                                        Mesa seleccionada: {selectedMesa?.mesa || `Mesa ${selectedMesa?.idMesa}`}
+                                    </p>
+                                )}
+
+                                {reserveTable && mesasLibres.length === 0 && (
+                                    <p className='cartDrawer__mesaHint'>
+                                        No hay mesas libres en este momento.
+                                    </p>
+                                )}
+
+                                {reserveTable && mesasLibres.length > 0 && (
+                                    <div className='mesasGrapCart'>
+                                        {mesasLibres.map((mesa) => {
+                                        const isSelected = String(selectedMesaId) === String(mesa?.idMesa);
+
+                                        return (
+                                            <label
+                                                key={mesa?.idMesa}
+                                                className={`mesaCard bg-green ${isSelected ? 'selectedMesa' : ''}`}
+                                            >
+                                                <span>{mesa?.mesa || `Mesa ${mesa?.idMesa}`}</span>
+                                                <input
+                                                    type='radio'
+                                                    name='mesa'
+                                                    value={mesa?.idMesa}
+                                                    checked={isSelected}
+                                                    onChange={() => setSelectedMesaId(String(mesa?.idMesa || ''))}
+                                                />
+                                            </label>
+                                        );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className='cartDrawer__section'>
                                 <h4>Pago</h4>
 
                                 <div className='cartDrawer__radioGroup'>
@@ -649,7 +772,7 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false }) {
                                             checked={paymentMethod === 'transferencia'}
                                             onChange={() => setPaymentMethod('transferencia')}
                                         />
-                                        Transferencia
+                                        Sinpe
                                     </label>
                                 </div>
                             </div>

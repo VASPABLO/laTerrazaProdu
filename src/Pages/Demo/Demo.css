@@ -232,6 +232,14 @@
     box-shadow: 0 10px 34px rgba(0, 0, 0, 0.34);
 }
 
+/* Evita el efecto de entrada repetitivo heredado desde App.css en la sección destacada. */
+.homeFeaturedCard,
+.homeFeaturedCard * {
+    animation: none !important;
+    -webkit-animation: none !important;
+    opacity: 1 !important;
+}
+
 .homeFeaturedCard:hover {
     transform: translateY(-4px);
     border-color: rgba(255, 107, 53, 0.4);
@@ -279,6 +287,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+    line-clamp: 1;
     overflow: hidden;
 }
 
@@ -293,10 +302,9 @@
     color: #a8a8a8;
     line-height: 1.45;
     font-size: 0.9rem;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+    text-align: justify;
+    text-wrap: pretty;
+    overflow: visible;
 }
 
 .homeInfo {

@@ -1,13 +1,13 @@
 import React from 'react';
-import logo from '../../../images/logo.png';
-import './Spiner.css';  // Asegúrate de importar el archivo CSS donde definirás los estilos del spinner.
+import logo from '../../../images/logo1.png';
+import './Spiner.css';
 
 export default function Spiner() {
     return (
         <div className='spinnerContainer'>
             <div className='spinner'>
                 <img src={logo} alt="Spinner" className='spinnerImage' />
-                <p>Cargando...</p>
+                <p className='spinnerText'>La Terraza</p>
             </div>
         </div>
     );

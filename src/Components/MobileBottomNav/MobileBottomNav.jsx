@@ -1,10 +1,10 @@
 import React from 'react';
 import { useMediaQuery } from '@react-hook/media-query';
-import { FiGrid, FiShoppingCart } from 'react-icons/fi';
+import { FiGrid, FiMapPin, FiShoppingCart } from 'react-icons/fi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './MobileBottomNav.css';
 
-export default function MobileBottomNav({ onCartClick }) {
+export default function MobileBottomNav({ onCartClick, onMesasClick }) {
     const isMobile = useMediaQuery('(max-width: 767px)');
     const location = useLocation();
     const navigate = useNavigate();
@@ -49,6 +49,16 @@ export default function MobileBottomNav({ onCartClick }) {
             >
                 <FiShoppingCart />
                 <span>Carrito</span>
+            </button>
+
+            <button
+                type='button'
+                className='mobileBottomNav__item'
+                onClick={onMesasClick}
+                aria-label='Reservar mesa'
+            >
+                <FiMapPin />
+                <span>Mesas</span>
             </button>
         </nav>
     );

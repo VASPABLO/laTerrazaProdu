@@ -39,6 +39,7 @@ export default function ProductosData() {
     const [selectedSection, setSelectedSection] = useState('texto');
     const [nuevoMasVendido, setNuevoMasVendido] = useState('');
     const [categorias, setCategoras] = useState([]);
+    const [nuevosItems, setNuevosItems] = useState(Array.from({ length: 10 }, () => ''));
 
     const cerrarModalImagen = () => {
         setModalImagenVisible(false);
@@ -59,7 +60,16 @@ export default function ProductosData() {
         setNuevoPrecio(producto.precio);
         setNuevoMasVendido(producto.masVendido);
         setNuevaCategoria(producto.idCategoria);
+        setNuevosItems(Array.from({ length: 10 }, (_, index) => (producto?.[`item${index + 1}`] ?? '')));
     }, [producto]);
+
+    const handleItemChange = (index, value) => {
+        setNuevosItems((prev) => {
+            const next = [...prev];
+            next[index] = value;
+            return next;
+        });
+    };
 
     const cargarProductos = () => {
         fetch(`${baseURL}/productosGet.php`, {
@@ -197,6 +207,11 @@ export default function ProductosData() {
             nuevaCategoria: nuevaCategoria !== '' ? nuevaCategoria : producto.categoria,
             masVendido: nuevoMasVendido !== '' ? nuevoMasVendido : producto.masVendido,
         };
+
+        nuevosItems.forEach((valor, index) => {
+            const limpio = `${valor ?? ''}`.trim();
+            payload[`item${index + 1}`] = limpio === '' ? null : limpio;
+        });
 
         fetch(`${baseURL}/productoTextPut.php?idProducto=${idProducto}`, {
             method: 'PUT',
@@ -457,6 +472,18 @@ export default function ProductosData() {
                                         <option value="no">No</option>
                                     </select>
                                 </fieldset>
+
+                                {nuevosItems.map((valorItem, index) => (
+                                    <fieldset key={`edit-item-${index + 1}`}>
+                                        <legend>Opción {index + 1}</legend>
+                                        <input
+                                            type="text"
+                                            value={valorItem ?? ''}
+                                            onChange={(e) => handleItemChange(index, e.target.value)}
+                                            placeholder="Ej: Cas, Mora, Piña"
+                                        />
+                                    </fieldset>
+                                ))}
                             </div>
 
                             <button className='btnPost' onClick={() => handleUpdateText(producto.idProducto)}>

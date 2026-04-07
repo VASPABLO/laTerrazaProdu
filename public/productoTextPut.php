@@ -41,6 +41,23 @@ try {
         $nuevaCategoria = isset($data['nuevaCategoria']) ? $data['nuevaCategoria'] : null;
         $nuevoPrecio = isset($data['nuevoPrecio']) ? $data['nuevoPrecio'] : null;
         $masVendido = isset($data['masVendido']) ? $data['masVendido'] : null; 
+
+        $sqlCurrent = "SELECT item1, item2, item3, item4, item5, item6, item7, item8, item9, item10 FROM productos WHERE idProducto = :idProducto LIMIT 1";
+        $stmtCurrent = $conexion->prepare($sqlCurrent);
+        $stmtCurrent->bindParam(':idProducto', $idProducto, PDO::PARAM_INT);
+        $stmtCurrent->execute();
+        $currentRow = $stmtCurrent->fetch(PDO::FETCH_ASSOC) ?: [];
+
+        $items = [];
+        for ($i = 1; $i <= 10; $i++) {
+            $key = "item{$i}";
+            if (array_key_exists($key, $data)) {
+                $valor = trim((string)$data[$key]);
+                $items[$key] = $valor === '' ? null : $valor;
+            } else {
+                $items[$key] = $currentRow[$key] ?? null;
+            }
+        }
  
         if (empty($nuevaCategoria)) {
             $sqlSelect = "SELECT idCategoria FROM productos WHERE idProducto = :idProducto";
@@ -51,7 +68,9 @@ try {
             $nuevaCategoria = $row['idCategoria'];
         }
 
-        $sqlUpdate = "UPDATE productos SET descripcion = :descripcion, titulo = :titulo, idCategoria = :idCategoria, precio = :precio, masVendido = :masVendido
+        $sqlUpdate = "UPDATE productos SET descripcion = :descripcion, titulo = :titulo, idCategoria = :idCategoria, precio = :precio, masVendido = :masVendido,
+        item1 = :item1, item2 = :item2, item3 = :item3, item4 = :item4, item5 = :item5,
+        item6 = :item6, item7 = :item7, item8 = :item8, item9 = :item9, item10 = :item10
         WHERE idProducto = :idProducto";
         $sentenciaUpdate = $conexion->prepare($sqlUpdate);
         $sentenciaUpdate->bindParam(':descripcion', $nuevaDescripcion);
@@ -59,6 +78,16 @@ try {
         $sentenciaUpdate->bindParam(':idCategoria', $nuevaCategoria); 
         $sentenciaUpdate->bindParam(':precio', $nuevoPrecio);
         $sentenciaUpdate->bindParam(':masVendido', $masVendido); 
+        $sentenciaUpdate->bindParam(':item1', $items['item1']);
+        $sentenciaUpdate->bindParam(':item2', $items['item2']);
+        $sentenciaUpdate->bindParam(':item3', $items['item3']);
+        $sentenciaUpdate->bindParam(':item4', $items['item4']);
+        $sentenciaUpdate->bindParam(':item5', $items['item5']);
+        $sentenciaUpdate->bindParam(':item6', $items['item6']);
+        $sentenciaUpdate->bindParam(':item7', $items['item7']);
+        $sentenciaUpdate->bindParam(':item8', $items['item8']);
+        $sentenciaUpdate->bindParam(':item9', $items['item9']);
+        $sentenciaUpdate->bindParam(':item10', $items['item10']);
         $sentenciaUpdate->bindParam(':idProducto', $idProducto, PDO::PARAM_INT);
 
         if ($sentenciaUpdate->execute()) {

@@ -26,6 +26,9 @@
     100% { transform: scale(1.1); }
 }
 
-p {
+.spinnerText {
     margin-top: 10px; /* Ajusta el espacio entre la imagen y el texto según tus necesidades */
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }

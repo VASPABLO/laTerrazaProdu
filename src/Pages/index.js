@@ -16,10 +16,21 @@ import PageDetail from '../Pages/PageDetail/PageDetail';
 import MiPedidoPage from './MiPedido/MiPedidoPage';
 import PedidosCaja from './PedidosCaja/PedidosCaja';
 import Login from '../Components/Admin/Login/Login';
+import ForgotPassword from '../Components/Admin/Login/ForgotPassword';
+import ResetPassword from '../Components/Admin/Login/ResetPassword';
+import GraciasPedido from './GraciasPedido/GraciasPedido';
 export const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
+    },
+    {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPassword />,
     },
     {
         path: "/",
@@ -36,6 +47,10 @@ export const router = createBrowserRouter([
             {
                 path: `/mi-pedido`,
                 element: <MiPedidoPage />,
+            },
+            {
+                path: '/gracias-pedido',
+                element: <GraciasPedido />,
             },
         ]
     },

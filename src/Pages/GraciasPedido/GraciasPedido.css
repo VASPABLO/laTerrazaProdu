@@ -1,0 +1,87 @@
+.thanksOrder {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem 5rem;
+    background: linear-gradient(135deg, #fff6eb 0%, #ffe4d0 45%, #ffd3b0 100%);
+}
+
+.thanksOrder__card {
+    width: min(680px, 100%);
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2.1rem 1.5rem;
+    box-shadow: 0 18px 50px rgba(137, 57, 16, 0.16);
+    text-align: center;
+}
+
+.thanksOrder__card h1 {
+    margin: 0 0 0.9rem;
+    color: #7a2f0a;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.thanksOrder__card p {
+    margin: 0;
+    color: #2e2a28;
+    font-size: 1.06rem;
+    line-height: 1.55;
+}
+
+.thanksOrder__subtext {
+    margin-top: 0.7rem !important;
+    color: #6d4c3b !important;
+    font-size: 0.96rem !important;
+}
+
+.thanksOrder__actions {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.thanksOrder__btn {
+    display: inline-block;
+    text-decoration: none;
+    background: #d15a1a;
+    color: #fff;
+    font-weight: 700;
+    padding: 0.72rem 1.2rem;
+    border-radius: 999px;
+    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.thanksOrder__btn:hover {
+    background: #b64910;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(177, 73, 16, 0.3);
+}
+
+.thanksOrder__btn--secondary {
+    background: #ffffff;
+    color: #7a2f0a;
+    border: 1px solid #d38a64;
+}
+
+.thanksOrder__btn--secondary:hover {
+    background: #fff3ea;
+    color: #7a2f0a;
+    box-shadow: 0 8px 18px rgba(137, 57, 16, 0.12);
+}
+
+@media (max-width: 767px) {
+    .thanksOrder {
+        min-height: calc(100vh - 90px);
+        padding: 1.2rem 0.9rem 7rem;
+    }
+
+    .thanksOrder__card {
+        border-radius: 16px;
+        padding: 1.55rem 1rem;
+    }
+}

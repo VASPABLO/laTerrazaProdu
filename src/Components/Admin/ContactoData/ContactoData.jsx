@@ -135,7 +135,7 @@ export default function ContactoData() {
         setSelectedSection(section);
     };
     return (
-        <div>
+        <div className='contactoDataAdmin'>
 
             <ToastContainer />
 

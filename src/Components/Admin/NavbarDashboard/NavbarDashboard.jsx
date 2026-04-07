@@ -11,7 +11,9 @@ import {
   HiOutlineCube,
   HiOutlineUsers,
   HiOutlineChartBar,
-  HiOutlineCog6Tooth
+  HiOutlineTag,
+  HiOutlineMegaphone,
+  HiOutlinePhone
 } from 'react-icons/hi2'
 
 export default function NavbarDashboard() {
@@ -53,15 +55,15 @@ export default function NavbarDashboard() {
         </Link>
 
         <Link to="/dashboard/categorias" className={location.pathname === '/dashboard/categorias' ? 'activeLink' : ''}>
-          <HiOutlineChartBar /> Categorías
+          <HiOutlineTag /> Categorías
         </Link>
 
         <Link to="/dashboard/banners" className={location.pathname === '/dashboard/banners' ? 'activeLink' : ''}>
-          <HiOutlineChartBar /> Banners
+          <HiOutlineMegaphone /> Banners
         </Link>
 
         <Link to="/dashboard/contacto" className={location.pathname === '/dashboard/contacto' ? 'activeLink' : ''}>
-          <HiOutlineChartBar /> Contacto
+          <HiOutlinePhone /> Contacto
         </Link>
 
         <Link to="/dashboard/usuarios" className={location.pathname === '/dashboard/usuarios' ? 'activeLink' : ''}>
