@@ -26,6 +26,7 @@ $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if ($origin !== '' && in_array($origin, $allowedOrigins, true)) {
     header('Access-Control-Allow-Origin: ' . $origin);
     header('Access-Control-Allow-Credentials: true');
+    header('Vary: Origin');
 } elseif (!empty($allowedOrigins)) {
     header('Access-Control-Allow-Origin: ' . $allowedOrigins[0]);
 }
@@ -55,6 +56,7 @@ try {
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     session_start();
+
     if (!isset($_SESSION['usuario_id'])) {
         echo json_encode([
             'authenticated' => false,

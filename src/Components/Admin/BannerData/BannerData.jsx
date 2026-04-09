@@ -58,7 +58,7 @@ export default function BannerData() {
     };
     return (
         <div className='BannerContainer'>
-            <NewBanner />
+            <NewBanner onCreated={cargarBanners} />
             <div className='BannerWrap'>
                 {
                     banners.map(item => (

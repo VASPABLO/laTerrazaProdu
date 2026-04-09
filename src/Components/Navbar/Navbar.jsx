@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link as Anchor, useLocation } from 'react-router-dom';
 import Modal from 'react-modal';
-import logo from '../../images/logo.png';
+import logo from '../../images/logo1.png';
 import baseURL from '../url';
 import 'swiper/swiper-bundle.css';
 import Profile from '../Profile/Profile';

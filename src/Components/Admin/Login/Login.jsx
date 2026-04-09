@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
-import { useNavigate, } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import baseURL from '../../url';
 import logo1 from '../../../images/logo1.png';
 export default function Login() {
@@ -116,10 +116,12 @@ export default function Login() {
                         Iniciar Sesión
                     </button>
                 </form>
-
+                {/*
                 <Link to='/forgot-password' className='forgotPasswordLink'>
                     Olvidaste tu contrasena?
                 </Link>
+                 */}
+                
             </div>
         </div>
     );

@@ -561,7 +561,7 @@ export default function Cart({ isOpen, onRequestClose, hideTrigger = false, mobi
                                                     className='cartDrawer__productCard'
                                                 >
                                                     <Anchor
-                                                        to={`/producto/${item?.idProducto}/${item?.titulo?.replace(/\s+/g, '-')}`}
+                                                        to={`/p/${item?.idProducto}/${item?.titulo?.replace(/\s+/g, '-')}`}
                                                         onClick={closeDrawer}
                                                         className='cartDrawer__productImage'
                                                     >

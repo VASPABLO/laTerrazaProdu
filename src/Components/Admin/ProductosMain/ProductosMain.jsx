@@ -69,7 +69,7 @@ export default function ProductosMain() {
         <div className='table-containerPedidos'>
             <div className='deFlexMore'>
                 <h3>Ultimos {pedidos?.length} pedidos</h3>
-                <Anchor to={`/dashboard/pedidos`} className='logo'>
+                <Anchor to={`/admin/pedidos`} className='logo'>
                     Ver más
                 </Anchor>
             </div>

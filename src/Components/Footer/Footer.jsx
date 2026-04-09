@@ -65,7 +65,7 @@ const Footer = () => {
               </li>
               <li className="footer-contact-item">
                 <FontAwesomeIcon icon={faPhone} className="footer-icon" />
-                <a href={`tel:${contactos.telefono}`} className="footer-link">{contactos.telefono}</a>
+                <a href={`tel:${contactos.telefono || ''}`} className="footer-link">{contactos.telefono}</a>
               </li>
               <li className="footer-contact-item">
                 <FontAwesomeIcon icon={faEnvelope} className="footer-icon" />

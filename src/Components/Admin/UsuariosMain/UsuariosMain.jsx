@@ -30,7 +30,7 @@ export default function UsuariosData() {
         <div className='table-containerUsuarios'>
             <div className='deFlexMore'>
                 <h3>Ultimos {usuarios?.length} registros</h3>
-                <Anchor to={`/dashboard/usuarios`} className='logo'>
+                <Anchor to={`/admin/usuarios`} className='logo'>
                     Ver más
                 </Anchor>
             </div>

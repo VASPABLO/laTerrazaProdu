@@ -8,15 +8,15 @@ export default function InputSearch() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const enlaces = [
-    { title: 'Productos', link: '/dashboard/productos' },
-    { title: 'Banners', link: '/dashboard/banners' },
-    { title: 'Usuarios', link: '/dashboard/usuarios' },
-    { title: 'Contacto', link: '/dashboard/contacto' },
-    { title: 'Categorías', link: '/dashboard/categorias' },
-    { title: 'Códigos', link: '/dashboard/codigos' },
-    { title: 'Mesas', link: '/dashboard/mesas' },
-    { title: 'Pedidos', link: '/dashboard/pedidos' },
-    { title: 'Caja', link: '/dashboard/caja' },
+    { title: 'Productos', link: '/admin/productos' },
+    { title: 'Banners', link: '/admin/banners' },
+    { title: 'Usuarios', link: '/admin/usuarios' },
+    { title: 'Contacto', link: '/admin/contacto' },
+    { title: 'Categorías', link: '/admin/categorias' },
+    { title: 'Códigos', link: '/admin/codigos' },
+    { title: 'Mesas', link: '/admin/mesas' },
+    { title: 'Pedidos', link: '/admin/pedidos' },
+    { title: 'Caja', link: '/admin/cajas' },
   ];
 
   const handleSearch = (event) => {

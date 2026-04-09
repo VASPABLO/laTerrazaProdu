@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './InfoUser.css';
 import { Link } from 'react-router-dom';
-import { HiOutlineChevronRight, HiOutlineUserCircle } from 'react-icons/hi2';
-import logo2 from '../../logo2';
+import { HiOutlineChevronRight } from 'react-icons/hi2';
+import logo from '../../../images/logo1.png';
 import baseUrl from '../../url';
 
 export default function InfoUser() {
@@ -29,8 +29,6 @@ export default function InfoUser() {
   }, []);
 
   const nombreUsuario = usuario?.nombre || 'Mi perfil';
-  const fotoUsuario = usuario?.foto || '';
-  const inicial = nombreUsuario.charAt(0).toUpperCase();
 
   return (
     <div className="infoUserWrapper">
@@ -39,7 +37,7 @@ export default function InfoUser() {
       ) : (
         <Link to="/dashboard/perfil" className="btnSession">
           <div className="userAvatar">
-            <img src={logo2} alt="Logo" style={{ width: 40, height: 40, borderRadius: '50%' }} />
+            <img src={logo} alt="Logo" style={{ width: 40, height: 40, borderRadius: '50%' }} />
           </div>
 
           <div className="userText">

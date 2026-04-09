@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import logo from '../../images/logo.png'
+import logo from '../../images/logo1.png'
 import './Profile.css'
 import { Link as Anchor } from 'react-router-dom';
 import baseURL from '../url';

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './NewProduct.css'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import baseURL from '../../url';
-export default function NewProduct() {
+
+const PRODUCTOS_TOAST_CONTAINER_ID = 'admin-productos-toast';
+
+export default function NewProduct({ onCreated }) {
     const [mensaje, setMensaje] = useState('');
     const [imagenPreview1, setImagenPreview1] = useState(null);
     const [imagenPreview2, setImagenPreview2] = useState(null);
@@ -53,6 +56,11 @@ export default function NewProduct() {
             setImagenPreview2(null);
             setImagenPreview3(null);
             setImagenPreview4(null);
+            setDescripcion('');
+            setTitulo('');
+            setCategoria('');
+            setMasVendido('');
+            setPrecio('');
             setItemsOpcionales(Array.from({ length: 10 }, () => ''));
 
             setIsImage1Selected(false);
@@ -68,7 +76,7 @@ export default function NewProduct() {
             !formData.get('masVendido') ||
             !formData.get('precio')
         ) {
-            toast.error('Por favor, complete los campos obligatorios (título, precio, categoría, más vendido).');
+            toast.error('Por favor, complete los campos obligatorios (título, precio, categoría, más vendido).', { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
             return;
         }
 
@@ -85,18 +93,21 @@ export default function NewProduct() {
             if (data.mensaje) {
                 setMensaje('');
                 resetForm();
-                toast.success(data.mensaje);
-                window.location.reload();
+                toast.success(data.mensaje, { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
+                setModalOpen(false);
+                if (typeof onCreated === 'function') {
+                    onCreated();
+                }
             } else if (data.error) {
                 setMensaje('');
-                toast.error(data.error);
+                toast.error(data.error, { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
                 console.log(data.error);
 
             }
         } catch (error) {
             console.error('Error:', error);
             setMensaje('');
-            toast.error('Error de conexión. Por favor, inténtelo de nuevo.');
+            toast.error('Error de conexión. Por favor, inténtelo de nuevo.', { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
 
         }
     };
@@ -128,7 +139,6 @@ export default function NewProduct() {
     };
     return (
         <div className='NewContain'>
-            <ToastContainer />
             <button onClick={toggleModal} className='btnSave'>
                 <span>  +</span> Agregar
             </button>

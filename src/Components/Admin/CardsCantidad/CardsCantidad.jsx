@@ -147,7 +147,7 @@ export default function CardsCantidad() {
 
         <div className='CardsCantidad'>
             {/* Total Pedidos */}
-            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
+            <Anchor to={`/admin/pedidos`} className='cardCantidad' >
                 <FontAwesomeIcon icon={faClipboard} className='icons' />
                 <div>
                     <h3>Total Pedidos</h3>
@@ -156,7 +156,7 @@ export default function CardsCantidad() {
             </Anchor>
 
             {/* Pendientes */}
-            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
+            <Anchor to={`/admin/pedidos`} className='cardCantidad' >
                 <FontAwesomeIcon icon={faClock} className='icons' />
                 <div>
                     <h3>Pendientes</h3>
@@ -165,7 +165,7 @@ export default function CardsCantidad() {
             </Anchor>
 
             {/* Preparando */}
-            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
+            <Anchor to={`/admin/pedidos`} className='cardCantidad' >
                 <FontAwesomeIcon icon={faBook} className='icons' />
                 <div>
                     <h3>Preparando</h3>
@@ -174,7 +174,7 @@ export default function CardsCantidad() {
             </Anchor>
 
             {/* Completados */}
-            <Anchor to={`/dashboard/pedidos`} className='cardCantidad' >
+            <Anchor to={`/admin/pedidos`} className='cardCantidad' >
                 <FontAwesomeIcon icon={faCheck} className='icons' />
                 <div>
                     <h3>Completados</h3>
@@ -183,7 +183,7 @@ export default function CardsCantidad() {
             </Anchor>
 
             {/* Productos */}
-            <Anchor to={`/dashboard/productos`} className='cardCantidad' >
+            <Anchor to={`/admin/productos`} className='cardCantidad' >
                 <FontAwesomeIcon icon={faBook} className='icons' />
                 <div>
                     <h3>Productos</h3>
@@ -192,7 +192,7 @@ export default function CardsCantidad() {
             </Anchor>
 
             {/* Categorías */}
-            <Anchor to={`/dashboard/categorias`} className='cardCantidad' >
+            <Anchor to={`/admin/categorias`} className='cardCantidad' >
                 <FontAwesomeIcon icon={faTachometerAlt} className='icons' />
                 <div>
                     <h3>Categorias</h3>

@@ -15,11 +15,14 @@ import { faClock, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-ico
 export default function Demo() {
     const [banners, setBanners] = useState([]);
     const [productos, setProductos] = useState([]);
-    const [categorias, setCategorias] = useState([]);
+    const [, setCategorias] = useState([]);
     const [contacto, setContacto] = useState({});
     const [loading, setLoading] = useState(true);
     const [isMobileCartOpen, setIsMobileCartOpen] = useState(false);
     const [mobileCartIntent, setMobileCartIntent] = useState('summary');
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [variable1, setVariable1] = useState('1');
+    const [variable2, setVariable2] = useState('A');
     const isMobileNav = useMediaQuery('(max-width: 767px)');
     const location = useLocation();
 
@@ -97,17 +100,6 @@ export default function Demo() {
         return (destacados.length ? destacados : productos).slice(0, 4);
     }, [productos]);
 
-    const categoriasActivas = useMemo(() => {
-        return categorias
-            .filter((categoria) =>
-                productos.some(
-                    (producto) => String(producto?.idCategoria) === String(categoria?.idCategoria)
-                )
-            )
-            .slice(0, 5);
-    }, [categorias, productos]);
-
-
     // Slider de banners para el hero
     const [bannerIndex, setBannerIndex] = useState(0);
     const bannerInterval = useRef(null);
@@ -128,15 +120,10 @@ export default function Demo() {
         setBannerIndex((prev) => (prev + 1) % banners.length);
     };
 
-    const obtenerImagenCategoria = useCallback(
-        (idCategoria) => {
-            const producto = productos.find(
-                (item) => String(item?.idCategoria) === String(idCategoria) && obtenerImagen(item)
-            );
-            return obtenerImagen(producto);
-        },
-        [productos, obtenerImagen]
-    );
+    const handleApplyVariables = () => {
+        console.log(`Variables seleccionadas: ${variable1}, ${variable2}`);
+        setModalOpen(false);
+    };
 
     return (
         <section className="demo" style={isMobileNav ? { paddingBottom: '88px' } : undefined}>
@@ -179,6 +166,48 @@ export default function Demo() {
                     </a>
                 </div>
             </section>
+
+            {isModalOpen && (
+                <div className="overlay" onClick={() => setModalOpen(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Selecciona tus variables</h3>
+                            <button className="close-modal" onClick={() => setModalOpen(false)}>
+                                &times;
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <label htmlFor="variable1">Variable 1:</label>
+                            <select
+                                id="variable1"
+                                value={variable1}
+                                onChange={(e) => setVariable1(e.target.value)}
+                            >
+                                <option value="1">Opcion 1</option>
+                                <option value="2">Opcion 2</option>
+                            </select>
+
+                            <label htmlFor="variable2">Variable 2:</label>
+                            <select
+                                id="variable2"
+                                value={variable2}
+                                onChange={(e) => setVariable2(e.target.value)}
+                            >
+                                <option value="A">Opcion A</option>
+                                <option value="B">Opcion B</option>
+                            </select>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn" onClick={handleApplyVariables}>
+                                Aplicar
+                            </button>
+                            <button className="btn btn-secondary" onClick={() => setModalOpen(false)}>
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/*
             <section className="homeSpecialties">
@@ -243,7 +272,7 @@ export default function Demo() {
                         <Link
                             key={item?.idProducto}
                             className="homeFeaturedCard"
-                            to={`/producto/${item?.idProducto}/${slugify(item?.titulo)}`}
+                            to={`/p/${item?.idProducto}/${slugify(item?.titulo)}`}
                         >
                             <div className="homeFeaturedImageWrap">
                                 <img

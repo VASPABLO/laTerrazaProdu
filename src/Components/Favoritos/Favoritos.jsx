@@ -88,7 +88,7 @@ export default function Favoritos() {
 
 
                                         <div key={producto.idProducto} className='cardProductCart' >
-                                            <Anchor to={`/producto/${producto?.idProducto}/${producto?.titulo?.replace(/\s+/g, '-')}`} onClick={closeModal} >
+                                            <Anchor to={`/p/${producto?.idProducto}/${producto?.titulo?.replace(/\s+/g, '-')}`} onClick={closeModal} >
                                                 <img src={obtenerImagen(producto)} alt="imagen" />
                                             </Anchor>
                                             <div className='cardProductCartText'>

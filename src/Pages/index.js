@@ -19,6 +19,15 @@ import Login from '../Components/Admin/Login/Login';
 import ForgotPassword from '../Components/Admin/Login/ForgotPassword';
 import ResetPassword from '../Components/Admin/Login/ResetPassword';
 import GraciasPedido from './GraciasPedido/GraciasPedido';
+
+const rawEnvBasename = (process.env.REACT_APP_BASENAME || process.env.PUBLIC_URL || '').replace(/\/$/, '');
+const envBasename = rawEnvBasename === '.' ? '' : rawEnvBasename;
+const runtimeBasename = typeof window !== 'undefined'
+    ? (window.location.pathname.match(/^(.*\/public)(?:\/|$)/)?.[1] || '')
+    : '';
+
+const basename = envBasename || runtimeBasename || undefined;
+
 export const router = createBrowserRouter([
     {
         path: "/login",
@@ -41,6 +50,10 @@ export const router = createBrowserRouter([
         element: <PagesLayaut />,
         children: [
             {
+                path: `/p/:idProducto/:producto`,
+                element: <PageDetail />,
+            },
+            {
                 path: `/producto/:idProducto/:producto`,
                 element: <PageDetail />,
             },
@@ -58,6 +71,50 @@ export const router = createBrowserRouter([
         path: "/",
         element: <MainLayout />,
         children: [
+            {
+                path: `/admin`,
+                element: <Main />,
+            },
+            {
+                path: `/admin/productos`,
+                element: <Productos />,
+            },
+            {
+                path: `/admin/usuarios`,
+                element: <Usuarios />,
+            },
+            {
+                path: `/admin/banners`,
+                element: <Banners />,
+            },
+            {
+                path: `/admin/contacto`,
+                element: <Contacto />,
+            },
+            {
+                path: `/admin/categorias`,
+                element: <Categorias />,
+            },
+            {
+                path: `/admin/codigos`,
+                element: <Codigos />,
+            },
+            {
+                path: `/admin/mesas`,
+                element: <Mesas />,
+            },
+            {
+                path: `/admin/pedidos`,
+                element: <Pedidos />,
+            },
+            {
+                path: `/admin/cajas`,
+                element: <Cajas />,
+            },
+            {
+                path: `/admin/pedidos-caja`,
+                element: <PedidosCaja />,
+            },
             {
                 path: `/dashboard`,
                 element: <Main />,
@@ -104,4 +161,4 @@ export const router = createBrowserRouter([
             },
         ],
     },
-]);
+], { basename });

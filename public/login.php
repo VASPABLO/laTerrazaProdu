@@ -26,6 +26,7 @@ $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if ($origin !== '' && in_array($origin, $allowedOrigins, true)) {
     header('Access-Control-Allow-Origin: ' . $origin);
     header('Access-Control-Allow-Credentials: true');
+    header('Vary: Origin');
 } elseif (!empty($allowedOrigins)) {
     header('Access-Control-Allow-Origin: ' . $allowedOrigins[0]);
 }
@@ -48,11 +49,12 @@ $requestOrigin = $requestHost !== ''
     : '';
 $isCrossOriginRequest = $origin !== '' && $requestOrigin !== '' && $origin !== $requestOrigin;
 
-if ($isProduction && !$isHttps) {
-    http_response_code(400);
-    echo json_encode(['error' => 'HTTPS requerido. Usa una conexión segura.']);
-    exit();
-}
+// COMENTADO PARA DESARROLLO LOCAL - Descomentar en producción
+// if ($isProduction && !$isHttps) {
+//     http_response_code(400);
+//     echo json_encode(['error' => 'HTTPS requerido. Usa una conexión segura.']);
+//     exit();
+// }
 
 if ($isHttps) {
     header('Strict-Transport-Security: max-age=31536000; includeSubDomains');

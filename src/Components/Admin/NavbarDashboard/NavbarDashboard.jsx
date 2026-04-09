@@ -18,6 +18,7 @@ import {
 
 export default function NavbarDashboard() {
   const location = useLocation()
+  const isActive = (...paths) => paths.includes(location.pathname)
 
   return (
     <div className="navbarDashboard">
@@ -30,43 +31,43 @@ export default function NavbarDashboard() {
 
       <div className="links">
 
-        <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'activeLink' : ''}>
+        <Link to="/admin" className={isActive('/admin', '/dashboard') ? 'activeLink' : ''}>
           <HiOutlineHome /> Inicio
         </Link>
 
-        <Link to="/dashboard/mesas" className={location.pathname === '/dashboard/mesas' ? 'activeLink' : ''}>
+        <Link to="/admin/mesas" className={isActive('/admin/mesas', '/dashboard/mesas') ? 'activeLink' : ''}>
           <HiOutlineCube /> Mesas
         </Link>
 
-        <Link to="/dashboard/pedidos" className={location.pathname === '/dashboard/pedidos' ? 'activeLink' : ''}>
+        <Link to="/admin/pedidos" className={isActive('/admin/pedidos', '/dashboard/pedidos') ? 'activeLink' : ''}>
           <HiOutlineClipboardDocumentList /> Pedidos en el App
         </Link>
 
-        <Link to="/dashboard/cajas" className={location.pathname === '/dashboard/cajas' ? 'activeLink' : ''}>
+        <Link to="/admin/cajas" className={isActive('/admin/cajas', '/dashboard/cajas') ? 'activeLink' : ''}>
           <HiOutlineCurrencyDollar /> Caja
         </Link>
 
-        <Link to="/dashboard/pedidos-caja" className={location.pathname === '/dashboard/pedidos-caja' ? 'activeLink' : ''}>
+        <Link to="/admin/pedidos-caja" className={isActive('/admin/pedidos-caja', '/dashboard/pedidos-caja') ? 'activeLink' : ''}>
           <HiOutlineClipboardDocumentList /> Pedidos en Caja
         </Link>
 
-        <Link to="/dashboard/productos" className={location.pathname === '/dashboard/productos' ? 'activeLink' : ''}>
+        <Link to="/admin/productos" className={isActive('/admin/productos', '/dashboard/productos') ? 'activeLink' : ''}>
           <HiOutlineCube /> Productos
         </Link>
 
-        <Link to="/dashboard/categorias" className={location.pathname === '/dashboard/categorias' ? 'activeLink' : ''}>
+        <Link to="/admin/categorias" className={isActive('/admin/categorias', '/dashboard/categorias') ? 'activeLink' : ''}>
           <HiOutlineTag /> Categorías
         </Link>
 
-        <Link to="/dashboard/banners" className={location.pathname === '/dashboard/banners' ? 'activeLink' : ''}>
+        <Link to="/admin/banners" className={isActive('/admin/banners', '/dashboard/banners') ? 'activeLink' : ''}>
           <HiOutlineMegaphone /> Banners
         </Link>
 
-        <Link to="/dashboard/contacto" className={location.pathname === '/dashboard/contacto' ? 'activeLink' : ''}>
+        <Link to="/admin/contacto" className={isActive('/admin/contacto', '/dashboard/contacto') ? 'activeLink' : ''}>
           <HiOutlinePhone /> Contacto
         </Link>
 
-        <Link to="/dashboard/usuarios" className={location.pathname === '/dashboard/usuarios' ? 'activeLink' : ''}>
+        <Link to="/admin/usuarios" className={isActive('/admin/usuarios', '/dashboard/usuarios') ? 'activeLink' : ''}>
           <HiOutlineUsers /> Usuarios
         </Link>
 

@@ -13,6 +13,8 @@ import NewProduct from '../NewProduct/NewProduct';
 import moneda from '../../moneda';
 import { Link as Anchor } from "react-router-dom";
 
+const PRODUCTOS_TOAST_CONTAINER_ID = 'admin-productos-toast';
+
 export default function ProductosData() {
     const [productos, setProductos] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -113,7 +115,7 @@ export default function ProductosData() {
                     })
                     .catch(error => {
                         console.error('Error al eliminar la Producto:', error);
-                        toast.error(error);
+                        toast.error(error, { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
                     });
             }
         });
@@ -232,7 +234,7 @@ export default function ProductosData() {
             })
             .catch(error => {
                 console.log(error.message);
-                toast.error(error.message);
+                toast.error(error.message, { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
             });
     };
 
@@ -268,16 +270,24 @@ export default function ProductosData() {
             })
             .then(data => {
                 if (data.error) {
-                    toast.error(data.error);
+                    toast.error(data.error, { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
                     console.log(formData);
                 } else {
-                    toast.success(data.mensaje);
-                    window.location.reload();
+                    toast.success(data.mensaje, { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
+                    cargarProductos();
+                    setNuevaImagen(null);
+                    setNuevaImagen2(null);
+                    setNuevaImagen3(null);
+                    setNuevaImagen4(null);
+                    setImagenPreview(null);
+                    setImagenPreview2(null);
+                    setImagenPreview3(null);
+                    setImagenPreview4(null);
                 }
             })
             .catch(error => {
                 console.log(error);
-                toast.error(error.message);
+                toast.error(error.message, { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
                 console.log(formData);
                 console.log(idProducto);
             });
@@ -313,7 +323,7 @@ export default function ProductosData() {
 
     return (
         <div className="productosAdmin">
-            <ToastContainer />
+            <ToastContainer containerId={PRODUCTOS_TOAST_CONTAINER_ID} />
 
             <div className='productosToolbar'>
                 <div className='toolbarLeft'>
@@ -327,7 +337,7 @@ export default function ProductosData() {
                 </div>
 
                 <div className='toolbarRight'>
-                    <NewProduct />
+                    <NewProduct onCreated={cargarProductos} />
                     <button className='excel' onClick={descargarExcel}>
                         <FontAwesomeIcon icon={faArrowDown} /> Excel
                     </button>
@@ -609,7 +619,7 @@ export default function ProductosData() {
 
                                             <Anchor
                                                 className='ver'
-                                                to={`/producto/${item?.idProducto}/${item?.titulo?.replace(/\s+/g, '-')}`}
+                                                to={`/p/${item?.idProducto}/${item?.titulo?.replace(/\s+/g, '-')}`}
                                                 title="Ver producto"
                                             >
                                                 <FontAwesomeIcon icon={faEye} />

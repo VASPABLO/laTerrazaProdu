@@ -33,7 +33,10 @@ try {
         $masVendido = isset($_POST['masVendido']) && trim($_POST['masVendido']) !== '' ? $_POST['masVendido'] : 'no';
 
         // Campos opcionales
-        $descripcion = isset($_POST['descripcion']) && trim($_POST['descripcion']) !== '' ? $_POST['descripcion'] : null;
+        $descripcion = isset($_POST['descripcion']) ? trim((string)$_POST['descripcion']) : '';
+        if ($descripcion === '') {
+            $descripcion = 'Sin descripcion';
+        }
         $precioAnterior = isset($_POST['precioAnterior']) && trim($_POST['precioAnterior']) !== '' ? $_POST['precioAnterior'] : null;
         $item1 = isset($_POST['item1']) && trim($_POST['item1']) !== '' ? $_POST['item1'] : null;
         $item2 = isset($_POST['item2']) && trim($_POST['item2']) !== '' ? $_POST['item2'] : null;
