@@ -1,7 +1,5 @@
-import IndexLayout from "../Layouts/IndexLayout";
 import MainLayout from "../Layouts/MainLayout";
-import PagesLayaut from '../Layouts/PagesLayaut'
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import Productos from '../Pages/Productos/Productos'
 import Usuarios from '../Pages/Usuarios/Usuarios'
 import Banners from "./Banners/Banners";
@@ -12,13 +10,10 @@ import Codigos from "./Codigos/Codigos";
 import Cajas from "./Cajas/Cajas";
 import Mesas from "./Mesas/Mesas";
 import Pedidos from "./Pedidos/Pedidos";
-import PageDetail from '../Pages/PageDetail/PageDetail';
-import MiPedidoPage from './MiPedido/MiPedidoPage';
 import PedidosCaja from './PedidosCaja/PedidosCaja';
 import Login from '../Components/Admin/Login/Login';
 import ForgotPassword from '../Components/Admin/Login/ForgotPassword';
 import ResetPassword from '../Components/Admin/Login/ResetPassword';
-import GraciasPedido from './GraciasPedido/GraciasPedido';
 
 const rawEnvBasename = (process.env.REACT_APP_BASENAME || process.env.PUBLIC_URL || '').replace(/\/$/, '');
 const envBasename = rawEnvBasename === '.' ? '' : rawEnvBasename;
@@ -43,29 +38,7 @@ export const router = createBrowserRouter([
     },
     {
         path: "/",
-        element: <IndexLayout />,
-    },
-    {
-        path: "/",
-        element: <PagesLayaut />,
-        children: [
-            {
-                path: `/p/:idProducto/:producto`,
-                element: <PageDetail />,
-            },
-            {
-                path: `/producto/:idProducto/:producto`,
-                element: <PageDetail />,
-            },
-            {
-                path: `/mi-pedido`,
-                element: <MiPedidoPage />,
-            },
-            {
-                path: '/gracias-pedido',
-                element: <GraciasPedido />,
-            },
-        ]
+        element: <Navigate to="/login" replace />,
     },
     {
         path: "/",

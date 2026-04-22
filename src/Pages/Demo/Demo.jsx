@@ -38,7 +38,7 @@ export default function Demo() {
             .replace(/-+/g, '-');
 
     const obtenerImagen = useCallback((item) => {
-        return item?.imagen1 || item?.imagen2 || item?.imagen3 || item?.imagen4 || '';
+        return item?.imagen1 || item?.imagen2 || item?.imagen3 || item?.imagen4 || '/sinfoto1.png';
     }, []);
 
     const cargarHome = useCallback(async () => {

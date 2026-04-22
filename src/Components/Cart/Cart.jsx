@@ -54,7 +54,7 @@ export const calculateCartTotal = (items) => {
 };
 
 const getProductImage = (item) => {
-    return item?.imagen1 || item?.imagen2 || item?.imagen3 || item?.imagen4 || '';
+    return item?.imagen1 || item?.imagen2 || item?.imagen3 || item?.imagen4 || '/sinfoto1.png';
 };
 
 const calculateBadgeCount = (items) => {

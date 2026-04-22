@@ -65,44 +65,61 @@ try {
 
         if ($imagenesPresentes) {
             // Crear carpeta para imágenes si no existe
-            $carpetaImagenes = 'imagenes_productos';
-            if (!file_exists($carpetaImagenes)) {
-                mkdir($carpetaImagenes, 0777, true);
+            $carpetaImagenesRel = 'imagenes_productos';
+            $carpetaImagenesAbs = __DIR__ . DIRECTORY_SEPARATOR . $carpetaImagenesRel;
+            if (!file_exists($carpetaImagenesAbs)) {
+                mkdir($carpetaImagenesAbs, 0777, true);
             }
 
             // Subir imagen1
             if (isset($_FILES['imagen1']) && $_FILES['imagen1']['error'] === UPLOAD_ERR_OK) {
                 $nombreImagen = time() . '_' . basename($_FILES['imagen1']['name']);
-                $rutaImagen = $carpetaImagenes . '/' . $nombreImagen;
-                if (move_uploaded_file($_FILES['imagen1']['tmp_name'], $rutaImagen)) {
-                    $rutaImagenCompleta = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen, '/');
+                $rutaImagenAbs = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreImagen;
+                $rutaImagenWeb = $carpetaImagenesRel . '/' . $nombreImagen;
+                if (move_uploaded_file($_FILES['imagen1']['tmp_name'], $rutaImagenAbs)) {
+                    $rutaImagenCompleta = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagenWeb, '/');
+                } else {
+                    echo json_encode(["error" => "No se pudo guardar imagen1"]);
+                    exit;
                 }
             }
 
             // Subir imagen2
             if (isset($_FILES['imagen2']) && $_FILES['imagen2']['error'] === UPLOAD_ERR_OK) {
                 $nombreImagen2 = time() . '_2_' . basename($_FILES['imagen2']['name']);
-                $rutaImagen2 = $carpetaImagenes . '/' . $nombreImagen2;
-                if (move_uploaded_file($_FILES['imagen2']['tmp_name'], $rutaImagen2)) {
-                    $rutaImagen2Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen2, '/');
+                $rutaImagen2Abs = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreImagen2;
+                $rutaImagen2Web = $carpetaImagenesRel . '/' . $nombreImagen2;
+                if (move_uploaded_file($_FILES['imagen2']['tmp_name'], $rutaImagen2Abs)) {
+                    $rutaImagen2Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen2Web, '/');
+                } else {
+                    echo json_encode(["error" => "No se pudo guardar imagen2"]);
+                    exit;
                 }
             }
 
             // Subir imagen3
             if (isset($_FILES['imagen3']) && $_FILES['imagen3']['error'] === UPLOAD_ERR_OK) {
                 $nombreImagen3 = time() . '_3_' . basename($_FILES['imagen3']['name']);
-                $rutaImagen3 = $carpetaImagenes . '/' . $nombreImagen3;
-                if (move_uploaded_file($_FILES['imagen3']['tmp_name'], $rutaImagen3)) {
-                    $rutaImagen3Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen3, '/');
+                $rutaImagen3Abs = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreImagen3;
+                $rutaImagen3Web = $carpetaImagenesRel . '/' . $nombreImagen3;
+                if (move_uploaded_file($_FILES['imagen3']['tmp_name'], $rutaImagen3Abs)) {
+                    $rutaImagen3Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen3Web, '/');
+                } else {
+                    echo json_encode(["error" => "No se pudo guardar imagen3"]);
+                    exit;
                 }
             }
 
             // Subir imagen4
             if (isset($_FILES['imagen4']) && $_FILES['imagen4']['error'] === UPLOAD_ERR_OK) {
                 $nombreImagen4 = time() . '_4_' . basename($_FILES['imagen4']['name']);
-                $rutaImagen4 = $carpetaImagenes . '/' . $nombreImagen4;
-                if (move_uploaded_file($_FILES['imagen4']['tmp_name'], $rutaImagen4)) {
-                    $rutaImagen4Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen4, '/');
+                $rutaImagen4Abs = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreImagen4;
+                $rutaImagen4Web = $carpetaImagenesRel . '/' . $nombreImagen4;
+                if (move_uploaded_file($_FILES['imagen4']['tmp_name'], $rutaImagen4Abs)) {
+                    $rutaImagen4Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen4Web, '/');
+                } else {
+                    echo json_encode(["error" => "No se pudo guardar imagen4"]);
+                    exit;
                 }
             }
         }

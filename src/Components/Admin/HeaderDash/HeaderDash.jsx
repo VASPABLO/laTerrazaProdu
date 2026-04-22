@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './HeaderDash.css';
 import ButonScreen from '../ButonScreen/ButonScreen';
 import InputSearch from '../InputSearch/InputSearch';
 import InfoUser from '../InfoUser/InfoUser';
 import ButonInstallAppNav from '../ButonInstallAppNav/ButonInstallAppNav'
 import { Link as Anchor } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { HiOutlineHome } from 'react-icons/hi2';
+
 export default function HeaderDash() {
 
 

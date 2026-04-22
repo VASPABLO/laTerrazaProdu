@@ -208,7 +208,7 @@
 .seeMoreBtn {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--pos-accent-2);
+    color: #fff;
     font-weight: 700;
     font-size: 0.88rem;
     letter-spacing: 0.2px;
@@ -430,13 +430,13 @@
     margin: 0;
     font-size: 0.88rem;
     font-weight: 800;
-    color: var(--pos-accent);
+    color: #fff;
     white-space: nowrap;
     transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 
 .productCard:hover .productPrice {
-    color: var(--pos-accent-2);
+    color: #fff;
     text-shadow: 0 0 12px rgba(255, 107, 53, 0.28);
 }
 
@@ -458,7 +458,6 @@
 }
 
 .productCardDetailBtn,
-.productCardOptionsBtn,
 .productCardBuyBtn {
     display: inline-flex;
     align-items: center;
@@ -481,18 +480,6 @@
     flex: 1;
 }
 
-.productCardOptionsBtn {
-    color: #cfe3ff;
-    background: rgba(64, 116, 184, 0.16);
-    border-color: rgba(88, 148, 224, 0.32);
-    flex: 1;
-}
-
-.productCardOptionsBtn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
 .productCardBuyBtn {
     color: #fff;
     background: linear-gradient(135deg, var(--pos-accent), var(--pos-accent-2));
@@ -503,12 +490,6 @@
 .productCard:hover .productCardDetailBtn {
     color: #fff;
     border-color: rgba(255, 107, 53, 0.35);
-}
-
-.productCardOptionsBtn:hover:not(:disabled) {
-    color: #fff;
-    border-color: rgba(88, 148, 224, 0.58);
-    background: rgba(64, 116, 184, 0.3);
 }
 
 .productCardBuyBtn:hover {
@@ -1110,77 +1091,77 @@
     }
 
     .categoriSectionSelected {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.55rem;
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
     }
 
     .productCard {
-        border-radius: 14px;
+        min-height: 100%;
+        border-radius: 18px;
     }
 
     .productCardImageWrap {
-        aspect-ratio: 4 / 3;
+        aspect-ratio: 16 / 11;
     }
 
     .productCardImage {
         object-fit: contain;
-        padding: 0.22rem;
+        padding: 0.4rem;
     }
 
     .productCardBody {
-        padding: 0.58rem;
-        gap: 0.52rem;
+        padding: 0.82rem;
+        gap: 0.72rem;
     }
 
     .productCardTop {
         grid-template-columns: 1fr auto;
-        gap: 0.5rem;
+        gap: 0.72rem;
         align-items: start;
     }
 
     .productCardTitle {
-        font-size: 0.78rem;
-        line-height: 1.2;
+        font-size: 0.92rem;
+        line-height: 1.28;
         -webkit-line-clamp: 2;
         line-clamp: 2;
     }
 
     .productCardDescription {
-        font-size: 0.7rem;
-        line-height: 1.35;
+        font-size: 0.8rem;
+        line-height: 1.42;
         -webkit-line-clamp: 2;
         line-clamp: 2;
     }
 
     .productCardPriceBlock {
         align-items: flex-end;
-        gap: 0.2rem;
+        gap: 0.28rem;
     }
 
     .productPrice {
-        font-size: 0.78rem;
+        font-size: 0.94rem;
     }
 
     .productOldPrice {
-        font-size: 0.66rem;
+        font-size: 0.74rem;
+    }
+
+    .productCardFooter {
+        gap: 0.5rem;
+        padding-top: 0.35rem;
+    }
+
+    .productCardDetailBtn,
+    .productCardBuyBtn {
+        font-size: 0.76rem;
+        padding: 0.58rem 0.5rem;
+        border-radius: 10px;
+        min-height: 38px;
     }
 
     .productCardFooter {
         gap: 0.45rem;
-        padding-top: 0.2rem;
-    }
-
-    .productCardDetailBtn,
-    .productCardOptionsBtn,
-    .productCardBuyBtn {
-        font-size: 0.66rem;
-        padding: 0.38rem 0.42rem;
-        border-radius: 8px;
-        min-height: 30px;
-    }
-
-    .productCardFooter {
-        gap: 0.32rem;
     }
 
     .productBadge {
@@ -1198,5 +1179,23 @@
 @media (max-width: 380px) {
     .categoriSectionSelected {
         grid-template-columns: 1fr;
+    }
+
+    .productCardTop {
+        grid-template-columns: 1fr;
+    }
+
+    .productCardPriceBlock {
+        align-items: flex-start;
+    }
+
+    .productCardFooter {
+        flex-wrap: wrap;
+    }
+
+    .productCardDetailBtn,
+    .productCardBuyBtn {
+        min-width: calc(50% - 0.3rem);
+        flex: 1 1 calc(50% - 0.3rem);
     }
 }

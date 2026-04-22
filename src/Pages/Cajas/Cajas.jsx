@@ -141,7 +141,7 @@ export default function Cajas() {
                     precio: Number(producto.precio) || 0,
                     stock: 999,
                     cantidad: 1,
-                    imagen: producto.imagen1 || '',
+                    imagen: producto.imagen1 || '/sinfoto1.png',
                 },
             ];
         });

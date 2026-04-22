@@ -284,82 +284,60 @@ export default function Detail() {
 
                     >
 
-                        {
-                            producto.imagen1 ?
-                                (
-                                    <SwiperSlide  >
-                                        <img
-                                            src={producto.imagen1}
-                                            alt={producto.titulo}
-                                            className="imagen1"
-                                            onClick={() => {
-                                                setModalImage(producto.imagen1);
-                                                setIsModalOpen(true);
-                                            }}
-                                        />
-                                    </SwiperSlide>
-                                ) : (
-                                    <>
-                                    </>
-                                )
+                        <SwiperSlide>
+                            <img
+                                src={producto.imagen1 || '/sinfoto1.png'}
+                                alt={producto.titulo}
+                                className="imagen1"
+                                onClick={() => {
+                                    setModalImage(producto.imagen1 || '/sinfoto1.png');
+                                    setIsModalOpen(true);
+                                }}
+                            />
+                        </SwiperSlide>
                         }
 
-                        {
-                            producto.imagen2 ?
-                                (
-                                    <SwiperSlide  >
-                                        <img
-                                            src={producto.imagen2}
-                                            alt={producto.titulo}
-                                            className="imagen2"
-                                            onClick={() => {
-                                                setModalImage(producto.imagen2);
-                                                setIsModalOpen(true);
-                                            }}
-                                        />
-                                    </SwiperSlide>
-                                ) : (
-                                    <>
-                                    </>
-                                )
+                        {producto.imagen2 && (
+                            <SwiperSlide>
+                                <img
+                                    src={producto.imagen2}
+                                    alt={producto.titulo}
+                                    className="imagen2"
+                                    onClick={() => {
+                                        setModalImage(producto.imagen2);
+                                        setIsModalOpen(true);
+                                    }}
+                                />
+                            </SwiperSlide>
+                        )}
                         }
-                        {
-                            producto.imagen3 ?
-                                (
-                                    <SwiperSlide  >
-                                        <img
-                                            src={producto.imagen3}
-                                            alt={producto.titulo}
-                                            className="img"
-                                            onClick={() => {
-                                                setModalImage(producto.imagen3);
-                                                setIsModalOpen(true);
-                                            }}
-                                        />
-                                    </SwiperSlide>
-                                ) : (
-                                    <>
-                                    </>
-                                )
+                        {producto.imagen3 && (
+                            <SwiperSlide>
+                                <img
+                                    src={producto.imagen3}
+                                    alt={producto.titulo}
+                                    className="img"
+                                    onClick={() => {
+                                        setModalImage(producto.imagen3);
+                                        setIsModalOpen(true);
+                                    }}
+                                />
+                            </SwiperSlide>
+                        )}
                         }
-                        {
-                            producto.imagen4 ?
-                                (
-                                    <SwiperSlide  >
-                                        <img
-                                            src={producto.imagen4}
-                                            alt={producto.titulo}
-                                            className="imagen4"
-                                            onClick={() => {
-                                                setModalImage(producto.imagen4);
-                                                setIsModalOpen(true);
-                                            }}
-                                        />
-                                    </SwiperSlide>
-                                ) : (
-                                    <>
-                                    </>
-                                )
+                        {producto.imagen4 && (
+                            <SwiperSlide>
+                                <img
+                                    src={producto.imagen4}
+                                    alt={producto.titulo}
+                                    className="imagen4"
+                                    onClick={() => {
+                                        setModalImage(producto.imagen4);
+                                        setIsModalOpen(true);
+                                    }}
+                                />
+                            </SwiperSlide>
+                        )}
                         }
                     </Swiper>
                 </SwiperSlide>

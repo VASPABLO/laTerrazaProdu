@@ -7,6 +7,7 @@ import './Footer.css';
 
 const Footer = () => {
   const [contactos, setContactos] = useState({});
+  const googleMapsUrl = 'https://maps.app.goo.gl/uXzkktq7WXrKVFTh7?g_st=aw';
 
   useEffect(() => {
     cargarContacto();
@@ -38,7 +39,7 @@ const Footer = () => {
               Las mejores carnes a la parrilla, hamburguesas artesanales y un ambiente inigualable para disfrutar con familia y amigos.
             </p>
             <div className="footer-socials">
-              <a href={contactos.instagram} target="_blank" rel="noopener noreferrer" className="footer-social-link">Instagram</a>
+              <a href="https://www.instagram.com/laterraza782?igsh=bnpvNm1xNzNtdzF0" target="_blank" rel="noopener noreferrer" className="footer-social-link">Instagram</a>
               <a href={contactos.facebook} target="_blank" rel="noopener noreferrer" className="footer-social-link">Facebook</a>
               <a href={`tel:${contactos.telefono}`} className="footer-social-link">WhatsApp</a>
             </div>
@@ -72,6 +73,18 @@ const Footer = () => {
                 <a href={`mailto:${contactos.email}`} className="footer-link">{contactos.email}</a>
               </li>
             </ul>
+            <div className="footer-map-cta">
+              <p className="footer-map-title">Cómo llegar</p>
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-map-button"
+              >
+                <FontAwesomeIcon icon={faMapPin} className="footer-map-button-icon" />
+                Ver en Google Maps
+              </a>
+            </div>
           </div>
 
           {/* Hours */}

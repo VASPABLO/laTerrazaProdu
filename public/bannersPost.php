@@ -28,19 +28,25 @@ try {
         // Verificar si se envió la imagen
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
             // Crear carpeta para imágenes si no existe
-            $carpetaImagenes = 'imagenes_banners';
-            if (!file_exists($carpetaImagenes)) {
-                mkdir($carpetaImagenes, 0777, true);
+            $carpetaImagenesRel = 'imagenes_banners';
+            $carpetaImagenesAbs = __DIR__ . DIRECTORY_SEPARATOR . $carpetaImagenesRel;
+            if (!file_exists($carpetaImagenesAbs)) {
+                mkdir($carpetaImagenesAbs, 0777, true);
             }
 
             // Inicializar ruta de la imagen
             $rutaImagenCompleta = '';
 
             // Subir la imagen
-            $nombreImagen = $_FILES['imagen']['name'];
-            $rutaImagen = $carpetaImagenes . '/' . $nombreImagen;
-            move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaImagen);
-            $rutaImagenCompleta = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen, '/');
+            $nombreImagen = time() . '_' . basename($_FILES['imagen']['name']);
+            $rutaImagenAbs = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreImagen;
+            $rutaImagenWeb = $carpetaImagenesRel . '/' . $nombreImagen;
+
+            if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaImagenAbs)) {
+                echo json_encode(["error" => "No se pudo guardar la imagen del banner en el servidor"]);
+                exit;
+            }
+            $rutaImagenCompleta = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagenWeb, '/');
 
             // Almacenar enlace completo en la base de datos
             $sqlInsert = "INSERT INTO `banner` (imagen) VALUES (:imagen)";

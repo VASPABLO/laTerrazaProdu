@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: PUT, OPTIONS');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
 // Manejo de solicitudes OPTIONS
@@ -23,15 +23,16 @@ $contrasena = $_ENV['DB_PASS'];
 $dbname = $_ENV['DB_NAME'];
 $rutaweb = $_ENV['RUTA_WEB'];
 $mensaje = "";
-$carpetaImagenes = 'imagenes_productos'; // Carpeta local para imagenes de productos
+$carpetaImagenesRel = 'imagenes_productos';
+$carpetaImagenesAbs = __DIR__ . DIRECTORY_SEPARATOR . $carpetaImagenesRel;
 
 try {
     $dsn = "mysql:host=$servidor;dbname=$dbname";
     $conexion = new PDO($dsn, $usuario, $contrasena);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    if (!file_exists($carpetaImagenes)) {
-        mkdir($carpetaImagenes, 0777, true);
+    if (!file_exists($carpetaImagenesAbs)) {
+        mkdir($carpetaImagenesAbs, 0777, true);
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -43,52 +44,60 @@ try {
             exit;
         }
 
-        $nombreImagen1 = $_FILES['imagen1']['name'];
+        $nombreImagen1 = $_FILES['imagen1']['name'] ?? '';
         $rutaImagen1Completa = '';
         if (!empty($nombreImagen1)) {
-            $rutaImagen1 = $carpetaImagenes . '/' . $nombreImagen1;
+            $nombreGuardado1 = time() . '_' . basename($nombreImagen1);
+            $rutaImagen1 = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreGuardado1;
+            $rutaImagen1Web = $carpetaImagenesRel . '/' . $nombreGuardado1;
             
             if (move_uploaded_file($_FILES['imagen1']['tmp_name'], $rutaImagen1)) {
-                $rutaImagen1Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen1, '/');
+                $rutaImagen1Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen1Web, '/');
             } else {
                 echo json_encode(["error" => "Error al mover el archivo de imagen1"]);
                 exit;
             }
         }
 
-        $nombreImagen2 = $_FILES['imagen2']['name'];
+        $nombreImagen2 = $_FILES['imagen2']['name'] ?? '';
         $rutaImagen2Completa = '';
         if (!empty($nombreImagen2)) {
-            $rutaImagen2 = $carpetaImagenes . '/' . $nombreImagen2;
+            $nombreGuardado2 = time() . '_2_' . basename($nombreImagen2);
+            $rutaImagen2 = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreGuardado2;
+            $rutaImagen2Web = $carpetaImagenesRel . '/' . $nombreGuardado2;
             
             if (move_uploaded_file($_FILES['imagen2']['tmp_name'], $rutaImagen2)) {
-                $rutaImagen2Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen2, '/');
+                $rutaImagen2Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen2Web, '/');
             } else {
                 echo json_encode(["error" => "Error al mover el archivo de imagen2"]);
                 exit;
             }
         }
 
-        $nombreImagen3 = $_FILES['imagen3']['name'];
+        $nombreImagen3 = $_FILES['imagen3']['name'] ?? '';
         $rutaImagen3Completa = '';
         if (!empty($nombreImagen3)) {
-            $rutaImagen3 = $carpetaImagenes . '/' . $nombreImagen3;
+            $nombreGuardado3 = time() . '_3_' . basename($nombreImagen3);
+            $rutaImagen3 = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreGuardado3;
+            $rutaImagen3Web = $carpetaImagenesRel . '/' . $nombreGuardado3;
             
             if (move_uploaded_file($_FILES['imagen3']['tmp_name'], $rutaImagen3)) {
-                $rutaImagen3Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen3, '/');
+                $rutaImagen3Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen3Web, '/');
             } else {
                 echo json_encode(["error" => "Error al mover el archivo de imagen3"]);
                 exit;
             }
         }
 
-        $nombreImagen4 = $_FILES['imagen4']['name'];
+        $nombreImagen4 = $_FILES['imagen4']['name'] ?? '';
         $rutaImagen4Completa = '';
         if (!empty($nombreImagen4)) {
-            $rutaImagen4 = $carpetaImagenes . '/' . $nombreImagen4;
+            $nombreGuardado4 = time() . '_4_' . basename($nombreImagen4);
+            $rutaImagen4 = $carpetaImagenesAbs . DIRECTORY_SEPARATOR . $nombreGuardado4;
+            $rutaImagen4Web = $carpetaImagenesRel . '/' . $nombreGuardado4;
             
             if (move_uploaded_file($_FILES['imagen4']['tmp_name'], $rutaImagen4)) {
-                $rutaImagen4Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen4, '/');
+                $rutaImagen4Completa = rtrim($rutaweb, '/') . '/' . ltrim($rutaImagen4Web, '/');
             } else {
                 echo json_encode(["error" => "Error al mover el archivo de imagen4"]);
                 exit;

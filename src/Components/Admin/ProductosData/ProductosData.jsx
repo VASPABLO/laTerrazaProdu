@@ -12,10 +12,12 @@ import baseURL from '../../url';
 import NewProduct from '../NewProduct/NewProduct';
 import moneda from '../../moneda';
 import { Link as Anchor } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const PRODUCTOS_TOAST_CONTAINER_ID = 'admin-productos-toast';
 
 export default function ProductosData() {
+    const navigate = useNavigate();
     const [productos, setProductos] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [nuevoTitulo, setNuevoTitulo] = useState('');
@@ -142,6 +144,15 @@ export default function ProductosData() {
         return idMatch && tituloMatch && categoriaMatch && masVendidoMatch;
     });
 
+    const mostrarColumnaImagen2 = productosFiltrados.some(item => Boolean(item?.imagen2));
+    const mostrarColumnaImagen3 = productosFiltrados.some(item => Boolean(item?.imagen3));
+    const mostrarColumnaImagen4 = productosFiltrados.some(item => Boolean(item?.imagen4));
+
+    const mostrarCampoImagen1 = Boolean(producto?.imagen1 || imagenPreview);
+    const mostrarCampoImagen2 = Boolean(producto?.imagen2 || imagenPreview2);
+    const mostrarCampoImagen3 = Boolean(producto?.imagen3 || imagenPreview3);
+    const mostrarCampoImagen4 = Boolean(producto?.imagen4 || imagenPreview4);
+
     const descargarExcel = () => {
         const data = productosFiltrados.map(item => ({
             IdProducto: item.idProducto,
@@ -249,6 +260,11 @@ export default function ProductosData() {
     };
 
     const handleEditarImagenBanner = (idProducto) => {
+        if (!nuevaImagen && !nuevaImagen2 && !nuevaImagen3 && !nuevaImagen4) {
+            toast.error('Selecciona al menos una imagen para actualizar.', { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
+            return;
+        }
+
         const formData = new FormData();
         formData.append('idProducto', idProducto);
         formData.append('updateAction', 'update');
@@ -275,6 +291,7 @@ export default function ProductosData() {
                 } else {
                     toast.success(data.mensaje, { containerId: PRODUCTOS_TOAST_CONTAINER_ID });
                     cargarProductos();
+                    cerrarModal();
                     setNuevaImagen(null);
                     setNuevaImagen2(null);
                     setNuevaImagen3(null);
@@ -283,6 +300,7 @@ export default function ProductosData() {
                     setImagenPreview2(null);
                     setImagenPreview3(null);
                     setImagenPreview4(null);
+                    navigate('/admin/productos', { replace: true });
                 }
             })
             .catch(error => {
@@ -503,43 +521,39 @@ export default function ProductosData() {
 
                         <div className='sectionImg' style={{ display: selectedSection === 'imagenes' ? 'flex' : 'none' }}>
                             <div className='previevProduct'>
-                                {imagenPreview ? (
+                                {mostrarCampoImagen1 && (imagenPreview ? (
                                     <img src={imagenPreview} alt="Vista previa de la imagen" onClick={() => abrirModalImagenSeleccionada(producto.imagen1)} />
                                 ) : producto.imagen1 ? (
                                     <img src={producto.imagen1} alt="imagen" onClick={() => abrirModalImagenSeleccionada(producto.imagen1)} />
-                                ) : (
-                                    <span className='imgNone'>No hay imagen</span>
-                                )}
+                                ) : null)}
 
-                                {imagenPreview2 ? (
+                                {mostrarCampoImagen2 && (imagenPreview2 ? (
                                     <img src={imagenPreview2} alt="Vista previa de la imagen" />
                                 ) : producto.imagen2 ? (
                                     <img src={producto.imagen2} alt="imagen" onClick={() => abrirModalImagenSeleccionada(producto.imagen2)} />
-                                ) : (
-                                    <span className='imgNone'>No hay imagen</span>
-                                )}
+                                ) : null)}
 
-                                {imagenPreview3 ? (
+                                {mostrarCampoImagen3 && (imagenPreview3 ? (
                                     <img src={imagenPreview3} alt="Vista previa de la imagen" />
                                 ) : producto.imagen3 ? (
                                     <img src={producto.imagen3} alt="imagen" onClick={() => abrirModalImagenSeleccionada(producto.imagen3)} />
-                                ) : (
-                                    <span className='imgNone'>No hay imagen</span>
-                                )}
+                                ) : null)}
 
-                                {imagenPreview4 ? (
+                                {mostrarCampoImagen4 && (imagenPreview4 ? (
                                     <img src={imagenPreview4} alt="Vista previa de la imagen" />
                                 ) : producto.imagen4 ? (
                                     <img src={producto.imagen4} alt="imagen" onClick={() => abrirModalImagenSeleccionada(producto.imagen4)} />
-                                ) : (
-                                    <span className='imgNone'>No hay imagen</span>
-                                )}
+                                ) : null)}
                             </div>
 
-                            <fieldset><legend>Editar Imagen 1</legend><input type="file" accept="image/*" onChange={(e) => handleFileChange(e, setNuevaImagen, setImagenPreview)} /></fieldset>
-                            <fieldset><legend>Editar Imagen 2</legend><input type="file" accept="image/*" onChange={(e) => handleFileChange(e, setNuevaImagen2, setImagenPreview2)} /></fieldset>
-                            <fieldset><legend>Editar Imagen 3</legend><input type="file" accept="image/*" onChange={(e) => handleFileChange(e, setNuevaImagen3, setImagenPreview3)} /></fieldset>
-                            <fieldset><legend>Editar Imagen 4</legend><input type="file" accept="image/*" onChange={(e) => handleFileChange(e, setNuevaImagen4, setImagenPreview4)} /></fieldset>
+                            {mostrarCampoImagen1 && <fieldset><legend>Editar Imagen 1</legend><input type="file" accept="image/*" onChange={(e) => handleFileChange(e, setNuevaImagen, setImagenPreview)} /></fieldset>}
+                            {mostrarCampoImagen2 && <fieldset><legend>Editar Imagen 2</legend><input type="file" accept="image/*" onChange={(e) => handleFileChange(e, setNuevaImagen2, setImagenPreview2)} /></fieldset>}
+                            {mostrarCampoImagen3 && <fieldset><legend>Editar Imagen 3</legend><input type="file" accept="image/*" onChange={(e) => handleFileChange(e, setNuevaImagen3, setImagenPreview3)} /></fieldset>}
+                            {mostrarCampoImagen4 && <fieldset><legend>Editar Imagen 4</legend><input type="file" accept="image/*" onChange={(e) => handleFileChange(e, setNuevaImagen4, setImagenPreview4)} /></fieldset>}
+
+                            {!mostrarCampoImagen1 && !mostrarCampoImagen2 && !mostrarCampoImagen3 && !mostrarCampoImagen4 && (
+                                <span className='imgNone'>Este producto no tiene imágenes para editar.</span>
+                            )}
 
                             <button className='btnPost' onClick={() => handleEditarImagenBanner(producto.idProducto)}>
                                 Guardar imágenes
@@ -566,9 +580,9 @@ export default function ProductosData() {
                                 <th>Precio</th>
                                 <th>Categoría</th>
                                 <th>Imagen 1</th>
-                                <th>Imagen 2</th>
-                                <th>Imagen 3</th>
-                                <th>Imagen 4</th>
+                                {mostrarColumnaImagen2 && <th>Imagen 2</th>}
+                                {mostrarColumnaImagen3 && <th>Imagen 3</th>}
+                                {mostrarColumnaImagen4 && <th>Imagen 4</th>}
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -603,9 +617,9 @@ export default function ProductosData() {
                                     }
 
                                     <td>{item.imagen1 ? <img src={item.imagen1} alt="imagen1" /> : <span className='imgNonetd'>Sin imagen</span>}</td>
-                                    <td>{item.imagen2 ? <img src={item.imagen2} alt="imagen2" /> : <span className='imgNonetd'>Sin imagen</span>}</td>
-                                    <td>{item.imagen3 ? <img src={item.imagen3} alt="imagen3" /> : <span className='imgNonetd'>Sin imagen</span>}</td>
-                                    <td>{item.imagen4 ? <img src={item.imagen4} alt="imagen4" /> : <span className='imgNonetd'>Sin imagen</span>}</td>
+                                    {mostrarColumnaImagen2 && <td>{item.imagen2 ? <img src={item.imagen2} alt="imagen2" /> : <span className='imgNonetd'>Sin imagen</span>}</td>}
+                                    {mostrarColumnaImagen3 && <td>{item.imagen3 ? <img src={item.imagen3} alt="imagen3" /> : <span className='imgNonetd'>Sin imagen</span>}</td>}
+                                    {mostrarColumnaImagen4 && <td>{item.imagen4 ? <img src={item.imagen4} alt="imagen4" /> : <span className='imgNonetd'>Sin imagen</span>}</td>}
 
                                     <td>
                                         <div className='actionsCell'>

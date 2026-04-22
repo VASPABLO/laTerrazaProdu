@@ -8,7 +8,7 @@ import Profile from '../Profile/Profile';
 import './Navbar.css';
 import Favoritos from '../Favoritos/Favoritos';
 import InputSerach from '../InputSerach/InputSearchs';
-import Logout from '../Admin/Logout/Logout';
+// import Logout from '../Admin/Logout/Logout'; // COMENTADO: Acceso admin deshabilitado
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [images, setImages] = useState([]);
@@ -118,6 +118,7 @@ export default function Navbar() {
                                     <img src={images[0]} alt={`imagen`} />
                                 </div>
                                 <Profile />
+                                {/* COMENTADO: Acceso admin deshabilitado
                                 {loading ? (
                                     <div></div>
                                 ) : usuario.idUsuario ? (
@@ -125,6 +126,7 @@ export default function Navbar() {
                                 ) : (
                                     <></>
                                 )}
+                                */}
 
                             </>
                         )}

@@ -30,7 +30,7 @@ const slugify = (text = '') =>
 const formatearPrecioAnteriorVisible = (precioAnterior) => Number(precioAnterior) >= 1;
 
 const obtenerImagen = (item) =>
-    item?.imagen1 || item?.imagen2 || item?.imagen3 || item?.imagen4 || '';
+    item?.imagen1 || item?.imagen2 || item?.imagen3 || item?.imagen4 || '/sinfoto1.png';
 
 const obtenerOpcionesProducto = (item) =>
     [
@@ -41,9 +41,10 @@ const obtenerOpcionesProducto = (item) =>
         .filter(Boolean);
 
 // ---- ProductCard fuera de Products para que React no lo desmonte en cada render ----
-function ProductCard({ item, masVendido = false, compact = false, isOptionsOpen, selectedOption, onToggleOptions, onSelectOption, onComprar }) {
+function ProductCard({ item, masVendido = false, compact = false, selectedOption, onSelectOption, onComprar }) {
     const imagen = obtenerImagen(item);
     const opciones = obtenerOpcionesProducto(item);
+    const selectedOptionValue = selectedOption || opciones[0] || '';
 
     return (
         <article
@@ -84,41 +85,29 @@ function ProductCard({ item, masVendido = false, compact = false, isOptionsOpen,
                     </Link>
                     <button
                         type="button"
-                        className="productCardOptionsBtn"
-                        onClick={onToggleOptions}
-                        disabled={opciones.length === 0}
-                    >
-                        Opciones
-                    </button>
-                    <button
-                        type="button"
                         className="productCardBuyBtn"
-                        onClick={() => onComprar(selectedOption)}
+                        onClick={() => onComprar(selectedOptionValue)}
                     >
                         Comprar
                     </button>
                 </div>
 
-                {isOptionsOpen && (
+                {opciones.length > 0 && (
                     <div className="productCardOptionsPanel">
                         <p className="productCardOptionsTitle">Elige una opcion</p>
 
-                        {opciones.length > 0 ? (
-                            <div className="productCardOptionsList">
-                                {opciones.map((option) => (
-                                    <button
-                                        key={`${item?.idProducto}-${option}`}
-                                        type="button"
-                                        className={`productOptionChip ${selectedOption === option ? 'active' : ''}`}
-                                        onClick={() => onSelectOption(option)}
-                                    >
-                                        {option}
-                                    </button>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="productCardOptionsEmpty">Sin opciones para este producto</p>
-                        )}
+                        <div className="productCardOptionsList">
+                            {opciones.map((option) => (
+                                <button
+                                    key={`${item?.idProducto}-${option}`}
+                                    type="button"
+                                    className={`productOptionChip ${selectedOptionValue === option ? 'active' : ''}`}
+                                    onClick={() => onSelectOption(option)}
+                                >
+                                    {option}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>
@@ -132,7 +121,6 @@ export default function Products() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todo');
-    const [expandedOptionsByProduct, setExpandedOptionsByProduct] = useState({});
     const [selectedOptionByProduct, setSelectedOptionByProduct] = useState({});
     const categoriasInputRef = useRef(null);
 
@@ -220,14 +208,6 @@ export default function Products() {
         saveCartToStorage(updatedCart);
         toast.success('Producto agregado al carrito', { autoClose: 1200 });
     };
-
-    const toggleOpcionesProducto = (idProducto) => {
-        setExpandedOptionsByProduct((prev) => ({
-            ...prev,
-            [idProducto]: !prev[idProducto],
-        }));
-    };
-
     return (
         <section className="ProductsContain" aria-label="Listado de productos">
             <ToastContainer position="top-right" autoClose={2500} />
@@ -310,11 +290,12 @@ export default function Products() {
                                             <Swiper
                                                 modules={[Navigation, Pagination, A11y]}
                                                 spaceBetween={12}
-                                                slidesPerView={1.55}
+                                                slidesPerView={1.12}
                                                 navigation
                                                 breakpoints={{
-                                                    480: { slidesPerView: 1.9 },
-                                                    640: { slidesPerView: 2.4 },
+                                                    420: { slidesPerView: 1.28 },
+                                                    560: { slidesPerView: 1.6 },
+                                                    640: { slidesPerView: 2.15 },
                                                     900: { slidesPerView: 3.2 },
                                                     1200: { slidesPerView: 4.4 },
                                                 }}
@@ -324,9 +305,7 @@ export default function Products() {
                                                     <SwiperSlide key={item.idProducto}>
                                                         <ProductCard
                                                             item={item}
-                                                            isOptionsOpen={Boolean(expandedOptionsByProduct[item?.idProducto])}
                                                             selectedOption={selectedOptionByProduct[item?.idProducto] || ''}
-                                                            onToggleOptions={() => toggleOpcionesProducto(item?.idProducto)}
                                                             onSelectOption={(option) => setSelectedOptionByProduct((prev) => ({ ...prev, [item?.idProducto]: option }))}
                                                             onComprar={(sel) => handleComprar(item, sel)}
                                                         />
@@ -371,9 +350,7 @@ export default function Products() {
                                                 key={item.idProducto}
                                                 item={item}
                                                 compact
-                                                isOptionsOpen={Boolean(expandedOptionsByProduct[item?.idProducto])}
                                                 selectedOption={selectedOptionByProduct[item?.idProducto] || ''}
-                                                onToggleOptions={() => toggleOpcionesProducto(item?.idProducto)}
                                                 onSelectOption={(option) => setSelectedOptionByProduct((prev) => ({ ...prev, [item?.idProducto]: option }))}
                                                 onComprar={(sel) => handleComprar(item, sel)}
                                             />

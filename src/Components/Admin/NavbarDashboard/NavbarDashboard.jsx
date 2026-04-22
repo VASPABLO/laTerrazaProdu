@@ -2,6 +2,7 @@ import React from 'react'
 import './NavbarDashboard.css'
 import Logout from '../Logout/Logout';
 import { Link, useLocation } from 'react-router-dom'
+import localLogo from '../../../images/logo1.png';
 
 // ICONOS MODERNOS
 import {
@@ -25,7 +26,11 @@ export default function NavbarDashboard() {
 
       {/* LOGO */}
       <div className="logo">
-        <img src={require('../../../images/logo1.png')} alt="Logo" className="logoImg" style={{ width: 40, height: 40, borderRadius: 10, objectFit: 'cover' }} />
+        <img
+          src={localLogo}
+          alt="Logo La Terraza"
+          className="logoImg"
+        />
         <span>La Terraza</span>
       </div>
 
@@ -43,13 +48,13 @@ export default function NavbarDashboard() {
           <HiOutlineClipboardDocumentList /> Pedidos en el App
         </Link>
 
-        <Link to="/admin/cajas" className={isActive('/admin/cajas', '/dashboard/cajas') ? 'activeLink' : ''}>
+        {/* <Link to="/admin/cajas" className={isActive('/admin/cajas', '/dashboard/cajas') ? 'activeLink' : ''}>
           <HiOutlineCurrencyDollar /> Caja
-        </Link>
+        </Link> */}
 
-        <Link to="/admin/pedidos-caja" className={isActive('/admin/pedidos-caja', '/dashboard/pedidos-caja') ? 'activeLink' : ''}>
+        {/* <Link to="/admin/pedidos-caja" className={isActive('/admin/pedidos-caja', '/dashboard/pedidos-caja') ? 'activeLink' : ''}>
           <HiOutlineClipboardDocumentList /> Pedidos en Caja
-        </Link>
+        </Link> */}
 
         <Link to="/admin/productos" className={isActive('/admin/productos', '/dashboard/productos') ? 'activeLink' : ''}>
           <HiOutlineCube /> Productos

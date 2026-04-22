@@ -26,11 +26,14 @@ function normalizarUrlImagenProducto($imagen, $rutaweb) {
     $imagen = str_replace('/./', '/', $imagen);
 
     if (preg_match('#^https?://#i', $imagen)) {
-        return preg_replace(
-            '#^https?://localhost:8081/imagenes_productos/#i',
-            rtrim($rutaweb, '/') . '/imagenes_productos/',
-            $imagen
-        );
+        $path = parse_url($imagen, PHP_URL_PATH) ?: '';
+        $path = str_replace('\\', '/', $path);
+        $pos = stripos($path, '/imagenes_productos/');
+        if ($pos !== false) {
+            $rel = ltrim(substr($path, $pos), '/');
+            return rtrim($rutaweb, '/') . '/' . $rel;
+        }
+        return $imagen;
     }
 
     $imagen = ltrim($imagen, '/');

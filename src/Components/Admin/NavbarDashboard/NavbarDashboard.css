@@ -16,6 +16,17 @@
   margin-bottom: 25px;
 }
 
+.logoImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #ffffff;
+}
+
 .logoBox {
   width: 40px;
   height: 40px;

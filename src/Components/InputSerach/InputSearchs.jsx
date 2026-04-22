@@ -96,7 +96,7 @@ export default function InputSearchs() {
                                     {productos.map((producto) => (
                                         <div key={producto.idProducto}>
                                             <Link to={`/p/${producto.idProducto}/${producto.titulo.replace(/\s+/g, '-')}`} onClick={closeModal}>
-                                                <img src={producto.imagen1} alt="" />
+                                                <img src={producto.imagen1 || '/sinfoto1.png'} alt="" />
                                                 <p>{producto.titulo}</p>
                                             </Link>
                                         </div>
